@@ -274,7 +274,7 @@
             '<div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip">' + (l.sessions || 12) + ' sessions</span><span class="chip">Midterm and final</span><span class="chip gold">Sign in with your code</span></div></div></div>';
         }).join('') + '</div>' +
       '</div>' +
-      '<p class="foot">© ' + new Date().getFullYear() + ' ' + esc(CFG.brand || 'Elevate with Ms. Maria') + ' · ' + esc(CFG.school || 'Learnovate Qatar') + '</p>';
+      '<p class="foot">© ' + new Date().getFullYear() + ' ' + esc(CFG.brand || 'Elevate with Ms. Maria') + ' · ' + esc(CFG.school || 'Learnovate Qatar') + ' · <a href="teacher.html">Teacher portal</a></p>';
   }
   function routeArt() {
     return '<svg viewBox="0 0 340 200" width="300" style="max-width:100%;justify-self:center" role="img" aria-label="Route from Plan to Return and sustain">' +
