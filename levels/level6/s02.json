@@ -1,0 +1,200 @@
+{
+  "n": 2,
+  "goals": [
+    "Explain why planning holds the supply chain together.",
+    "Choose a forecasting method: qualitative or quantitative.",
+    "Calculate a moving average, a weighted moving average and an exponential smoothing forecast.",
+    "Measure forecast error with MAPE, bias and MAD.",
+    "Describe the five steps of Sales and Operations Planning (S&OP).",
+    "Explain the bullwhip effect, its causes and how to reduce it."
+  ],
+
+  "handout": {
+    "intro": "Every decision in the supply chain starts with a view of the future. This session shows how to forecast demand, measure how wrong the forecast is, and agree one plan for the whole business.",
+    "sections": [
+      {
+        "h": "1. Why planning matters",
+        "blocks": [
+          { "p": "Customers order quickly, but supply is slow. A supplier may need 8 weeks, the factory 4 weeks and distribution 3 weeks. **Planning fills the gap** between fast demand and slow supply." },
+          { "p": "Without a plan, procurement buys on guesswork, warehouses fill with the wrong stock and customers wait. With a plan, the business makes decisions **today** for what it will need **tomorrow**." },
+          { "callout": { "title": "One version of the truth", "text": "If sales plans for 8% growth, finance for 3% and operations has not updated its numbers for six months, nobody can plan well. The planning process must agree **one forecast** that every department uses." } }
+        ]
+      },
+      {
+        "h": "2. Two families of forecasting methods",
+        "blocks": [
+          { "table": {
+            "head": ["", "Qualitative (judgement)", "Quantitative (numbers)"],
+            "rows": [
+              ["Uses", "People’s knowledge and opinions", "Past sales data"],
+              ["Best for", "New products, new markets, big changes", "Products with a sales history"],
+              ["Examples", "Sales team estimates, expert panel (Delphi method), market research", "Moving average, exponential smoothing, trend, seasonality"],
+              ["Risk", "Bias and over-optimism", "Slow to react to sudden change"]
+            ]
+          } },
+          { "p": "The best approach is often a **mix**: a number-based forecast first, then a human adjustment for things the data cannot see (a promotion, Ramadan, a new customer). Record both, so you can check later whether the adjustment helped." }
+        ]
+      },
+      {
+        "h": "3. Three simple forecasting methods",
+        "blocks": [
+          { "table": {
+            "head": ["Method", "How it works", "Example (sales: Jan 420, Feb 445, Mar 410)"],
+            "rows": [
+              ["Moving average (3 months)", "Average of the last 3 periods", "April = (420 + 445 + 410) ÷ 3 = **425**"],
+              ["Weighted moving average", "Recent months count more (weights add up to 1)", "April = 0.5×410 + 0.3×445 + 0.2×420 = **422.5**"],
+              ["Exponential smoothing", "New forecast = old forecast + α × (actual − old forecast)", "Old forecast 430, actual 410, α = 0.3 → 430 + 0.3 × (−20) = **424**"]
+            ]
+          } },
+          { "list": [
+            "A **high α** (for example 0.5) reacts quickly to change but jumps around.",
+            "A **low α** (for example 0.1) is stable but slow to follow a real change.",
+            "**Trend**: demand grows or falls steadily. **Seasonality**: the same pattern every year (summer, Ramadan, school start)."
+          ] },
+          { "callout": { "title": "Seasonal index", "text": "If average monthly demand is 1,000 and June is usually 1,200, the June index is 1,200 ÷ 1,000 = **1.2**. Multiply the basic forecast by the index to get the June forecast." } }
+        ]
+      },
+      {
+        "h": "4. Measuring forecast error",
+        "blocks": [
+          { "p": "Every forecast is wrong. The question is **how wrong**, and **in which direction**." },
+          { "table": {
+            "head": ["Measure", "How to calculate", "What it tells you"],
+            "rows": [
+              ["Error", "Actual − forecast", "Positive: the forecast was too low"],
+              ["MAPE", "Average of |error| ÷ actual × 100", "Size of the error in %"],
+              ["Bias", "Sum of errors (keep the + and − signs)", "Is the forecast always too high or too low?"],
+              ["MAD", "Average of |error|", "Size of the error in units"],
+              ["Tracking signal", "Sum of errors ÷ MAD", "Outside about ±4: the forecast needs fixing"]
+            ]
+          } },
+          { "p": "Example: forecast 1,000, actual 1,100. Error = +100. Percentage error = 100 ÷ 1,100 = **9.1%**." },
+          { "p": "Set realistic targets: a stable product may be forecast within 5%, a volatile one only within 20–30%. Spend effort on **high-volume** products, where small improvements save the most money." }
+        ]
+      },
+      {
+        "h": "5. Sales and Operations Planning (S&OP)",
+        "blocks": [
+          { "p": "S&OP is a **monthly meeting cycle** that matches what sales wants to sell with what operations can supply." },
+          { "steps": [
+            "**Data gathering** – last month’s sales, stock, production and supplier performance.",
+            "**Demand review** – sales and marketing agree one demand forecast.",
+            "**Supply review** – production, procurement and logistics check capacity: people, machines, suppliers, warehouse, trucks.",
+            "**Reconciliation** – find the gaps between demand and supply and prepare options (extra shift, another supplier, build stock early).",
+            "**Executive meeting** – leaders decide and agree one plan for the next 12–18 months."
+          ] },
+          { "p": "The first month of the plan is usually **fixed**. Later months stay **flexible** and are updated each cycle (a rolling plan)." }
+        ]
+      },
+      {
+        "h": "6. The bullwhip effect",
+        "blocks": [
+          { "p": "A small change in what customers buy becomes a **bigger and bigger change** in orders as you go upstream: from shop to wholesaler to distributor to factory. Like a whip, a small movement at the handle becomes a large movement at the end." },
+          { "table": {
+            "head": ["Cause", "Example", "How to reduce it"],
+            "rows": [
+              ["Each stage forecasts from the orders it receives, not from real customer demand", "The wholesaler sees a big order and thinks demand is growing", "Share real sales data (point-of-sale) along the chain"],
+              ["Ordering in big batches", "A shop orders once a month instead of every week", "Smaller, more frequent orders"],
+              ["Price promotions", "Customers buy a lot during a discount, then nothing", "Stable prices; plan promotions with suppliers"],
+              ["Panic ordering when supply is short", "Buyers order double to get their share", "Allocate by past sales, not by order size"],
+              ["Long lead times", "More time between order and delivery = more uncertainty", "Shorter, more reliable lead times"]
+            ]
+          } },
+          { "callout": { "title": "Real example: 2020", "text": "At the start of the COVID-19 pandemic, shoppers bought more toilet paper and pasta than usual. Shops, wholesalers and factories all ordered extra at once, and the swings upstream were far bigger than the change in what people really used." } }
+        ]
+      },
+      {
+        "h": "7. Market signals and production needs",
+        "blocks": [
+          { "list": [
+            "**Promotions** – agree the expected extra sales with marketing before the event.",
+            "**Economy** – in a downturn people buy cheaper products; in good times they buy more.",
+            "**Competitors** – a new rival product can cut your demand quickly.",
+            "**Product life cycle** – a new product needs judgement; a mature product suits statistical methods; a declining product needs care to avoid old stock.",
+            "**Rules and policy** – a new tax or import rule can move demand forward or backward."
+          ] },
+          { "p": "The demand plan becomes a **production and purchasing plan** through the **bill of materials (BOM)**: the list of parts in each product. This step is called **materials requirements planning (MRP)**. You will see it again in Session 7." }
+        ]
+      },
+      {
+        "h": "8. AI and machine learning in forecasting",
+        "blocks": [
+          { "p": "Machine-learning models can use **hundreds of factors** at once: promotions, weekdays, weather, prices, holidays. They also learn from their own errors." },
+          { "p": "But they need **clean, accurate data**, and they cannot predict an event they have never seen. Use AI as a sharp tool in the hands of a planner who understands the business, not as a replacement for judgement." }
+        ]
+      }
+    ]
+  },
+
+  "terms": [
+    { "term": "Forecast", "meaning": "An estimate of future demand, used to plan supply.", "example": "We expect to sell 500 cartons in April." },
+    { "term": "Qualitative forecasting", "meaning": "Forecasting from people’s judgement and knowledge.", "example": "The sales team estimates demand for a new product." },
+    { "term": "Quantitative forecasting", "meaning": "Forecasting from past data using calculations.", "example": "A 3-month moving average." },
+    { "term": "Moving average", "meaning": "The average of the last few periods, used as the next forecast.", "example": "(420 + 445 + 410) ÷ 3 = 425." },
+    { "term": "Exponential smoothing", "meaning": "A forecast that adjusts the old forecast by a share (α) of the last error.", "example": "430 + 0.3 × (410 − 430) = 424." },
+    { "term": "Seasonality", "meaning": "A demand pattern that repeats every year.", "example": "More bottled water sold in summer." },
+    { "term": "Forecast error", "meaning": "Actual demand minus the forecast.", "example": "Actual 1,100 − forecast 1,000 = +100." },
+    { "term": "MAPE", "meaning": "Mean Absolute Percentage Error: the average size of the error in percent.", "example": "A MAPE of 8% means forecasts were 8% off on average." },
+    { "term": "Bias", "meaning": "A forecast that is wrong in the same direction again and again.", "example": "Sales always forecasts too high." },
+    { "term": "S&OP", "meaning": "Sales and Operations Planning: a monthly process that agrees one plan for demand and supply.", "example": "The executive meeting approves an extra shift for Ramadan." },
+    { "term": "Bullwhip effect", "meaning": "Small changes in customer demand become larger swings in orders further up the supply chain.", "example": "Sales rise 5%, but factory orders rise 40%." },
+    { "term": "Bill of materials (BOM)", "meaning": "The list of all parts and materials needed to make one product.", "example": "One bicycle: 2 wheels, 1 frame, 1 chain…" },
+    { "term": "MRP", "meaning": "Materials Requirements Planning: turning the production plan into dated orders for parts.", "example": "500 bicycles in May → order 1,000 wheels by 15 April." },
+    { "term": "Rolling plan", "meaning": "A plan that is updated every cycle and always looks the same distance ahead.", "example": "Each month we add one new month at the end of the 18-month plan." }
+  ],
+
+  "quiz": [
+    { "q": "Sales in the last three months were 300, 360 and 330. What is the 3-month moving average forecast for next month?",
+      "options": ["330", "340", "360", "990"], "answer": 0, "why": "(300 + 360 + 330) ÷ 3 = 990 ÷ 3 = 330." },
+    { "q": "Old forecast 200, actual demand 220, α = 0.5. What is the new exponential smoothing forecast?",
+      "options": ["205", "210", "220", "240"], "answer": 1, "why": "200 + 0.5 × (220 − 200) = 200 + 10 = 210." },
+    { "q": "A company is launching a completely new product. Which forecasting method fits best?",
+      "options": ["3-month moving average", "Exponential smoothing", "Qualitative methods such as market research", "Seasonal index from last year"], "answer": 2, "why": "A new product has no sales history, so judgement-based (qualitative) methods are needed." },
+    { "q": "Forecast 500, actual 400. What is the absolute percentage error?",
+      "options": ["20%", "25%", "100%", "−25%"], "answer": 1, "why": "|400 − 500| ÷ 400 × 100 = 100 ÷ 400 × 100 = 25%." },
+    { "q": "The sum of the forecast errors over 12 months is −3,000 units. What does this show?",
+      "options": ["The forecast is unbiased", "The forecast is usually too high", "The forecast is usually too low", "The MAPE is 3,000"], "answer": 1, "why": "Error = actual − forecast. A large negative sum means actual was usually lower than forecast: the forecast is biased high." },
+    { "q": "In S&OP, which step checks if there are enough machines, people and suppliers?",
+      "options": ["Demand review", "Supply review", "Executive meeting", "Data gathering"], "answer": 1, "why": "The supply review checks capacity against the agreed demand forecast." },
+    { "q": "What is the bullwhip effect?",
+      "options": ["Prices go up when demand goes up", "Small changes in customer demand become bigger swings in orders upstream", "Trucks arriving late at the warehouse", "A forecast method for seasonal products"], "answer": 1, "why": "Each stage over-reacts to the orders it sees, so the swings grow as you move upstream." },
+    { "q": "Which action helps most to reduce the bullwhip effect?",
+      "options": ["Ordering in bigger batches", "More price promotions", "Sharing real customer sales data with suppliers", "Longer lead times"], "answer": 2, "why": "When every stage sees real end-customer demand, nobody has to guess from distorted orders." },
+    { "q": "Average monthly demand is 800. December is usually 1,200. What is December’s seasonal index?",
+      "options": ["0.67", "1.2", "1.5", "400"], "answer": 2, "why": "1,200 ÷ 800 = 1.5." },
+    { "q": "Why is the first month of an S&OP plan usually fixed?",
+      "options": ["Because forecasts are always right for one month", "Because orders are placed and production is already scheduled", "Because the law requires it", "Because sales does not change"], "answer": 1, "why": "The near future is already committed: materials are ordered and schedules are locked. Later months stay flexible." }
+  ],
+
+  "workbook": {
+    "intro": "Use the Forecasting tool in Tools if you want to check your calculations. Your answers are sent to Ms. Maria.",
+    "questions": [
+      { "id": "q1", "kind": "long",
+        "prompt": "A water distributor in Doha sold these cartons per month: 4,200 · 4,400 · 4,100 · 4,600 · 4,800 · 4,500. Calculate the 3-month moving average forecast for month 7. Show your working.",
+        "hint": "Use the last three months only." },
+      { "id": "q2", "kind": "long",
+        "prompt": "Using the same data, the forecast for month 6 was 4,600 and the actual was 4,500. With α = 0.3, what is the exponential smoothing forecast for month 7? Show your working.",
+        "hint": "New = old + α × (actual − old)." },
+      { "id": "q3", "kind": "long",
+        "prompt": "The sales team’s forecasts were too high in 9 of the last 12 months. What is this problem called? Give two possible causes and one way to fix it.",
+        "hint": "Think about how sales people are measured." },
+      { "id": "q4", "kind": "long",
+        "prompt": "Explain the bullwhip effect in your own words, using a supply chain in Qatar (for example: supermarket → wholesaler → importer → overseas factory).",
+        "hint": "Start with a small change at the supermarket." },
+      { "id": "q5", "kind": "long",
+        "prompt": "Ramadan is coming. Which departments should meet in S&OP, and what should each one bring to the meeting?",
+        "hint": "Sales, marketing, operations, procurement, logistics, finance." },
+      { "id": "q6", "kind": "short",
+        "prompt": "Name one advantage and one risk of using AI for forecasting.",
+        "hint": "Think about data quality." }
+    ]
+  },
+
+  "exit": {
+    "questions": [
+      { "id": "e1", "kind": "short", "prompt": "One thing I learned today:" },
+      { "id": "e2", "kind": "short", "prompt": "One thing that is still not clear:" },
+      { "id": "e3", "kind": "choice", "prompt": "How confident are you with today's topic?", "options": ["1 – Not yet", "2", "3", "4", "5 – Very confident"] }
+    ]
+  }
+}

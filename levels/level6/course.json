@@ -4,37 +4,139 @@
   "course": "Logistics & Supply Chain Management",
   "tagline": "Practical frameworks, real cases and decision-making for future supply chain leaders.",
   "stages": {
-    "Plan":    { "label": "Plan",             "color": "#00B4B4", "tint": "#E6F8F8", "blurb": "Forecast demand and agree one plan for the whole business." },
-    "Source":  { "label": "Source",           "color": "#FF5A36", "tint": "#FFEEEA", "blurb": "Choose suppliers, build good relationships and import goods." },
-    "Make":    { "label": "Make",             "color": "#8338EC", "tint": "#F2EBFD", "blurb": "Control stock and keep quality high." },
-    "Deliver": { "label": "Deliver",          "color": "#1F7BFF", "tint": "#E9F2FF", "blurb": "Run the warehouse and get orders to customers on time." },
-    "Return":  { "label": "Return & sustain", "color": "#00B86B", "tint": "#E6F8F0", "blurb": "Manage risk, returns and sustainability, and lead the team." }
+    "Plan": {
+      "label": "Plan",
+      "color": "#00B4B4",
+      "tint": "#E6F8F8",
+      "blurb": "Forecast demand and agree one plan for the whole business."
+    },
+    "Source": {
+      "label": "Source",
+      "color": "#FF5A36",
+      "tint": "#FFEEEA",
+      "blurb": "Choose suppliers, build good relationships and import goods."
+    },
+    "Make": {
+      "label": "Make",
+      "color": "#8338EC",
+      "tint": "#F2EBFD",
+      "blurb": "Control stock and keep quality high."
+    },
+    "Deliver": {
+      "label": "Deliver",
+      "color": "#1F7BFF",
+      "tint": "#E9F2FF",
+      "blurb": "Run the warehouse and get orders to customers on time."
+    },
+    "Return": {
+      "label": "Return & sustain",
+      "color": "#00B86B",
+      "tint": "#E6F8F0",
+      "blurb": "Manage risk, returns and sustainability, and lead the team."
+    }
   },
   "sessions": [
-    { "n": 1,  "stage": "Plan",    "type": "Teaching", "title": "How supply chains work", "short": "Introduction",
+    {
+      "n": 1,
+      "stage": "Plan",
+      "type": "Teaching",
+      "title": "How supply chains work",
+      "short": "Introduction",
       "summary": "What a supply chain is, how it differs from logistics, and the tools we use all course: the SCOR model, the Six Rights and FLOW.",
-      "file": "s01.json" },
-    { "n": 2,  "stage": "Plan",    "type": "Teaching", "title": "Planning, forecasting and S&OP", "short": "Forecasting",
-      "summary": "Forecast demand, measure forecast error, run Sales and Operations Planning, and see why small changes grow into the bullwhip effect." },
-    { "n": 3,  "stage": "Source",  "type": "Teaching", "title": "Procurement and supplier relationships", "short": "Procurement",
-      "summary": "The procurement cycle, choosing suppliers with a weighted matrix, total cost of ownership, negotiation, and managing supplier performance." },
-    { "n": 4,  "stage": "Source",  "type": "Teaching", "title": "International trade and global sourcing", "short": "Trade",
-      "summary": "Incoterms, trade documents, customs and landed cost, freight forwarders, and how Qatar rebuilt its supply routes in 2017." },
-    { "n": 5,  "stage": "Make",    "type": "Teaching", "title": "Inventory and stock control", "short": "Inventory",
-      "summary": "Stock levels, safety stock, reorder point, EOQ, ABC analysis, stock turnover and cycle counting." },
-    { "n": 6,  "stage": "Make",    "type": "Exam",     "title": "Midterm exam", "short": "Midterm",
-      "summary": "Review of Sessions 1 to 5, then the midterm exam in class." },
-    { "n": 7,  "stage": "Make",    "type": "Teaching", "title": "Operations, quality and continuous improvement", "short": "Quality",
-      "summary": "Make-to-stock and make-to-order, quality in logistics, OTIF, Lean, PDCA and solving quality problems." },
-    { "n": 8,  "stage": "Deliver", "type": "Teaching", "title": "Warehousing and e-commerce fulfilment", "short": "Warehousing",
-      "summary": "Warehouse layout and slotting, storage and handling equipment, picking methods, e-commerce fulfilment, safety and KPIs." },
-    { "n": 9,  "stage": "Deliver", "type": "Teaching", "title": "Transport, distribution and last mile", "short": "Transport",
-      "summary": "Choosing transport modes, route planning, delivery scheduling, distribution networks, last-mile delivery and transport KPIs." },
-    { "n": 10, "stage": "Return",  "type": "Teaching", "title": "Risk and resilience", "short": "Risk",
-      "summary": "Finding, scoring and reducing supply chain risk, with real disruptions: COVID, the Ever Given, the Red Sea and cyber attacks." },
-    { "n": 11, "stage": "Return",  "type": "Teaching", "title": "Leading a sustainable, digital supply chain", "short": "Leadership",
-      "summary": "Choosing technology, sustainability and reverse logistics, the balanced scorecard, and leading high-performing teams." },
-    { "n": 12, "stage": "Return",  "type": "Exam",     "title": "Final exam", "short": "Final",
-      "summary": "Review of the whole course, then the final exam in class." }
+      "file": "s01.json"
+    },
+    {
+      "n": 2,
+      "stage": "Plan",
+      "type": "Teaching",
+      "title": "Planning, forecasting and S&OP",
+      "short": "Forecasting",
+      "summary": "Forecast demand, measure forecast error, run Sales and Operations Planning, and see why small changes grow into the bullwhip effect.",
+      "file": "s02.json"
+    },
+    {
+      "n": 3,
+      "stage": "Source",
+      "type": "Teaching",
+      "title": "Procurement and supplier relationships",
+      "short": "Procurement",
+      "summary": "The procurement cycle, choosing suppliers with a weighted matrix, total cost of ownership, negotiation, and managing supplier performance.",
+      "file": "s03.json"
+    },
+    {
+      "n": 4,
+      "stage": "Source",
+      "type": "Teaching",
+      "title": "International trade and global sourcing",
+      "short": "Trade",
+      "summary": "Incoterms, trade documents, customs and landed cost, freight forwarders, and how Qatar rebuilt its supply routes in 2017.",
+      "file": "s04.json"
+    },
+    {
+      "n": 5,
+      "stage": "Make",
+      "type": "Teaching",
+      "title": "Inventory and stock control",
+      "short": "Inventory",
+      "summary": "Stock levels, safety stock, reorder point, EOQ, ABC analysis, stock turnover and cycle counting.",
+      "file": "s05.json"
+    },
+    {
+      "n": 6,
+      "stage": "Make",
+      "type": "Exam",
+      "title": "Midterm exam",
+      "short": "Midterm",
+      "summary": "Review of Sessions 1 to 5 with a revision guide, formula sheet and practice questions, then the midterm exam in class.",
+      "file": "s06.json"
+    },
+    {
+      "n": 7,
+      "stage": "Make",
+      "type": "Teaching",
+      "title": "Operations, quality and continuous improvement",
+      "short": "Quality",
+      "summary": "Make-to-stock and make-to-order, quality in logistics, OTIF, Lean, PDCA and solving quality problems."
+    },
+    {
+      "n": 8,
+      "stage": "Deliver",
+      "type": "Teaching",
+      "title": "Warehousing and e-commerce fulfilment",
+      "short": "Warehousing",
+      "summary": "Warehouse layout and slotting, storage and handling equipment, picking methods, e-commerce fulfilment, safety and KPIs."
+    },
+    {
+      "n": 9,
+      "stage": "Deliver",
+      "type": "Teaching",
+      "title": "Transport, distribution and last mile",
+      "short": "Transport",
+      "summary": "Choosing transport modes, route planning, delivery scheduling, distribution networks, last-mile delivery and transport KPIs."
+    },
+    {
+      "n": 10,
+      "stage": "Return",
+      "type": "Teaching",
+      "title": "Risk and resilience",
+      "short": "Risk",
+      "summary": "Finding, scoring and reducing supply chain risk, with real disruptions: COVID, the Ever Given, the Red Sea and cyber attacks."
+    },
+    {
+      "n": 11,
+      "stage": "Return",
+      "type": "Teaching",
+      "title": "Leading a sustainable, digital supply chain",
+      "short": "Leadership",
+      "summary": "Choosing technology, sustainability and reverse logistics, the balanced scorecard, and leading high-performing teams."
+    },
+    {
+      "n": 12,
+      "stage": "Return",
+      "type": "Exam",
+      "title": "Final exam",
+      "short": "Final",
+      "summary": "Review of the whole course, then the final exam in class."
+    }
   ]
 }
