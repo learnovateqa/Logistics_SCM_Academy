@@ -12,6 +12,7 @@ apps-script/
   SETUP-GUIDE.md     step-by-step setup on a MacBook
   test/              automatic tests for Code.gs (node apps-script/test/run-tests.js)
 assets/tools.js      the calculators (tests: node tests/tools.test.js)
+tests/content.test.js  checks every session file (node tests/content.test.js)
 levels/level6/cases.json   case studies (Qatar 2017, Hamad Port, Ever Given, Red Sea, workplace cases)
 index.html           the student app (sign in, Home, Sessions, Progress, Study…)
 assets/              app.css and app.js (no framework)

@@ -412,15 +412,18 @@
     if (id === 'exit') { var x = r.exit && r.exit[n]; return x ? 'Sent' : 'Open'; }
     return 'Open';
   }
+  var EXAM_TILES = { only: ['handout', 'quiz'], labels: { handout: 'Revision guide', quiz: 'Practice questions' } };
   function tiles(n, light, active) {
-    var sheet = sheetSession(n) || {};
+    var sheet = sheetSession(n) || {}, meta = sessionMeta(n) || {}, c = S.content[n];
+    var only = (c && c.tiles) || (meta.type === 'Exam' ? EXAM_TILES.only : null);
+    var labels = (c && c.labels) || (meta.type === 'Exam' ? EXAM_TILES.labels : {});
     var TC = ['Plan', 'Source', 'Make', 'Deliver', 'Return', 'Gold'];
-    return '<div class="tiles' + (light ? ' light' : '') + '">' + TILE_DEFS.map(function (t, ti) {
+    return '<div class="tiles' + (light ? ' light' : '') + '">' + TILE_DEFS.filter(function (t) { return !only || only.indexOf(t.id) !== -1; }).map(function (t, ti) {
       var href = t.id === 'slides' ? (sheet.canva || '') : '#/session/' + n + '/' + t.id;
       var ext = t.id === 'slides' && sheet.canva;
       if (t.id === 'slides' && !sheet.canva) href = '#/session/' + n + '/slides';
       return '<a class="tile st-' + TC[ti] + (active === t.id ? ' on' : '') + '" href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' +
-        '<span class="ti">' + ico(t.icon, 18) + '</span><b>' + t.label + (ext ? ' ' + '<span style="display:inline-block;vertical-align:-2px">' + ico('ext', 13) + '</span>' : '') + '</b><small>' + esc(tileState(n, t.id)) + '</small></a>';
+        '<span class="ti">' + ico(t.icon, 18) + '</span><b>' + (labels[t.id] || t.label) + (ext ? ' ' + '<span style="display:inline-block;vertical-align:-2px">' + ico('ext', 13) + '</span>' : '') + '</b><small>' + esc(tileState(n, t.id)) + '</small></a>';
     }).join('') + '</div>';
   }
   function viewSession(r) {
@@ -433,7 +436,7 @@
     if (!isOpen(n)) {
       return head + '<div class="card locked sec">' + ART.empty() + '<h2 class="h2">This session is locked</h2><p class="muted">It opens when Ms. Maria opens it in class.</p><a class="btn ghost" href="#/sessions">See all sessions</a></div>' + foot();
     }
-    if (meta.type === 'Exam') {
+    if (meta.type === 'Exam' && !meta.file) {
       return head + '<div class="card pad sec st-' + meta.stage + '"><h2 class="h2">' + esc(meta.title) + '</h2><p>' + esc(meta.summary) + '</p>' +
         '<p class="note">The exam is taken in class. Ms. Maria will tell you the format. A revision page for this exam will appear here.</p>' + doneButton(n) + '</div>' + foot();
     }
@@ -442,7 +445,7 @@
       var body;
       if (!content) body = '<div class="card pad empty">' + ART.empty() + '<p>The materials for this session are being prepared.</p></div>';
       else if (!tab) body = overview(n, content);
-      else body = (PANELS[tab] || overview)(n, content, meta);
+      else body = (PANELS[tab] && (tab === 'slides' || tab === 'handout' || content[tab === 'terms' ? 'terms' : tab]) ? PANELS[tab] : overview)(n, content, meta);
       return head + '<div class="sec">' + tiles(n, true, tab) + '</div><div class="panel st-' + meta.stage + '" id="panel">' + body + '</div>' + foot();
     });
   }
@@ -453,15 +456,17 @@
   function overview(n, c) {
     return '<div class="card pad"><h2 class="h2" style="font-size:1.15rem;margin-bottom:8px">By the end of this session you can…</h2><ul class="goals">' +
       c.goals.map(function (g) { return '<li>' + md(g) + '</li>'; }).join('') + '</ul>' +
-      '<p class="sub" style="margin-top:14px">Start with the handout, then try the practice quiz. Send your e-workbook and exit ticket before the next class.</p>' +
-      '<div class="btns"><a class="btn" href="#/session/' + n + '/handout">Read the handout</a>' + doneButton(n) + '</div></div>';
+      (c.workbook ? '<p class="sub" style="margin-top:14px">Start with the handout, then try the practice quiz. Send your e-workbook and exit ticket before the next class.</p>' +
+        '<div class="btns"><a class="btn" href="#/session/' + n + '/handout">Read the handout</a>' + doneButton(n) + '</div></div>'
+      : '<p class="sub" style="margin-top:14px">Read the revision guide, then try the practice questions as many times as you like. The exam itself is taken in class.</p>' +
+        '<div class="btns"><a class="btn" href="#/session/' + n + '/handout">Open the revision guide</a><a class="btn ghost" href="#/session/' + n + '/quiz">Practice questions</a>' + doneButton(n) + '</div></div>');
   }
   var PANELS = {
     slides: function (n) {
       return '<div class="card pad"><h2 class="h2" style="font-size:1.1rem">Slides</h2><p class="muted">Ms. Maria will add the link to the slides for this session. Check again after class.</p></div>';
     },
     handout: function (n, c, meta) {
-      return '<div class="card handout"><div class="pad panel-h" style="padding-bottom:0"><div><div class="eyebrow muted">Handout · Session ' + n + '</div><h2 class="h2" style="font-size:1.2rem;margin-top:4px">' + esc(meta.title) + '</h2></div>' +
+      return '<div class="card handout"><div class="pad panel-h" style="padding-bottom:0"><div><div class="eyebrow muted">' + (meta.type === 'Exam' ? 'Revision guide' : 'Handout') + ' · Session ' + n + '</div><h2 class="h2" style="font-size:1.2rem;margin-top:4px">' + esc(meta.title) + '</h2></div>' +
         '<div class="btns"><button class="btn ghost" onclick="window.print()">' + ico('print', 18) + ' Print or save PDF</button></div></div>' +
         '<section><p>' + md(c.handout.intro) + '</p></section>' +
         c.handout.sections.map(function (s) { return '<section><h3>' + esc(s.h) + '</h3>' + s.blocks.map(block).join('') + '</section>'; }).join('') + '</div>';
@@ -591,7 +596,7 @@
   // -------------------------------------------------------------- study --
   function viewStudy(r) {
     return loadAllContent().then(function () {
-      var avail = S.course.sessions.filter(function (s) { return S.content[s.n] && isOpen(s.n); });
+      var avail = S.course.sessions.filter(function (s) { return S.content[s.n] && S.content[s.n].terms && isOpen(s.n); });
       if (!avail.length) return '<h1 class="h2">Study</h1><div class="card pad empty sec">' + ART.empty() + '<p>Flashcards appear here when your first session opens.</p></div>' + foot();
       var n = Number(r.a) || avail[avail.length - 1].n;
       if (!S.content[n] || !isOpen(n)) n = avail[avail.length - 1].n;
@@ -623,7 +628,7 @@
     }
     draw();
     var all = [];
-    S.course.sessions.forEach(function (s) { if (S.content[s.n] && isOpen(s.n)) S.content[s.n].terms.forEach(function (t) { all.push({ t: t, n: s.n }); }); });
+    S.course.sessions.forEach(function (s) { if (S.content[s.n] && S.content[s.n].terms && isOpen(s.n)) S.content[s.n].terms.forEach(function (t) { all.push({ t: t, n: s.n }); }); });
     all.sort(function (a, b) { return a.t.term.localeCompare(b.t.term); });
     function gloss() {
       var q = $('#glossQ').value.trim().toLowerCase();
@@ -698,7 +703,7 @@
         if (has(s.title) || has(s.summary)) hits.push({ href: '#/session/' + s.n, title: 'Session ' + s.n + ' · ' + s.title, sub: s.summary, kind: 'Session' });
         var c = S.content[s.n];
         if (c && isOpen(s.n)) {
-          c.terms.forEach(function (t) { if (has(t.term) || has(t.meaning)) hits.push({ href: '#/session/' + s.n + '/terms', title: t.term, sub: t.meaning, kind: 'Key term · Session ' + s.n }); });
+          (c.terms || []).forEach(function (t) { if (has(t.term) || has(t.meaning)) hits.push({ href: '#/session/' + s.n + '/terms', title: t.term, sub: t.meaning, kind: 'Key term · Session ' + s.n }); });
           c.handout.sections.forEach(function (h) { if (has(h.h) || has(JSON.stringify(h.blocks))) hits.push({ href: '#/session/' + s.n + '/handout', title: h.h, sub: 'Handout · ' + s.title, kind: 'Handout · Session ' + s.n }); });
         }
       });

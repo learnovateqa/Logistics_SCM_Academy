@@ -1,0 +1,199 @@
+{
+  "n": 3,
+  "goals": [
+    "Describe the procurement cycle from need to payment, including three-way matching.",
+    "Group purchases with the Kraljic matrix: routine, leverage, bottleneck and strategic.",
+    "Choose a supplier with a weighted scoring matrix.",
+    "Compare quotations using total cost of ownership, not price alone.",
+    "Prepare for a negotiation using BATNA and a concession plan.",
+    "Manage supplier performance with scorecards, SLAs and regular reviews."
+  ],
+
+  "handout": {
+    "intro": "Buying is not just placing an order. This session follows the full procurement cycle, then shows how to choose suppliers well and build relationships that keep supply reliable.",
+    "sections": [
+      {
+        "h": "1. The procurement cycle",
+        "blocks": [
+          { "steps": [
+            "**Identify the need** – a department needs something (raw material, spare parts, packaging).",
+            "**Specify** – write exactly what, how many, by when and to what standard. Vague specifications cause wrong orders.",
+            "**Requisition** – an internal request, approved by a budget holder.",
+            "**Source** – use an existing contract, or send a request for quotation (RFQ) to several suppliers.",
+            "**Purchase order (PO)** – the legal commitment: item, quantity, price, delivery date, place and terms.",
+            "**Receive** – the warehouse checks quantity, condition and specification, and records a goods received note (GRN).",
+            "**Pay** – accounts match the invoice with the PO and the GRN before paying."
+          ] },
+          { "callout": { "title": "Three-way matching", "text": "Pay only when the **purchase order**, the **goods received note** and the **invoice** agree. This stops overpayment, double payment and fraud." } }
+        ]
+      },
+      {
+        "h": "2. Not all purchases are equal: the Kraljic matrix",
+        "blocks": [
+          { "p": "Group what you buy by two questions: **How much does it affect our profit?** and **How hard is it to get (supply risk)?**" },
+          { "table": {
+            "head": ["Group", "Profit impact / supply risk", "Example", "How to manage"],
+            "rows": [
+              ["Routine (non-critical)", "Low / low", "Office supplies", "Keep it simple: catalogues, standing orders, cards"],
+              ["Leverage", "High / low", "Fuel, standard packaging", "Use competition between suppliers to get the best price"],
+              ["Bottleneck", "Low / high", "A special spare part from one maker", "Secure supply: safety stock, backup supplier, longer contract"],
+              ["Strategic", "High / high", "A key ingredient or main component", "Long-term partnership, shared plans, joint improvement"]
+            ]
+          } }
+        ]
+      },
+      {
+        "h": "3. Choosing a supplier: the weighted scoring matrix",
+        "blocks": [
+          { "p": "Common criteria: **quality, price, reliability, capacity and compliance** (legal, ethical, safety). Give each criterion a weight (total 100%), score each supplier 1–5, multiply and add." },
+          { "table": {
+            "head": ["Criterion", "Weight", "Supplier A", "Supplier B", "Supplier C"],
+            "rows": [
+              ["Quality", "40%", "4.5", "3.5", "4.0"],
+              ["Price", "25%", "3.0", "4.5", "3.5"],
+              ["Reliability", "20%", "4.0", "3.5", "3.0"],
+              ["Compliance", "15%", "5.0", "4.0", "4.5"],
+              ["**Weighted total**", "", "**4.10**", "**3.83**", "**3.75**"]
+            ]
+          } },
+          { "p": "Supplier A wins even though it is not the cheapest, because quality has the biggest weight. Check the facts behind the scores: samples, site visits, references from other customers. Remove suppliers early if they fail basic checks (no insurance, poor safety record)." }
+        ]
+      },
+      {
+        "h": "4. Total cost of ownership (TCO)",
+        "blocks": [
+          { "p": "The quoted price is only part of the cost. TCO adds everything it costs to buy and use the product." },
+          { "list": [
+            "**Freight and fees** – a supplier at 2.10 plus freight may cost more than one at 2.50 with free delivery.",
+            "**Payment terms** – paying in 60 days keeps cash in your business for two months.",
+            "**Lead time** – a slow supplier means more stock in your warehouse.",
+            "**Quality** – defects cost inspection, returns, rework and delays.",
+            "**Minimum order quantity** – a low price for a huge order may tie up cash in stock you do not need."
+          ] },
+          { "p": "Compare suppliers in a table with one row per cost, in **money**, not words. Then note the things money cannot show, such as innovation or route risk." }
+        ]
+      },
+      {
+        "h": "5. Negotiation basics",
+        "blocks": [
+          { "list": [
+            "**Prepare** – know your goals, your limits and what the supplier needs.",
+            "**BATNA** – your Best Alternative To a Negotiated Agreement: what you will do if this deal fails (another supplier, make it yourself, wait). A strong BATNA gives you confidence.",
+            "**Concession plan** – decide in advance what you can give and what you want back. Trade, do not give away.",
+            "**Opening offer** – realistic but ambitious, based on market data.",
+            "**Listen** – the supplier’s problems (raw material cost, capacity) show where a creative deal is possible.",
+            "**Close in writing** – summarise and confirm what was agreed by email the same day."
+          ] }
+        ]
+      },
+      {
+        "h": "6. Why supplier relationships matter",
+        "blocks": [
+          { "p": "A supplier who sees a long-term relationship will often **prioritise your orders** when capacity is short, **warn you early** about problems and **suggest improvements**. During the disruptions of recent years, companies with strong supplier partnerships usually recovered faster." },
+          { "p": "Trust is built by **actions repeated over time**: the supplier delivers on time, and you pay on time. It must go **both ways**: if you ask suppliers to hold stock for you, offer volume commitments or longer contracts in return." },
+          { "callout": { "title": "Trust and contracts", "text": "A contract sets the minimum. Trust decides whether both sides work far above it. You need both." } }
+        ]
+      },
+      {
+        "h": "7. Monitoring supplier performance",
+        "blocks": [
+          { "table": {
+            "head": ["Measure", "Example", "Agree in writing"],
+            "rows": [
+              ["Delivery", "On-time, in-full rate", "When does the clock stop? Is 10:05 for a 10:00 slot late?"],
+              ["Quality", "Defects per 1,000 units", "What counts as a defect, and how you test"],
+              ["Responsiveness", "Hours to answer a complaint", "Time to reply and to fix"],
+              ["Cost", "Price trend, extra charges", "Which surcharges are allowed"]
+            ]
+          } },
+          { "p": "Put these on a **supplier scorecard** and discuss it in a **regular review** (monthly or quarterly). Record actions, owners and dates, and check them at the next review." }
+        ]
+      },
+      {
+        "h": "8. Contracts, SLAs and supply reliability",
+        "blocks": [
+          { "list": [
+            "**Service level agreement (SLA)** – the performance standard and what happens if it is missed (for example, 95% on time).",
+            "**Breaches** – match the response to the problem: a one-day delay needs a conversation, repeated defects need the formal remedies.",
+            "**Root cause** – a late delivery is a symptom; find the cause (capacity, raw materials, planning) with the supplier.",
+            "**Corrective action plan** – what will change, who owns it, by when, and how you will check it.",
+            "**Backup suppliers** – keep them real: place small orders and keep their approval up to date.",
+            "**Supplier development** – train or support a supplier so it improves."
+          ] }
+        ]
+      }
+    ]
+  },
+
+  "terms": [
+    { "term": "Procurement", "meaning": "The full process of getting goods and services: from the need to payment.", "example": "Specifying, sourcing, ordering, receiving and paying for packaging." },
+    { "term": "Purchase order (PO)", "meaning": "The document that commits the buyer to buy: item, quantity, price, date, place, terms.", "example": "PO 4512: 2,000 cartons at 1.20 each, delivered by 10 May." },
+    { "term": "RFQ", "meaning": "Request for quotation: the same request sent to several suppliers so their prices can be compared.", "example": "An RFQ for 10,000 labels sent to three printers." },
+    { "term": "Goods received note (GRN)", "meaning": "The warehouse record of what actually arrived.", "example": "GRN shows 1,950 cartons received, 50 short." },
+    { "term": "Three-way matching", "meaning": "Checking the PO, the GRN and the invoice agree before paying.", "example": "The invoice is for 2,000 cartons but the GRN shows 1,950, so payment is held." },
+    { "term": "Kraljic matrix", "meaning": "A grid that groups purchases by profit impact and supply risk: routine, leverage, bottleneck, strategic.", "example": "A special spare part from one maker is a bottleneck item." },
+    { "term": "Weighted scoring matrix", "meaning": "A table that scores suppliers on weighted criteria to compare them fairly.", "example": "Quality 40%, price 25%, reliability 20%, compliance 15%." },
+    { "term": "Total cost of ownership (TCO)", "meaning": "All the costs of buying and using a product, not only its price.", "example": "Price + freight + inspection + defects − value of paying later." },
+    { "term": "BATNA", "meaning": "Best Alternative To a Negotiated Agreement: your plan if the negotiation fails.", "example": "A second supplier ready to deliver in four weeks." },
+    { "term": "Supplier scorecard", "meaning": "A regular report of a supplier’s performance on agreed measures.", "example": "On-time 94%, defects 2 per 1,000, response 6 hours." },
+    { "term": "SLA", "meaning": "Service level agreement: the agreed performance standard and the remedy if it is missed.", "example": "95% of orders on time, or a 2% rebate." },
+    { "term": "Corrective action plan", "meaning": "A written plan to fix a problem: action, owner, deadline, check.", "example": "Supplier adds preventive maintenance; buyer checks the records monthly." },
+    { "term": "Single sourcing", "meaning": "Buying an item from only one supplier.", "example": "All bottle caps come from one factory: a risk if it stops." },
+    { "term": "Supplier development", "meaning": "Helping a supplier improve its capabilities.", "example": "Training a supplier’s team in quality checks." }
+  ],
+
+  "quiz": [
+    { "q": "Accounts will pay an invoice only when it agrees with two other documents. Which two?",
+      "options": ["The RFQ and the quotation", "The purchase order and the goods received note", "The contract and the forecast", "The packing list and the delivery note"], "answer": 1, "why": "Three-way matching compares the purchase order, the goods received note and the invoice." },
+    { "q": "A special spare part is cheap, but only one maker in the world sells it. In the Kraljic matrix it is…",
+      "options": ["routine", "leverage", "bottleneck", "strategic"], "answer": 2, "why": "Low profit impact but high supply risk = bottleneck. Secure supply with safety stock or a backup." },
+    { "q": "Weights: quality 50%, price 50%. Supplier X scores quality 4, price 2. What is its weighted total?",
+      "options": ["2.0", "3.0", "4.0", "6.0"], "answer": 1, "why": "4 × 0.5 + 2 × 0.5 = 2 + 1 = 3.0." },
+    { "q": "Why might the cheapest supplier not be the best choice?",
+      "options": ["Cheap suppliers are always illegal", "Other costs such as freight, defects and long lead times can make the total cost higher", "Price is never important", "The law requires the second-cheapest supplier"], "answer": 1, "why": "Total cost of ownership includes freight, quality problems, holding cost from long lead times, and more." },
+    { "q": "What is your BATNA?",
+      "options": ["Your first offer", "The lowest price you will accept", "What you will do if this negotiation fails", "The supplier’s best price"], "answer": 2, "why": "Best Alternative To a Negotiated Agreement: your walk-away plan." },
+    { "q": "In a negotiation, the supplier cannot lower the price but worries about volume. What is a good trade?",
+      "options": ["Threaten to leave", "Offer a longer contract in exchange for a lower price", "Accept the price with nothing in return", "Stop talking"], "answer": 1, "why": "Trade a concession for a concession: volume security for a better price." },
+    { "q": "What should happen after a supplier receives its quarterly scorecard?",
+      "options": ["Nothing; it is just a report", "A review meeting with agreed actions, owners and dates", "The supplier is replaced at once", "The buyer hides the results"], "answer": 1, "why": "A scorecard is useful only when it leads to a discussion and actions that are checked next time." },
+    { "q": "A backup supplier has never received an order. Why is this a problem?",
+      "options": ["It is not a problem", "It may not perform when you really need it", "Backups must always be cheaper", "It breaks three-way matching"], "answer": 1, "why": "Keep backups real with small regular orders and an up-to-date approval." },
+    { "q": "Which item belongs in a service level agreement (SLA)?",
+      "options": ["The supplier’s staff birthdays", "95% of orders on time, with a rebate if missed", "Your company’s sales target", "The colour of the delivery truck"], "answer": 1, "why": "An SLA states the measurable performance standard and the remedy." },
+    { "q": "A supplier is late again and again. What is the best first step?",
+      "options": ["Cancel the contract immediately", "Find the root cause together, then agree a corrective action plan", "Ignore it", "Order from three new suppliers"], "answer": 1, "why": "A delay is a symptom. Find and fix the cause, then check the fix works." }
+  ],
+
+  "workbook": {
+    "intro": "Use the Supplier scoring matrix and Total cost of ownership tools if you want to check your numbers.",
+    "questions": [
+      { "id": "q1", "kind": "long",
+        "prompt": "Name one purchase for each Kraljic group (routine, leverage, bottleneck, strategic) for a company you know in Qatar. Say how you would manage each one.",
+        "hint": "Example: a hospital, a supermarket chain or a construction company." },
+      { "id": "q2", "kind": "long",
+        "prompt": "Weights: quality 40%, price 30%, reliability 30%. Supplier A: 4, 3, 5. Supplier B: 5, 2, 3. Calculate both weighted totals and say which supplier you choose and why.",
+        "hint": "Multiply each score by its weight, then add." },
+      { "id": "q3", "kind": "long",
+        "prompt": "Supplier X quotes 10.00 per unit with free delivery. Supplier Y quotes 9.20 per unit, plus 1,200 freight, for 2,000 units. Y also has a 3% defect rate; each defect costs 15. Which is cheaper in total? Show your working.",
+        "hint": "Total = price × quantity + freight + defects." },
+      { "id": "q4", "kind": "long",
+        "prompt": "You must renew a contract with your main packaging supplier, who wants a 6% price increase. Plan the negotiation: your BATNA, your opening position and two concessions you could trade.",
+        "hint": "What could you give the supplier that costs you little?" },
+      { "id": "q5", "kind": "long",
+        "prompt": "Design a simple supplier scorecard with four measures. For each one, write exactly how you will measure it.",
+        "hint": "Define 'on time' precisely." },
+      { "id": "q6", "kind": "short",
+        "prompt": "Give one reason why a long-term supplier relationship can be better than always choosing the cheapest quote.",
+        "hint": "Think about what happens in a shortage." }
+    ]
+  },
+
+  "exit": {
+    "questions": [
+      { "id": "e1", "kind": "short", "prompt": "One thing I learned today:" },
+      { "id": "e2", "kind": "short", "prompt": "One thing that is still not clear:" },
+      { "id": "e3", "kind": "choice", "prompt": "How confident are you with today's topic?", "options": ["1 – Not yet", "2", "3", "4", "5 – Very confident"] }
+    ]
+  }
+}

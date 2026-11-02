@@ -1,0 +1,183 @@
+{
+  "n": 4,
+  "goals": [
+    "Name the main parties in an international shipment and what each one does.",
+    "Choose a suitable Incoterm and explain where cost and risk pass to the buyer.",
+    "Describe the key trade documents: commercial invoice, packing list, bill of lading, air waybill, certificate of origin and letter of credit.",
+    "Explain customs clearance: HS code, customs value, duty and landed cost.",
+    "Compare transport options and choose a freight forwarder.",
+    "Use the 2017 Qatar case to explain why global sourcing needs more than one route."
+  ],
+
+  "handout": {
+    "intro": "When goods cross a border, more people, more rules and more documents are involved. One missing paper can stop a container for weeks. This session gives you the framework to manage imports and exports with confidence.",
+    "sections": [
+      {
+        "h": "1. Who is involved?",
+        "blocks": [
+          { "table": {
+            "head": ["Party", "Role"],
+            "rows": [
+              ["Shipper (exporter, seller)", "Sends the goods"],
+              ["Consignee (importer, buyer)", "Receives the goods"],
+              ["Carrier", "Moves the goods: shipping line, airline, trucking or rail company"],
+              ["Freight forwarder", "Arranges transport for the shipper, combines small shipments, handles documents"],
+              ["Customs broker", "Licensed specialist who prepares and submits customs declarations"],
+              ["Banks", "Handle payment, for example with a letter of credit"]
+            ]
+          } },
+          { "p": "Responsibility moves from one party to another at **agreed points**. The Incoterm decides where." }
+        ]
+      },
+      {
+        "h": "2. Incoterms® 2020",
+        "blocks": [
+          { "p": "Incoterms are 11 standard trade terms published by the **International Chamber of Commerce (ICC)**. Each one says who pays for what and **where the risk passes from seller to buyer**. Always write the term, the place and the edition, for example: **FCA Shanghai Incoterms® 2020**." },
+          { "table": {
+            "head": ["Term", "Seller’s job ends…", "Use for"],
+            "rows": [
+              ["EXW – Ex Works", "Goods ready at the seller’s premises. Buyer does everything else.", "Any mode"],
+              ["FCA – Free Carrier", "Goods handed to the buyer’s carrier, export cleared", "Any mode – **best choice for containers**"],
+              ["CPT / CIP – Carriage (and Insurance) Paid To", "Seller pays transport (and, for CIP, insurance) to the destination, but risk passes when goods are handed to the first carrier", "Any mode"],
+              ["DAP – Delivered at Place", "Goods arrive at the named place, ready to unload. Buyer pays import duty.", "Any mode"],
+              ["DPU – Delivered at Place Unloaded", "Like DAP, but the seller also unloads", "Any mode"],
+              ["DDP – Delivered Duty Paid", "Seller delivers, cleared for import, duty paid", "Any mode"],
+              ["FAS / FOB – Free Alongside / On Board", "Goods next to / loaded on the ship", "Sea and inland waterway only"],
+              ["CFR / CIF – Cost and Freight (and Insurance)", "Seller pays sea freight (and, for CIF, insurance) to the destination port; risk passes when loaded on board", "Sea and inland waterway only"]
+            ]
+          } },
+          { "callout": { "title": "Common mistakes", "text": "1) Using **FOB or CIF for containers**: the seller hands the container over at the terminal, before it is loaded, so **FCA or CIP** fit better. 2) Thinking the seller carries the risk under CIF: the seller pays for the voyage and insurance, but **the buyer carries the risk** once goods are on board. 3) Under **CIF** the seller only has to buy minimum insurance cover; under **CIP** it must buy wider (all-risks) cover." } }
+        ]
+      },
+      {
+        "h": "3. The key documents",
+        "blocks": [
+          { "table": {
+            "head": ["Document", "Purpose"],
+            "rows": [
+              ["Commercial invoice", "Describes the goods, price, buyer, seller, Incoterm and currency. Used by customs to calculate duty."],
+              ["Packing list", "Number of packages, weights, sizes and contents. Customs checks it against the cargo."],
+              ["Bill of lading (B/L) – sea", "1) Receipt for the goods, 2) evidence of the transport contract, 3) **document of title**: the holder of the original can claim the goods."],
+              ["Air waybill (AWB) – air", "Receipt and contract, but **not** a document of title. The named consignee can collect the goods."],
+              ["Certificate of origin", "Shows where the goods were made. Decides if a lower duty under a trade agreement applies."],
+              ["Letter of credit (L/C)", "The buyer’s bank promises to pay when the seller presents exactly the documents listed. Any small mismatch can stop payment."]
+            ]
+          } },
+          { "p": "All documents must **match each other**. A different weight on the invoice and the packing list can mean an inspection and days of delay." },
+          { "callout": { "title": "Going digital", "text": "Electronic bills of lading and other e-documents are growing. The UN model law on electronic transferable records (MLETR) lets countries give electronic documents the same legal value as paper. Check that your bank, carrier and customs accept them before you switch." } }
+        ]
+      },
+      {
+        "h": "4. Customs clearance",
+        "blocks": [
+          { "steps": [
+            "**Classify** the goods with the **HS code** (Harmonized System of the World Customs Organization). The first 6 digits are the same worldwide; countries add more digits.",
+            "**Value** the goods. The main method is the transaction value: the price paid. In the GCC, duty is normally charged on the **CIF value** (goods + freight + insurance).",
+            "**Declare** – the broker submits the declaration with the invoice, packing list, transport document and certificate of origin.",
+            "**Pay** duty and any taxes, then customs releases the goods, or selects them for inspection."
+          ] },
+          { "p": "A wrong HS code or a value that is too low can lead to back payments, penalties and more inspections for every future shipment. **Getting it right is always cheaper.**" },
+          { "callout": { "title": "Landed cost", "text": "Supplier price + freight + insurance + duty + taxes + port and broker fees + transport to your warehouse. A product that looks cheap abroad can be expensive once it lands. Try the **Landed cost** tool." } }
+        ]
+      },
+      {
+        "h": "5. Freight forwarders and transport choice",
+        "blocks": [
+          { "list": [
+            "**Sea** – lowest cost for large volumes, but weeks in transit, and exposed to port congestion and route disruption.",
+            "**Air** – fastest (days) and most reliable, but many times more expensive per kilogram.",
+            "**Road and rail** – useful within regions; rail is a growing option between Asia and Europe.",
+            "**Sea–air** – sea to a hub, then air: cheaper than air, faster than sea."
+          ] },
+          { "p": "Choose a forwarder on more than price: transit time, reliability, **strength at the destination**, experience with your product, real-time tracking, financial stability and references from similar shippers." }
+        ]
+      },
+      {
+        "h": "6. Global sourcing: cheaper is not always cheaper",
+        "blocks": [
+          { "p": "Buying abroad can lower the price or give access to special products. It also adds **longer lead times, more stock in transit, currency risk, duty and more risk on the route**. Compare suppliers on **landed cost and route risk**, not on the unit price." }
+        ]
+      },
+      {
+        "h": "7. Qatar 2017: when routes close overnight",
+        "blocks": [
+          { "p": "In June 2017 four neighbouring countries cut trade and transport links with Qatar. Within days, new direct shipping services linked **Hamad Port** with **Sohar and Salalah in Oman**, then with India, Turkey and other countries. Urgent goods came by air." },
+          { "p": "The lesson for every importer: **have more than one route and more than one supplier region ready before you need them.** Read the full case in Tools → Case studies." }
+        ]
+      }
+    ]
+  },
+
+  "terms": [
+    { "term": "Incoterms®", "meaning": "11 standard ICC trade terms that say who pays for what and where risk passes from seller to buyer.", "example": "FCA Shanghai Incoterms® 2020." },
+    { "term": "FCA", "meaning": "Free Carrier: the seller hands export-cleared goods to the buyer’s carrier at the named place.", "example": "The seller delivers the container to the terminal in Mumbai." },
+    { "term": "CIF", "meaning": "Cost, Insurance and Freight: the seller pays sea freight and minimum insurance to the destination port; risk passes when goods are on board.", "example": "CIF Hamad Port." },
+    { "term": "DDP", "meaning": "Delivered Duty Paid: the seller delivers to the buyer’s place, import cleared and duty paid.", "example": "An online seller delivers to a customer’s office in Doha with all duties paid." },
+    { "term": "Freight forwarder", "meaning": "A company that arranges international transport and documents for shippers.", "example": "The forwarder books space on a ship and prepares the bill of lading." },
+    { "term": "Customs broker", "meaning": "A licensed specialist who makes customs declarations for importers and exporters.", "example": "The broker files the import declaration at Hamad Port." },
+    { "term": "Commercial invoice", "meaning": "The seller’s invoice for an international sale, used by customs to calculate duty.", "example": "Shows 2,000 units at 9.20 USD, CIF Hamad Port." },
+    { "term": "Packing list", "meaning": "A list of packages, weights, sizes and contents.", "example": "20 pallets, 12,400 kg, 100 cartons per pallet." },
+    { "term": "Bill of lading (B/L)", "meaning": "Sea transport document: receipt, contract and document of title.", "example": "The bank releases the original B/L when the buyer pays." },
+    { "term": "Air waybill (AWB)", "meaning": "Air transport document: receipt and contract, not a document of title.", "example": "The consignee named on the AWB collects the medicines at the airport." },
+    { "term": "Certificate of origin", "meaning": "A document showing the country where the goods were made.", "example": "Needed to claim a lower duty under a free trade agreement." },
+    { "term": "Letter of credit (L/C)", "meaning": "A bank’s promise to pay the seller when the correct documents are presented.", "example": "Payment is refused because the invoice date does not match the L/C." },
+    { "term": "HS code", "meaning": "The Harmonized System number that classifies a product for customs.", "example": "The HS code decides the duty rate and if a licence is needed." },
+    { "term": "Landed cost", "meaning": "The full cost of an imported product when it reaches your warehouse.", "example": "Price + freight + insurance + duty + fees + inland transport." },
+    { "term": "Transhipment", "meaning": "Moving a container from one ship to another at a port on the way.", "example": "Containers for Kuwait are transhipped at Hamad Port." }
+  ],
+
+  "quiz": [
+    { "q": "Under CIF, who carries the risk while the goods are at sea?",
+      "options": ["The seller", "The buyer", "The carrier", "The customs broker"], "answer": 1, "why": "Under CIF the seller pays freight and insurance, but risk passes to the buyer when the goods are loaded on board." },
+    { "q": "You import goods in a container. Which Incoterm fits better than FOB?",
+      "options": ["FAS", "FCA", "CFR", "EXW"], "answer": 1, "why": "The container is handed over at the terminal before loading, so FCA (Free Carrier) is the better fit." },
+    { "q": "Which Incoterm puts the MOST responsibility on the seller?",
+      "options": ["EXW", "FOB", "DAP", "DDP"], "answer": 3, "why": "Under DDP the seller delivers to the buyer’s place, cleared for import, with duty paid." },
+    { "q": "Which document can work as a document of title?",
+      "options": ["Air waybill", "Packing list", "Bill of lading", "Certificate of origin"], "answer": 2, "why": "A negotiable bill of lading is a document of title: whoever holds the original can claim the goods." },
+    { "q": "What decides the duty rate for a product?",
+      "options": ["The colour of the packaging", "The HS code (and origin)", "The name of the ship", "The buyer’s bank"], "answer": 1, "why": "The HS classification sets the duty rate; the certificate of origin can give a lower rate under a trade agreement." },
+    { "q": "The weight on the invoice is different from the weight on the packing list. What is the likely result?",
+      "options": ["Nothing", "A customs hold or inspection and a delay", "A lower duty", "Faster clearance"], "answer": 1, "why": "Documents must match. A mismatch is a common reason for customs holds." },
+    { "q": "Goods 10,000 + freight 800 + insurance 200. Duty 5% on the CIF value. How much duty?",
+      "options": ["500", "540", "550", "600"], "answer": 2, "why": "CIF = 10,000 + 800 + 200 = 11,000. 5% × 11,000 = 550." },
+    { "q": "What does a freight forwarder usually do?",
+      "options": ["Owns the ships", "Arranges transport and documents for the shipper", "Sets the duty rates", "Manufactures the goods"], "answer": 1, "why": "Forwarders buy space from carriers, combine shipments and handle the paperwork." },
+    { "q": "A supplier abroad is 15% cheaper per unit. What should you compare before you switch?",
+      "options": ["Only the unit price", "The landed cost and the route risk", "The supplier’s logo", "Nothing; cheaper is better"], "answer": 1, "why": "Freight, duty, fees, longer lead times and route risk can remove the price advantage." },
+    { "q": "What was the main supply chain lesson from Qatar in 2017?",
+      "options": ["Imports should stop", "Have more than one route and supplier region ready before a crisis", "Air freight is always cheapest", "Documents are not important"], "answer": 1, "why": "New routes through Oman, India and Turkey worked because a new port and options existed. Single routes are single points of failure." }
+  ],
+
+  "workbook": {
+    "intro": "Use the Landed cost tool and the Qatar 2017 case in Tools to help you.",
+    "questions": [
+      { "id": "q1", "kind": "long",
+        "prompt": "Your company in Doha imports furniture from Turkey in containers. You have little import experience, and the supplier has a strong forwarder. Which Incoterm would you choose, and why?",
+        "hint": "Who is better at arranging the transport?" },
+      { "id": "q2", "kind": "long",
+        "prompt": "List the documents you need for a sea shipment of food products into Qatar, and say what each one is for.",
+        "hint": "Think about health or origin certificates for food." },
+      { "id": "q3", "kind": "long",
+        "prompt": "Calculate the landed cost per unit: goods 24,000; freight 2,100; insurance 180; duty 5% of CIF; port and broker fees 650; inland transport 300; 1,500 units. Show your working.",
+        "hint": "CIF = goods + freight + insurance." },
+      { "id": "q4", "kind": "long",
+        "prompt": "A container is held at customs because the HS code on the declaration is wrong. Use Frame, Evaluate, Act, Review to plan what you do.",
+        "hint": "Also think about how to stop it happening again." },
+      { "id": "q5", "kind": "long",
+        "prompt": "What could a Doha food importer do today so that a sudden route closure, like 2017, would cause less damage?",
+        "hint": "Routes, suppliers, stock, information." },
+      { "id": "q6", "kind": "short",
+        "prompt": "Name two things, other than price, that you would check when choosing a freight forwarder.",
+        "hint": "" }
+    ]
+  },
+
+  "exit": {
+    "questions": [
+      { "id": "e1", "kind": "short", "prompt": "One thing I learned today:" },
+      { "id": "e2", "kind": "short", "prompt": "One thing that is still not clear:" },
+      { "id": "e3", "kind": "choice", "prompt": "How confident are you with today's topic?", "options": ["1 – Not yet", "2", "3", "4", "5 – Very confident"] }
+    ]
+  }
+}

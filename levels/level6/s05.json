@@ -1,0 +1,198 @@
+{
+  "n": 5,
+  "goals": [
+    "Explain why companies hold stock and what it costs.",
+    "Set minimum, maximum and reorder point levels.",
+    "Calculate safety stock, including when lead time varies.",
+    "Calculate the economic order quantity (EOQ) and its total cost.",
+    "Use ABC analysis to decide how closely to control each item.",
+    "Keep stock records accurate with FIFO/FEFO, cycle counting and stock turnover."
+  ],
+
+  "handout": {
+    "intro": "Stock is a buffer between supply and demand. Too much ties up cash and space; too little loses sales. This session gives you the tools to hold the right amount, and to prove it with numbers.",
+    "sections": [
+      {
+        "h": "1. Why hold stock, and what it costs",
+        "blocks": [
+          { "p": "Stock protects against **demand spikes, supplier delays and production problems**. Think of it as insurance: it protects you, but it has a premium." },
+          { "table": {
+            "head": ["Type of cost", "What it includes"],
+            "rows": [
+              ["Holding cost", "Cash tied up, warehouse space, insurance, damage, theft, expiry and obsolescence"],
+              ["Ordering (replenishment) cost", "Admin work, transport and receiving for each order"],
+              ["Stockout cost", "Lost sales, unhappy customers, stopped production lines"]
+            ]
+          } },
+          { "p": "Types of stock: **raw materials**, **work in progress**, **finished goods** and **MRO** (maintenance, repair and operating supplies, such as spare parts)." }
+        ]
+      },
+      {
+        "h": "2. Minimum, maximum and reorder point",
+        "blocks": [
+          { "list": [
+            "**Minimum (buffer)** – the stock you always want to keep, to cover delays or spikes.",
+            "**Maximum** – the most worth holding; above this, space and cash are wasted.",
+            "**Reorder point (ROP)** – when stock falls to this level, order again."
+          ] },
+          { "callout": { "title": "Reorder point formula", "text": "**ROP = (average daily demand × lead time in days) + safety stock**. Example: 80 units a day × 7 days + 200 safety stock = **760 units**. When stock reaches 760, order. If demand is normal, about 200 units will be left when the new stock arrives." } }
+        ]
+      },
+      {
+        "h": "3. Safety stock",
+        "blocks": [
+          { "p": "Safety stock covers the **variation** around average demand and lead time. Choose a **service level** and its Z value: 90% → 1.28, 95% → 1.65, 99% → 2.33." },
+          { "table": {
+            "head": ["When", "Formula", "Example"],
+            "rows": [
+              ["Demand varies, lead time fixed", "SS = Z × σd × √LT", "1.65 × 20 × √2 = **47 units**"],
+              ["Demand and lead time both vary", "SS = Z × √(LT × σd² + d² × σLT²)", "1.65 × √(2 × 20² + 100² × 0.5²) = 1.65 × 57.4 = **95 units**"],
+              ["Simple method", "SS = (max demand × max lead time) − (average demand × average lead time)", "(150 × 3) − (100 × 2) = **250 units**"]
+            ]
+          } },
+          { "p": "σd = standard deviation of demand per period; LT = lead time in the same periods; σLT = standard deviation of lead time." },
+          { "callout": { "title": "The point", "text": "When a supplier’s lead time is unreliable, safety stock almost doubles in the example above. Making the supplier reliable can cut stock and cash." } }
+        ]
+      },
+      {
+        "h": "4. How much to order: the EOQ",
+        "blocks": [
+          { "p": "Ordering often costs more in ordering costs; ordering a lot costs more in holding costs. The **economic order quantity** balances the two." },
+          { "callout": { "title": "EOQ formula", "text": "**EOQ = √(2 × D × S ÷ H)**. D = annual demand, S = cost per order, H = holding cost per unit per year." } },
+          { "table": {
+            "head": ["Step", "Example: D = 12,000, S = 75, H = 2"],
+            "rows": [
+              ["EOQ", "√(2 × 12,000 × 75 ÷ 2) = √900,000 = **949 units**"],
+              ["Orders per year", "12,000 ÷ 949 = 12.6 (about one every 4 weeks)"],
+              ["Ordering cost", "12.65 × 75 = 949"],
+              ["Holding cost", "(949 ÷ 2) × 2 = 949"],
+              ["Total", "about **1,897** a year"]
+            ]
+          } },
+          { "p": "Use the ROP and EOQ together: the **reorder point says when**, the **EOQ says how much**. Adjust for pack sizes, supplier discounts, space and shelf life." }
+        ]
+      },
+      {
+        "h": "5. ABC analysis",
+        "blocks": [
+          { "p": "Sort items by **yearly value** (units × cost). Usually a small number of items make most of the value (the 80/20 idea)." },
+          { "table": {
+            "head": ["Class", "Typical share", "Control", "Count"],
+            "rows": [
+              ["A", "About 20% of items, about 80% of value", "Tight: frequent review, accurate forecasts", "Monthly"],
+              ["B", "About 30% of items, about 15% of value", "Normal", "Quarterly"],
+              ["C", "About 50% of items, about 5% of value", "Simple rules, more stock is fine", "Once or twice a year"]
+            ]
+          } },
+          { "p": "Value is not everything: a cheap item can still be **critical** (for example, a medicine or a spare part that stops a machine)." }
+        ]
+      },
+      {
+        "h": "6. Stock rotation and accurate records",
+        "blocks": [
+          { "list": [
+            "**FIFO** – first in, first out: oldest stock is used first.",
+            "**FEFO** – first expired, first out: the item that expires soonest goes first. Essential for food and medicines.",
+            "**LIFO** (last in, first out) is rarely right for physical stock, and is **not allowed for accounting under IFRS** (IAS 2), which Qatar uses."
+          ] },
+          { "p": "**Cycle counting** – count a small part of the stock regularly (A items monthly, B quarterly, C once or twice a year) instead of one big count a year. When the count and the system differ, **find the cause** (receiving errors, wrong location, theft) – do not just correct the number." },
+          { "p": "Aim for inventory record accuracy of **99% or better**." }
+        ]
+      },
+      {
+        "h": "7. Inventory turnover and days of stock",
+        "blocks": [
+          { "callout": { "title": "Formulas", "text": "**Average stock** = (opening + closing) ÷ 2. **Turnover** = cost of goods sold ÷ average stock. **Days of stock** = 365 ÷ turnover." } },
+          { "p": "Example: cost of goods sold 1,200,000; opening stock 180,000; closing stock 220,000. Average = 200,000. Turnover = **6 times a year**. Days of stock = 365 ÷ 6 = **61 days**." },
+          { "p": "Higher turnover usually means less cash tied up. Compare with your own history and your industry." }
+        ]
+      },
+      {
+        "h": "8. Overstock and stockouts",
+        "blocks": [
+          { "table": {
+            "head": ["Problem", "Common causes", "What to do"],
+            "rows": [
+              ["Overstock", "Demand fell but levels were not changed; big discount orders; optimistic forecasts", "Find slow movers early; return, discount or write off; lower the maximum"],
+              ["Stockout", "Demand spike; supplier delay; safety stock too low; wrong records", "Recalculate safety stock; improve supplier reliability; fix records"]
+            ]
+          } },
+          { "p": "Review levels **monthly** for important items. A level that was right six months ago may be wrong today." }
+        ]
+      }
+    ]
+  },
+
+  "terms": [
+    { "term": "Holding cost", "meaning": "The cost of keeping stock: cash, space, insurance, damage, expiry.", "example": "2 per unit per year." },
+    { "term": "Stockout", "meaning": "Running out of an item when customers want it.", "example": "Hospitals wait five days for a medicine." },
+    { "term": "Reorder point (ROP)", "meaning": "The stock level that triggers a new order.", "example": "80 a day × 7 days + 200 = 760 units." },
+    { "term": "Lead time", "meaning": "Time from placing an order to receiving it.", "example": "The supplier delivers in 7 days." },
+    { "term": "Safety stock", "meaning": "Extra stock that covers variation in demand and lead time.", "example": "47 units for a 95% service level." },
+    { "term": "Service level", "meaning": "The chance that safety stock covers demand during the lead time.", "example": "95% → Z = 1.65." },
+    { "term": "EOQ", "meaning": "Economic order quantity: the order size with the lowest total ordering and holding cost.", "example": "√(2 × 12,000 × 75 ÷ 2) = 949 units." },
+    { "term": "ABC analysis", "meaning": "Sorting items by yearly value into A, B and C classes.", "example": "A items get monthly counts." },
+    { "term": "FIFO", "meaning": "First in, first out: use the oldest stock first.", "example": "Pick from the pallet that arrived first." },
+    { "term": "FEFO", "meaning": "First expired, first out: use the stock that expires soonest first.", "example": "Yoghurt with the nearest expiry date is sent first." },
+    { "term": "Cycle counting", "meaning": "Counting a small part of stock regularly instead of all at once.", "example": "Count 20 A items every Monday." },
+    { "term": "Inventory turnover", "meaning": "How many times stock is sold and replaced in a year.", "example": "1,200,000 ÷ 200,000 = 6 times." },
+    { "term": "Days of stock", "meaning": "How many days the average stock would last.", "example": "365 ÷ 6 = 61 days." },
+    { "term": "MRO", "meaning": "Maintenance, repair and operating supplies.", "example": "Spare belts for a conveyor." },
+    { "term": "Obsolescence", "meaning": "Stock losing value because it is out of date or no longer wanted.", "example": "Old phone covers after a new model launch." }
+  ],
+
+  "quiz": [
+    { "q": "Daily demand 50, lead time 6 days, safety stock 100. What is the reorder point?",
+      "options": ["300", "350", "400", "600"], "answer": 2, "why": "(50 × 6) + 100 = 300 + 100 = 400." },
+    { "q": "D = 8,000 per year, S = 50 per order, H = 2 per unit per year. What is the EOQ?",
+      "options": ["200", "400", "632", "800"], "answer": 2, "why": "2 × 8,000 × 50 = 800,000; ÷ 2 = 400,000; √400,000 ≈ 632 units." },
+    { "q": "Which Z value matches a 95% service level?",
+      "options": ["1.28", "1.65", "2.33", "3.00"], "answer": 1, "why": "95% → Z ≈ 1.65 (more exactly 1.645)." },
+    { "q": "A supplier’s lead time becomes less reliable. What happens to the safety stock you need?",
+      "options": ["It goes down", "It stays the same", "It goes up", "It becomes zero"], "answer": 2, "why": "More variation in lead time means more uncertainty, so more safety stock is needed." },
+    { "q": "At the EOQ, how do yearly ordering cost and yearly holding cost compare?",
+      "options": ["Ordering is always double", "They are equal", "Holding is always zero", "There is no link"], "answer": 1, "why": "The EOQ is exactly where the two costs balance." },
+    { "q": "In ABC analysis, which items get the tightest control?",
+      "options": ["A items", "B items", "C items", "All the same"], "answer": 0, "why": "A items are a small number of items with most of the value, so they deserve the most attention." },
+    { "q": "A pharmacy warehouse should usually pick medicines using…",
+      "options": ["LIFO", "FEFO", "Random picking", "Largest box first"], "answer": 1, "why": "First expired, first out avoids medicines expiring on the shelf." },
+    { "q": "Cost of goods sold 900,000; average stock 150,000. What is the inventory turnover?",
+      "options": ["0.17", "6", "60", "750,000"], "answer": 1, "why": "900,000 ÷ 150,000 = 6 times a year." },
+    { "q": "A cycle count finds 20 fewer units than the system shows. What should you do first?",
+      "options": ["Change the system number and move on", "Investigate the cause (receiving, picking, location, theft)", "Order 20 more units", "Ignore small differences"], "answer": 1, "why": "Fix the process, not just the number, or the error will come back." },
+    { "q": "Demand for an item fell from 200 to 60 a month, but nobody changed its reorder point. What is the likely result?",
+      "options": ["Stockouts", "Overstock and maybe expired stock", "Lower holding cost", "Faster turnover"], "answer": 1, "why": "Old, high levels keep ordering too much for the new, lower demand." }
+  ],
+
+  "workbook": {
+    "intro": "Use the EOQ, Reorder point, Safety stock, ABC analysis and Turnover tools to check your answers.",
+    "questions": [
+      { "id": "q1", "kind": "long",
+        "prompt": "A Doha pharmacy chain sells 120 boxes of a medicine per day. The supplier takes 5 days. Safety stock is 240 boxes. Calculate the reorder point and explain what it means for the stock controller.",
+        "hint": "ROP = demand × lead time + safety stock." },
+      { "id": "q2", "kind": "long",
+        "prompt": "Weekly demand averages 400 units with a standard deviation of 60. Lead time is 3 weeks. Calculate safety stock for 95% service (Z = 1.65). Show your working.",
+        "hint": "σ for the lead time = 60 × √3." },
+      { "id": "q3", "kind": "long",
+        "prompt": "Annual demand is 20,000 units, each order costs 100 and holding costs 4 per unit per year. Calculate the EOQ, the number of orders per year and the total yearly cost.",
+        "hint": "Check that ordering cost and holding cost are equal." },
+      { "id": "q4", "kind": "long",
+        "prompt": "Choose five items a supermarket in Qatar stocks. Estimate yearly units and cost, and put them into A, B and C classes. Explain one exception where a C item still needs close control.",
+        "hint": "Think about critical items." },
+      { "id": "q5", "kind": "long",
+        "prompt": "A cycle count shows the system is wrong for 8% of locations. Give three possible causes and one fix for each.",
+        "hint": "Receiving, put-away, picking, returns." },
+      { "id": "q6", "kind": "short",
+        "prompt": "Why is FEFO better than FIFO for yoghurt?",
+        "hint": "" }
+    ]
+  },
+
+  "exit": {
+    "questions": [
+      { "id": "e1", "kind": "short", "prompt": "One thing I learned today:" },
+      { "id": "e2", "kind": "short", "prompt": "One thing that is still not clear:" },
+      { "id": "e3", "kind": "choice", "prompt": "How confident are you with today's topic?", "options": ["1 – Not yet", "2", "3", "4", "5 – Very confident"] }
+    ]
+  }
+}

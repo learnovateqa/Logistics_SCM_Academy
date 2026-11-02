@@ -1,0 +1,106 @@
+{
+  "n": 6,
+  "goals": [
+    "Know which topics from Sessions 1–5 the midterm covers.",
+    "Use the formula sheet with confidence: reorder point, safety stock, EOQ, turnover, forecasting, weighted scoring, landed cost.",
+    "Answer a case question with Frame, Evaluate, Act, Review.",
+    "Practise with mixed questions and check your weak areas before the exam."
+  ],
+
+  "handout": {
+    "intro": "The midterm is taken in class. This revision guide shows what to revise, the formulas you need, and how to answer case questions. Ms. Maria will tell you the exact format and time.",
+    "sections": [
+      {
+        "h": "1. What to revise",
+        "blocks": [
+          { "table": {
+            "head": ["Session", "Make sure you can…"],
+            "rows": [
+              ["1 · How supply chains work", "Explain logistics vs SCM, the four flows, SCOR’s five stages, the Six Rights, trade-offs, FLOW"],
+              ["2 · Planning and forecasting", "Calculate moving average, weighted average, exponential smoothing; MAPE and bias; S&OP steps; bullwhip causes and fixes"],
+              ["3 · Procurement and suppliers", "Explain the procurement cycle and three-way matching; Kraljic groups; weighted scoring; TCO; BATNA; scorecards and SLAs"],
+              ["4 · International trade", "Choose an Incoterm; explain the key documents; HS code and customs value; landed cost; forwarder choice; lessons from Qatar 2017"],
+              ["5 · Inventory", "Calculate ROP, safety stock, EOQ, turnover and days of stock; ABC; FIFO/FEFO; cycle counting"]
+            ]
+          } }
+        ]
+      },
+      {
+        "h": "2. Formula sheet",
+        "blocks": [
+          { "table": {
+            "head": ["What", "Formula"],
+            "rows": [
+              ["Moving average", "Sum of the last n periods ÷ n"],
+              ["Exponential smoothing", "New = old + α × (actual − old)"],
+              ["Error / MAPE", "Error = actual − forecast; MAPE = average of |error| ÷ actual × 100"],
+              ["Weighted score", "Σ (score × weight)"],
+              ["Customs value (GCC)", "Goods + freight + insurance (CIF)"],
+              ["Landed cost", "CIF + duty + taxes + fees + inland transport"],
+              ["Reorder point", "(daily demand × lead time) + safety stock"],
+              ["Safety stock", "Z × σd × √LT   (95% → Z = 1.65; 99% → Z = 2.33)"],
+              ["EOQ", "√(2 × D × S ÷ H)"],
+              ["Turnover", "Cost of goods sold ÷ average stock"],
+              ["Days of stock", "365 ÷ turnover"]
+            ]
+          } },
+          { "p": "Always **show your working** and write the **unit** (units, days, %, money). A correct method earns marks even if a small number is wrong." }
+        ]
+      },
+      {
+        "h": "3. How to answer a case question",
+        "blocks": [
+          { "steps": [
+            "**Frame** – What is the real problem? Which of the Six Rights is broken? What are the limits?",
+            "**Evaluate** – Give two or three options. Use numbers where you can. Say what could go wrong.",
+            "**Act** – Choose one option and say why. Who must do what?",
+            "**Review** – How will you check it worked? Which KPI will you watch?"
+          ] },
+          { "callout": { "title": "Make a decision", "text": "Do not write only \"it depends\". Say what it depends on, then decide." } }
+        ]
+      },
+      {
+        "h": "4. Exam tips",
+        "blocks": [
+          { "list": [
+            "Read each question twice. Underline the key words (calculate, explain, compare, recommend).",
+            "Use short, clear sentences. Simple English is fine.",
+            "Do the questions you know first; come back to the hard ones.",
+            "Check your calculator answers: is the number sensible?",
+            "Use the practice questions here and the tools to find your weak areas."
+          ] }
+        ]
+      }
+    ]
+  },
+
+  "quiz": [
+    { "q": "An order arrives on time but at the wrong warehouse. Which of the Six Rights is broken?",
+      "options": ["Right product", "Right place", "Right cost", "Right information"], "answer": 1, "why": "The goods are not where they are needed: a place failure." },
+    { "q": "In the SCOR model, which stage covers moving finished goods to customers?",
+      "options": ["Plan", "Source", "Make", "Deliver"], "answer": 3, "why": "Deliver covers order management, warehousing and transport to the customer." },
+    { "q": "Sales: 200, 240, 220. What is the 3-period moving average?",
+      "options": ["210", "220", "230", "660"], "answer": 1, "why": "(200 + 240 + 220) ÷ 3 = 660 ÷ 3 = 220." },
+    { "q": "A forecast is too high month after month. This is called…",
+      "options": ["bullwhip", "bias", "seasonality", "MAPE"], "answer": 1, "why": "A forecast that is wrong in the same direction again and again has bias." },
+    { "q": "Which item is a bottleneck purchase in the Kraljic matrix?",
+      "options": ["Printer paper", "Diesel bought from many suppliers", "A machine part made by only one supplier", "The main raw material for your best-selling product"], "answer": 2, "why": "Low profit impact but high supply risk = bottleneck." },
+    { "q": "Three-way matching compares the invoice with…",
+      "options": ["the RFQ and the quotation", "the purchase order and the goods received note", "the forecast and the budget", "the bill of lading and the packing list"], "answer": 1, "why": "PO + GRN + invoice must agree before payment." },
+    { "q": "You buy in containers and want the seller to arrange and pay the main transport and insurance. Which term fits best?",
+      "options": ["FOB", "CIF", "CIP", "EXW"], "answer": 2, "why": "CIP is for any mode, including containers, and requires wider insurance than CIF." },
+    { "q": "Goods 5,000 + freight 400 + insurance 100; duty 5% of CIF. What is the duty?",
+      "options": ["250", "270", "275", "300"], "answer": 2, "why": "CIF = 5,500. 5% × 5,500 = 275." },
+    { "q": "Daily demand 30, lead time 10 days, safety stock 90. Reorder point?",
+      "options": ["300", "390", "400", "120"], "answer": 1, "why": "30 × 10 + 90 = 390." },
+    { "q": "D = 5,000, S = 40, H = 4. What is the EOQ?",
+      "options": ["100", "224", "316", "500"], "answer": 2, "why": "√(2 × 5,000 × 40 ÷ 4) = √100,000 ≈ 316." },
+    { "q": "Cost of goods sold 600,000; opening stock 90,000; closing stock 110,000. What are the days of stock?",
+      "options": ["About 30", "About 61", "About 100", "About 6"], "answer": 1, "why": "Average = 100,000. Turnover = 6. Days = 365 ÷ 6 ≈ 61." },
+    { "q": "Which action best reduces the bullwhip effect?",
+      "options": ["Bigger, less frequent orders", "More promotions", "Sharing point-of-sale data with suppliers", "Longer lead times"], "answer": 2, "why": "Real customer demand shared along the chain stops each stage from over-reacting." }
+  ],
+
+  "tiles": ["handout", "quiz"],
+  "labels": { "handout": "Revision guide", "quiz": "Practice questions" }
+}
