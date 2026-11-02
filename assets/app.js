@@ -619,13 +619,30 @@
         (q != null ? '<span class="chip gold">Quiz ' + q + '%</span>' : '') + (w ? '<span class="chip">' + (w.mark ? 'Workbook ' + esc(w.mark) : 'Workbook sent') + '</span>' : '') + '</div>' +
         '<h3 style="margin:2px 0 0">' + esc(s.title) + '</h3></div></li>';
     }).join('') + '</ol>';
+    var att = res.attendance || {}, gr = res.grades;
     return '<h1 class="h2">Progress</h1><p class="sub">Your shipment moves one stop each time you finish a session.</p>' +
       '<div class="grid g4" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">' +
         stat('Stops reached', done + ' / ' + total, done === total ? 'Delivered!' : 'Keep going.') +
+        stat('Attendance', att.pct == null ? '–' : att.pct + '%', att.pct == null ? 'Not recorded yet.' : 'Present or late.') +
         stat('Average quiz', avgQuiz(), 'Best score per session.') +
         stat('Workbooks sent', Object.keys(res.workbook || {}).length, 'Sent to Ms. Maria.') +
-        stat('Cards known', Object.keys(S.p.known).length, 'From Study.') +
-      '</div><div class="sec">' + (done ? '' : '<p class="note" style="margin-bottom:14px">Your shipment is waiting at the start. Finish Session 1 to move it.</p>') + list + '</div>' + foot();
+        (gr ? stat(gr.complete ? 'Final grade' : 'Grade so far', gr.grade == null ? '–' : gr.grade + '%', gr.complete ? 'All parts marked.' : 'Some parts not marked yet.') : '') +
+      '</div>' + gradeCards(att, gr) + '<div class="sec">' + (done ? '' : '<p class="note" style="margin-bottom:14px">Your shipment is waiting at the start. Finish Session 1 to move it.</p>') + list + '</div>' + foot();
+  }
+  function gradeCards(att, gr) {
+    var ST = { Present: 'Present', Late: 'Late', Absent: 'Absent', Excused: 'Excused' };
+    var sessions = (att.sessions || []);
+    var attCard = '<div class="card pad"><h2 class="h3">My attendance</h2>' + (sessions.length
+      ? '<div class="att-list">' + sessions.map(function (x) { return '<span class="att-chip att-' + esc(x.status) + '"><b>S' + x.session + '</b> ' + esc(ST[x.status] || x.status) + '</span>'; }).join('') + '</div>' +
+        '<p class="small muted" style="margin:10px 0 0">' + (att.present || 0) + ' present · ' + (att.late || 0) + ' late · ' + (att.absent || 0) + ' absent' + (att.excused ? ' · ' + att.excused + ' excused' : '') + '</p>'
+      : '<p class="muted small">Ms. Maria has not recorded attendance yet.</p>') + '</div>';
+    if (!gr) return '<div class="grid g2 sec">' + attCard + '</div>';
+    var rows = [['Midterm', gr.midterm], ['Final exam', gr.final], ['E-workbooks (average)', gr.workbooks], ['Attendance', gr.attendance], ['Participation', gr.participation]];
+    var grCard = '<div class="card pad"><h2 class="h3">My grades</h2><div class="results">' + rows.map(function (r) {
+      return '<div class="res-row"><span>' + r[0] + '</span><b>' + (r[1] == null ? '<span class="muted">not yet</span>' : r[1] + '%') + '</b></div>';
+    }).join('') + '<div class="res-row main"><span>' + (gr.complete ? 'Final grade' : 'Grade so far') + '</span><b>' + (gr.grade == null ? '–' : gr.grade + '%') + '</b></div></div>' +
+      '<p class="small muted" style="margin:10px 0 0">The grade so far uses only the parts that already have a score.</p></div>';
+    return '<div class="grid g2 sec">' + attCard + grCard + '</div>';
   }
   function avgQuiz() { var v = Object.keys(S.p.quiz).map(function (k) { return S.p.quiz[k]; }); return v.length ? Math.round(v.reduce(function (a, b) { return a + b; }, 0) / v.length) + '%' : '–'; }
 

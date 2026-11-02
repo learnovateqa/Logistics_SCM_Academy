@@ -39,6 +39,8 @@
     copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/>',
     ext: '<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v6H4V6h6"/>',
     check: '<path d="m5 12 5 5 9-10"/>',
+    attendance: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="m8.5 15 2.5 2.5 4.5-5"/>',
+    grades: '<circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/>',
     mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'
   };
   function ico(n, s) { return '<svg width="' + (s || 20) + '" height="' + (s || 20) + '" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (P[n] || '') + '</svg>'; }
@@ -62,7 +64,7 @@
 
   function loadLevel() {
     var lv = T.level;
-    T.data = {}; T.course = null; T.content = {}; T.sel = null;
+    T.data = {}; T.course = null; T.content = {}; T.sel = null; T.att = null; T.grades = null;
     var info = (T.siteLevels || []).filter(function (l) { return l.id === lv; })[0];
     var courseP = info && info.content ? getJSON(info.path + 'course.json').then(function (c) {
       T.course = c; c.path = info.path;
@@ -83,8 +85,9 @@
 
   // ------------------------------------------------------------- layout --
   var NAV = [
-    { id: 'overview', label: 'Overview' }, { id: 'sessions', label: 'Sessions' }, { id: 'announce', label: 'Announcements' },
-    { id: 'learners', label: 'Learners' }, { id: 'scores', label: 'Scores' }, { id: 'marking', label: 'Marking' }, { id: 'progress', label: 'Progress' }
+    { id: 'overview', label: 'Overview' }, { id: 'sessions', label: 'Sessions' }, { id: 'attendance', label: 'Attendance' },
+    { id: 'marking', label: 'Marking' }, { id: 'grades', label: 'Grades' }, { id: 'scores', label: 'Quiz scores' },
+    { id: 'learners', label: 'Learners' }, { id: 'announce', label: 'Announcements' }, { id: 'progress', label: 'Progress' }
   ];
   function view() { var v = (location.hash || '#/overview').replace(/^#\/?/, '').split('/')[0]; return NAV.some(function (n) { return n.id === v; }) ? v : 'overview'; }
 
@@ -429,20 +432,139 @@
     $('#mkNext').onclick = function () { save(true); };
   };
 
+  // lazy loading for pages that need extra data --------------------------
+  function lazy(key, loader) {
+    if (T[key]) return true;
+    if (!T['_' + key]) {
+      T['_' + key] = loader().then(function (r) { T[key] = r; T['_' + key] = null; render(); }, function (e) { T['_' + key] = null; toast(e.message); });
+    }
+    return false;
+  }
+  var LOADING = '<div class="empty">Loading…</div>';
+
+  // attendance ------------------------------------------------------------
+  var ATT = { session: null, draft: {} };
+  var ATT_OPTS = [['Present', 'P'], ['Late', 'L'], ['Absent', 'A'], ['Excused', 'E']];
+  VIEWS.attendance = function () {
+    var ss = sessions();
+    if (ATT.session == null) { var open = ss.filter(function (s) { return s.status === 'Open'; }); ATT.session = open.length ? open[open.length - 1].session : 1; }
+    if (!T.att || T.att.session !== ATT.session) {
+      T.att = null;
+      if (!lazy('att', function () { return api({ action: 'tAttendance', level: T.level, session: ATT.session }); })) return head('Attendance', '') + LOADING;
+    }
+    var list = T.att.students;
+    var count = { Present: 0, Late: 0, Absent: 0, Excused: 0, '': 0 };
+    list.forEach(function (l) { count[ATT.draft[l.code] || l.status || '']++; });
+    return head('Attendance', 'Tap one button for each learner, then Save. Late counts as attended; Excused is not counted.') +
+      '<div class="card pad t-filters"><label class="field" style="margin:0"><span class="sr">Session</span><select class="input" id="attSess">' + ss.map(function (s) {
+        return '<option value="' + s.session + '"' + (s.session === ATT.session ? ' selected' : '') + '>Session ' + s.session + ' · ' + esc(s.title) + '</option>';
+      }).join('') + '</select></label><button class="btn ghost" id="allP">' + ico('check', 18) + ' Everyone present</button>' +
+      '<span class="small muted">' + count.Present + ' present · ' + count.Late + ' late · ' + count.Absent + ' absent · ' + count.Excused + ' excused' + (count[''] ? ' · <b>' + count[''] + ' not marked</b>' : '') + '</span></div>' +
+      '<div class="card sec t-att">' + (list.length ? list.map(function (l) {
+        var cur = ATT.draft[l.code] || l.status;
+        return '<div class="t-att-row"><div><b>' + esc(l.name) + '</b><small class="muted">' + (l.pct == null ? 'No attendance yet' : 'Attendance ' + l.pct + '%') + '</small></div>' +
+          '<div class="att-btns" role="radiogroup" aria-label="' + esc(l.name) + '">' + ATT_OPTS.map(function (o) {
+            return '<button type="button" class="att att-' + o[0] + (cur === o[0] ? ' on' : '') + '" role="radio" aria-checked="' + (cur === o[0]) + '" data-att="' + esc(l.code) + '" data-st="' + o[0] + '" title="' + o[0] + '"><span class="att-k">' + o[1] + '</span><span class="att-l">' + o[0] + '</span></button>';
+          }).join('') + '</div></div>';
+      }).join('') : '<div class="empty">No active learners in this level.</div>') + '</div>' +
+      '<div class="t-savebar"><span class="small muted" id="attDirty">' + (Object.keys(ATT.draft).length ? Object.keys(ATT.draft).length + ' change(s) not saved' : 'All saved') + '</span><button class="btn" id="attSave"' + (Object.keys(ATT.draft).length ? '' : ' disabled') + '>Save attendance</button></div>';
+  };
+  WIRE.attendance = function () {
+    var sel = $('#attSess'); if (!sel) return;
+    sel.onchange = function () {
+      if (Object.keys(ATT.draft).length && !confirm('You have changes that are not saved. Change session anyway?')) { this.value = ATT.session; return; }
+      ATT.session = +this.value; ATT.draft = {}; T.att = null; render();
+    };
+    $$('[data-att]').forEach(function (b) { b.onclick = function () { ATT.draft[b.getAttribute('data-att')] = b.getAttribute('data-st'); render(); }; });
+    $('#allP').onclick = function () { T.att.students.forEach(function (l) { ATT.draft[l.code] = 'Present'; }); render(); };
+    $('#attSave').onclick = function () {
+      var b = this; b.disabled = true; b.textContent = 'Saving…';
+      var recs = Object.keys(ATT.draft).map(function (c) { return { code: c, status: ATT.draft[c] }; });
+      api({ action: 'tSetAttendance', level: T.level, session: ATT.session, records: recs }).then(function () {
+        ATT.draft = {}; T.att = null; T.grades = null; toast('Attendance saved.'); render();
+      }, function (e) { b.disabled = false; b.textContent = 'Save attendance'; toast(e.message); });
+    };
+  };
+
+  // grades ------------------------------------------------------------------
+  var GR = { draft: {} };
+  var PART_LABEL = { midterm: 'Midterm', final: 'Final', workbooks: 'Workbooks', attendance: 'Attendance', participation: 'Participation' };
+  function pct(v) { return v == null ? '–' : (Math.round(v * 10) / 10) + '%'; }
+  VIEWS.grades = function () {
+    if (!lazy('grades', function () { return api({ action: 'tGrades', level: T.level }); })) return head('Grades', '') + LOADING;
+    var g = T.grades, w = g.weights, total = 0;
+    Object.keys(w).forEach(function (k) { total += w[k]; });
+    var dirty = Object.keys(GR.draft).length;
+    function cell(r, k) {
+      var v = GR.draft[r.code] && GR.draft[r.code][k] !== undefined ? GR.draft[r.code][k] : (r[k] == null ? '' : r[k]);
+      return '<td><input class="input sm num gr-in" inputmode="decimal" data-gr="' + esc(r.code) + '" data-k="' + k + '" value="' + esc(v) + '" aria-label="' + PART_LABEL[k] + ' for ' + esc(r.name) + '" placeholder="–"></td>';
+    }
+    return head('Grades', 'Type the midterm, final and participation scores (0–100). Workbook and attendance scores are worked out for you.',
+        '<button class="btn ghost" id="grCopy">' + ico('copy', 18) + ' Copy gradebook</button>') +
+      '<div class="card t-table"><table class="grades"><thead><tr><th>Learner</th>' +
+        ['midterm', 'final', 'participation', 'workbooks', 'attendance'].map(function (k) { return '<th>' + PART_LABEL[k] + '<small>' + w[k] + '%</small></th>'; }).join('') +
+        '<th>Grade</th></tr></thead><tbody>' +
+      (g.rows.length ? g.rows.map(function (r) {
+        return '<tr><th scope="row">' + esc(r.name) + '</th>' + cell(r, 'midterm') + cell(r, 'final') + cell(r, 'participation') +
+          '<td>' + pct(r.workbooks) + (r.workbooksMarked ? '<sup>' + r.workbooksMarked + '</sup>' : '') + '</td><td>' + pct(r.attendance) + '</td>' +
+          '<td><span class="sc ' + (r.grade == null ? '' : r.grade >= 80 ? 'hi' : r.grade >= 60 ? 'mid' : 'lo') + '">' + pct(r.grade) + '</span>' + (r.grade != null && !r.complete ? '<small class="muted"> so far</small>' : '') + '</td></tr>';
+      }).join('') : '<tr><td colspan="7" class="muted">No active learners in this level.</td></tr>') + '</tbody></table></div>' +
+      '<div class="t-savebar"><span class="small muted">' + (dirty ? dirty + ' learner(s) with changes not saved' : 'All saved') + '</span><button class="btn" id="grSave"' + (dirty ? '' : ' disabled') + '>Save grades</button></div>' +
+      '<div class="grid g2 sec"><form class="card pad" id="wForm"><h2 class="h3">Weights</h2><p class="small muted">How much each part counts in the final grade. They must add up to 100.</p><div class="w-grid">' +
+        Object.keys(PART_LABEL).map(function (k) { return '<label class="field"><span>' + PART_LABEL[k] + ' %</span><input class="input sm" inputmode="numeric" data-w="' + k + '" value="' + w[k] + '"></label>'; }).join('') +
+        '</div><p class="small" id="wTotal">Total: <b>' + total + '%</b></p><button class="btn ghost" type="submit">Save weights</button></form>' +
+      '<div class="card pad"><h2 class="h3">What learners see</h2><p class="small muted">Learners always see their own attendance. Turn this off to hide grades while you are still marking.</p>' +
+        '<button class="switch' + (g.showGrades ? ' on' : '') + '" role="switch" aria-checked="' + g.showGrades + '" id="showGr"><span class="knob"></span><span class="lbl">' + (g.showGrades ? 'Learners can see their grades' : 'Grades hidden from learners') + '</span></button>' +
+        '<p class="small muted" style="margin-top:12px">“So far” means some parts are still missing (for example the final exam). The grade uses only the parts that have a score.</p></div></div>';
+  };
+  WIRE.grades = function () {
+    if (!T.grades) return;
+    $$('.gr-in').forEach(function (inp) {
+      inp.addEventListener('change', function () {
+        var c = inp.getAttribute('data-gr'), k = inp.getAttribute('data-k');
+        (GR.draft[c] = GR.draft[c] || {})[k] = inp.value.trim();
+        var bar = $('.t-savebar span'); bar.textContent = Object.keys(GR.draft).length + ' learner(s) with changes not saved'; $('#grSave').disabled = false;
+      });
+    });
+    $('#grSave').onclick = function () {
+      var b = this, codes = Object.keys(GR.draft); b.disabled = true; b.textContent = 'Saving…';
+      var chain = Promise.resolve();
+      codes.forEach(function (c) { chain = chain.then(function () { return api(Object.assign({ action: 'tSetGrade', level: T.level, code: c }, GR.draft[c])).then(function () { delete GR.draft[c]; }); }); });
+      chain.then(function () { T.grades = null; toast('Grades saved.'); render(); }, function (e) { b.disabled = false; b.textContent = 'Save grades'; toast(e.message); });
+    };
+    $$('[data-w]').forEach(function (i) { i.oninput = function () { var t = 0; $$('[data-w]').forEach(function (x) { t += Number(x.value) || 0; }); $('#wTotal').innerHTML = 'Total: <b>' + t + '%</b>' + (t !== 100 ? ' <span class="muted">(must be 100)</span>' : ''); }; });
+    $('#wForm').onsubmit = function (e) {
+      e.preventDefault(); var w = {}; $$('[data-w]').forEach(function (x) { w[x.getAttribute('data-w')] = Number(x.value); });
+      api({ action: 'tGradeSettings', weights: w }).then(function () { T.grades = null; toast('Weights saved.'); render(); }, function (err) { toast(err.message); });
+    };
+    $('#showGr').onclick = function () {
+      var b = this; b.disabled = true;
+      api({ action: 'tGradeSettings', showGrades: !T.grades.showGrades }).then(function (r) { T.grades.showGrades = r.showGrades; render(); }, function (err) { b.disabled = false; toast(err.message); });
+    };
+    $('#grCopy').onclick = function () {
+      var lines = [['Name', 'Midterm', 'Final', 'Participation', 'Workbooks', 'Attendance', 'Grade'].join('\t')].concat(T.grades.rows.map(function (r) {
+        return [r.name, r.midterm, r.final, r.participation, r.workbooks, r.attendance, r.grade].map(function (v) { return v == null ? '' : v; }).join('\t');
+      }));
+      copy(lines.join('\n'), 'Gradebook copied. Paste it into Excel or Google Sheets.');
+    };
+  };
+
   // progress ------------------------------------------------------------
   VIEWS.progress = function () {
+    if (!lazy('grades', function () { return api({ action: 'tGrades', level: T.level }); })) return head('Progress', '') + LOADING;
+    var gr = {}; T.grades.rows.forEach(function (r) { gr[r.code.toUpperCase()] = r; });
     var st = students(), total = sessions().length;
     var wb = T.data.Workbook || [], ex = T.data.Exit_Tickets || [], lab = T.data.Lab || [];
     function count(list, code) { return list.filter(function (r) { return String(r.Code).toUpperCase() === code.toUpperCase(); }).length; }
     return head('Progress', 'Each learner’s route through the course.') +
-      '<div class="card t-table"><table><thead><tr><th>Learner</th><th>Route</th><th>Sessions done</th><th>Workbooks</th><th>Exit tickets</th><th>Lab steps</th><th>Cards known</th><th>Last visit</th></tr></thead><tbody>' +
+      '<div class="card t-table"><table><thead><tr><th>Learner</th><th>Route</th><th>Sessions done</th><th>Workbooks</th><th>Exit tickets</th><th>Lab steps</th><th>Attendance</th><th>Grade</th><th>Last visit</th></tr></thead><tbody>' +
       (st.length ? st.map(function (l) {
         var p = progressOf(l.code) || {}, d = +p['Sessions done'] || 0;
         var doneList = []; try { doneList = (JSON.parse(p.Data || '{}').sessionsDone) || []; } catch (e) { /* ignore */ }
         return '<tr><th scope="row">' + esc(l.name) + '</th><td><div class="mini-route">' + sessions().map(function (s) {
           return '<i class="st-' + s.stage + (doneList.indexOf(s.session) !== -1 ? ' done' : '') + '" title="Session ' + s.session + '"></i>';
-        }).join('') + '</div></td><td>' + d + ' / ' + total + '</td><td>' + count(wb, l.code) + '</td><td>' + count(ex, l.code) + '</td><td>' + count(lab, l.code) + '</td><td>' + (p['Cards known'] || 0) + '</td><td>' + fmtDate(p['Last visit'], true) + '</td></tr>';
-      }).join('') : '<tr><td colspan="8" class="muted">No learners yet.</td></tr>') + '</tbody></table></div>';
+        }).join('') + '</div></td><td>' + d + ' / ' + total + '</td><td>' + count(wb, l.code) + '</td><td>' + count(ex, l.code) + '</td><td>' + count(lab, l.code) + '</td><td>' + pct((gr[l.code.toUpperCase()] || {}).attendance) + '</td><td>' + pct((gr[l.code.toUpperCase()] || {}).grade) + '</td><td>' + fmtDate(p['Last visit'], true) + '</td></tr>';
+      }).join('') : '<tr><td colspan="9" class="muted">No learners yet.</td></tr>') + '</tbody></table></div>';
   };
 
   // --------------------------------------------------------------- boot --
