@@ -1,0 +1,201 @@
+{
+  "n": 7,
+  "goals": [
+    "Compare make-to-stock, make-to-order, assemble-to-order and engineer-to-order.",
+    "Explain how MRP turns a production plan into dated orders for parts.",
+    "Describe the four dimensions of quality in logistics.",
+    "Set quality KPIs: OTIF, order accuracy, lead time and the perfect order.",
+    "Measure customer satisfaction with surveys, complaint logs and NPS.",
+    "Improve processes with PDCA, the 8 Lean wastes, 5 Whys and the fishbone diagram."
+  ],
+
+  "handout": {
+    "intro": "The Make stage turns materials into products ready for customers. In logistics, quality means more than a good product: it means the whole delivery is right. This session shows how to plan production, measure quality and keep improving.",
+    "sections": [
+      {
+        "h": "1. Four ways to make",
+        "blocks": [
+          { "table": {
+            "head": ["Strategy", "How it works", "Example", "Stock and speed"],
+            "rows": [
+              ["Make-to-stock (MTS)", "Make first, sell from stock", "Bottled water, paracetamol", "High stock, fast delivery"],
+              ["Assemble-to-order (ATO)", "Keep parts ready; assemble when the order comes", "A laptop with a chosen memory size", "Parts in stock, quick delivery"],
+              ["Make-to-order (MTO)", "Start making only after the order", "Custom uniforms for a hotel", "Low stock, longer wait"],
+              ["Engineer-to-order (ETO)", "Design and make for one customer", "A special crane for a port", "No stock, longest lead time"]
+            ]
+          } },
+          { "p": "The point where the customer’s order starts the work is called the **order penetration point** (or decoupling point). Before it, you work to the forecast; after it, you work to the order." }
+        ]
+      },
+      {
+        "h": "2. From plan to parts: MRP",
+        "blocks": [
+          { "p": "**Materials Requirements Planning (MRP)** uses three inputs:" },
+          { "list": [
+            "the **production plan** (what and when to make),",
+            "the **bill of materials (BOM)** (which parts each product needs),",
+            "**stock levels and lead times** for each part."
+          ] },
+          { "p": "Example: you plan 500 bicycles for 1 May. Each needs 2 wheels → 1,000 wheels. You have 200 in stock, so you need 800. The supplier takes 3 weeks, so MRP says: **order 800 wheels by 10 April**." }
+        ]
+      },
+      {
+        "h": "3. What quality means in logistics",
+        "blocks": [
+          { "p": "A perfect product can still be a poor delivery. Logistics quality has four dimensions:" },
+          { "table": {
+            "head": ["Dimension", "Question"],
+            "rows": [
+              ["Delivery accuracy", "Did the customer get exactly what they ordered: right items, right quantity?"],
+              ["Timeliness", "Did it arrive in the agreed window?"],
+              ["Information accuracy", "Were the confirmation, tracking, labels and invoice all correct?"],
+              ["Service experience", "Was the driver helpful, the packaging good, and the problem solved quickly?"]
+            ]
+          } },
+          { "p": "Quality in logistics is usually **invisible until it fails**. Customers notice the missing pallet, not the 99 perfect ones. So quality must be **built into the process**, not checked at the end." }
+        ]
+      },
+      {
+        "h": "4. Standards and KPIs",
+        "blocks": [
+          { "table": {
+            "head": ["KPI", "How to calculate", "Example"],
+            "rows": [
+              ["OTIF (On Time, In Full)", "Orders on time AND complete ÷ all orders × 100", "455 ÷ 500 = **91%**"],
+              ["Order accuracy", "Orders with no errors ÷ all orders × 100", "488 ÷ 500 = 97.6%"],
+              ["Lead time", "Time from order to delivery", "Average 2.4 days"],
+              ["Perfect order rate", "Orders that are on time, complete, undamaged and with correct documents ÷ all orders", "Often lower than OTIF"]
+            ]
+          } },
+          { "p": "Set targets from **what the customer needs**: a hospital may need 99.5% OTIF; a fashion shop may accept 95%. Write exact definitions: is “on time” the time the truck **left** or the time the customer **received** the goods?" },
+          { "callout": { "title": "Fewer, better KPIs", "text": "Six well-chosen KPIs that people act on are better than thirty that nobody reads. Try the **OTIF** tool in Tools." } }
+        ]
+      },
+      {
+        "h": "5. Listening to customers",
+        "blocks": [
+          { "list": [
+            "**Short surveys** soon after delivery (“Did the driver arrive in the window?”), with one open question.",
+            "**Complaint log** – record date, customer, problem, cause, time to fix. Look for patterns: 20 late-delivery complaints from one depot is a signal.",
+            "**Net Promoter Score (NPS)** – “How likely are you to recommend us?” (0–10). NPS = % promoters (9–10) − % detractors (0–6)."
+          ] },
+          { "p": "Measuring is useless without **action**. When customers see their feedback leads to change, they keep giving it." }
+        ]
+      },
+      {
+        "h": "6. Continuous improvement: PDCA and Lean",
+        "blocks": [
+          { "steps": [
+            "**Plan** – choose one problem, find the cause, design a small change.",
+            "**Do** – try it on a small scale (one shift, one route).",
+            "**Check** – compare the results with before.",
+            "**Act** – if it works, make it the standard; if not, plan again."
+          ] },
+          { "p": "**Lean** means removing **waste**: anything that uses time or money but adds no value for the customer. The 8 wastes (remember **TIMWOODS**):" },
+          { "table": {
+            "head": ["Waste", "Logistics example"],
+            "rows": [
+              ["Transport", "Moving pallets twice inside the warehouse"],
+              ["Inventory", "Stock that sits for months"],
+              ["Motion", "Pickers walking far for fast-moving items"],
+              ["Waiting", "Trucks waiting at the dock; customers waiting for answers"],
+              ["Overproduction", "Picking orders hours before the truck is ready"],
+              ["Over-processing", "Checking the same order three times"],
+              ["Defects", "Wrong items, damaged goods, wrong labels"],
+              ["Skills (unused)", "Not asking frontline staff for their ideas"]
+            ]
+          } },
+          { "p": "A **kaizen event** brings a small team (including frontline staff) together for 1–3 days to improve one process quickly." }
+        ]
+      },
+      {
+        "h": "7. Finding the root cause",
+        "blocks": [
+          { "p": "**5 Whys** – ask “why?” until you reach the real cause." },
+          { "steps": [
+            "Why was the delivery late? The truck left 45 minutes late.",
+            "Why? Picking was not finished.",
+            "Why? The evening shift was short of pickers.",
+            "Why? A big customer’s orders were moved to the evening.",
+            "Why? Nobody checked staff numbers when the schedule changed. → **Root cause: no check of capacity when schedules change.**"
+          ] },
+          { "p": "**Fishbone (Ishikawa) diagram** – list possible causes under headings such as **People, Methods, Machines, Materials, Measurement and Environment**, then test the most likely ones with data." },
+          { "callout": { "title": "Case: OTIF falls from 96% to 91%", "text": "A food distributor finds three causes: new evening staff without full training, too many orders in the evening wave, and an untested billing system change. Fixes: mentors for new staff, two more pickers and one customer moved to the morning, and a check before invoices go out. After two weeks: picking accuracy 92% → 98%, trucks on time again, invoice errors below 2%." } }
+        ]
+      }
+    ]
+  },
+
+  "terms": [
+    { "term": "Make-to-stock (MTS)", "meaning": "Making products before orders arrive and selling from stock.", "example": "Bottled water." },
+    { "term": "Make-to-order (MTO)", "meaning": "Starting production only after a customer order.", "example": "Custom staff uniforms." },
+    { "term": "Assemble-to-order (ATO)", "meaning": "Keeping parts in stock and assembling when an order comes.", "example": "A laptop built with the chosen options." },
+    { "term": "MRP", "meaning": "Materials Requirements Planning: turning the production plan and BOM into dated part orders.", "example": "Order 800 wheels by 10 April." },
+    { "term": "OTIF", "meaning": "On Time, In Full: the share of orders delivered on time and complete.", "example": "455 of 500 orders = 91%." },
+    { "term": "Order accuracy", "meaning": "The share of orders delivered with no errors.", "example": "97.6% of orders had no wrong items or labels." },
+    { "term": "Perfect order", "meaning": "An order that is on time, complete, undamaged and with correct documents.", "example": "Perfect order rate 88%." },
+    { "term": "NPS", "meaning": "Net Promoter Score: % promoters minus % detractors.", "example": "60% − 15% = +45." },
+    { "term": "PDCA", "meaning": "Plan, Do, Check, Act: a cycle for testing and standardising improvements.", "example": "Test batch picking on one shift first." },
+    { "term": "Lean", "meaning": "A way of working that removes waste and adds value for the customer.", "example": "Moving fast movers close to packing." },
+    { "term": "Waste (muda)", "meaning": "Any activity that uses resources but adds no value.", "example": "Trucks waiting at the dock." },
+    { "term": "Kaizen", "meaning": "Continuous improvement in small steps, often in short team events.", "example": "A two-day event to speed up receiving." },
+    { "term": "5 Whys", "meaning": "Asking “why?” several times to find the root cause.", "example": "Late truck → picking late → staff short → …" },
+    { "term": "Fishbone diagram", "meaning": "A diagram that groups possible causes of a problem (also called Ishikawa).", "example": "People, Methods, Machines, Materials, Measurement, Environment." },
+    { "term": "Root cause", "meaning": "The real reason a problem happens, not the symptom.", "example": "No capacity check when schedules change." }
+  ],
+
+  "quiz": [
+    { "q": "A factory makes special cranes designed for each port customer. Which strategy is this?",
+      "options": ["Make-to-stock", "Assemble-to-order", "Make-to-order", "Engineer-to-order"], "answer": 3, "why": "Each crane is designed and made for one customer: engineer-to-order." },
+    { "q": "You plan 300 tables. Each needs 4 legs. You have 400 legs in stock. How many legs does MRP tell you to order?",
+      "options": ["400", "800", "1,200", "1,600"], "answer": 1, "why": "300 × 4 = 1,200 needed − 400 in stock = 800." },
+    { "q": "500 orders: 480 on time, 470 in full, 455 on time AND in full. What is OTIF?",
+      "options": ["91%", "94%", "96%", "97%"], "answer": 0, "why": "455 ÷ 500 × 100 = 91%." },
+    { "q": "An order arrives on time and complete, but the invoice is wrong. Which quality dimension failed?",
+      "options": ["Delivery accuracy", "Timeliness", "Information accuracy", "None"], "answer": 2, "why": "The documents did not match what was delivered: an information failure." },
+    { "q": "70 promoters, 20 passives, 10 detractors out of 100 answers. What is the NPS?",
+      "options": ["+50", "+60", "+70", "+80"], "answer": 1, "why": "70% − 10% = +60. Passives are not used." },
+    { "q": "What is the correct order of the PDCA cycle?",
+      "options": ["Plan, Do, Check, Act", "Plan, Decide, Change, Act", "Prepare, Do, Count, Approve", "Plan, Do, Control, Assess"], "answer": 0, "why": "Plan, Do, Check, Act." },
+    { "q": "Pickers walk across the warehouse many times to collect fast-moving items. Which Lean waste is this?",
+      "options": ["Inventory", "Motion", "Defects", "Overproduction"], "answer": 1, "why": "Unnecessary movement of people is motion waste." },
+    { "q": "Which tool groups possible causes under headings like People, Methods and Machines?",
+      "options": ["NPS", "Fishbone diagram", "EOQ", "Scorecard"], "answer": 1, "why": "The fishbone (Ishikawa) diagram organises possible causes." },
+    { "q": "Why should KPI definitions be written down exactly?",
+      "options": ["Because the law requires it", "So that poor performance cannot hide behind a loose definition", "So reports are longer", "It is not important"], "answer": 1, "why": "For example, measuring ‘on time’ at dispatch instead of at delivery can make results look better than they are." },
+    { "q": "A new process works well in a two-week test. What is the ‘Act’ step?",
+      "options": ["Stop the test", "Make it the standard way of working and train everyone", "Start a new test immediately", "Hide the results"], "answer": 1, "why": "If the change works, standardise it so the improvement lasts." }
+  ],
+
+  "workbook": {
+    "intro": "Use the OTIF and NPS tools in Tools to check your numbers.",
+    "questions": [
+      { "id": "q1", "kind": "long",
+        "prompt": "Name one product in Qatar for each strategy: make-to-stock, assemble-to-order and make-to-order. Explain why each strategy fits.",
+        "hint": "Think about how much the customer can change the product." },
+      { "id": "q2", "kind": "long",
+        "prompt": "A distributor delivered 800 orders last month: 760 on time, 752 complete, 736 on time and complete, 20 with documentation errors. Calculate OTIF and order accuracy. What would you look at first?",
+        "hint": "Order accuracy = orders with no errors ÷ all orders." },
+      { "id": "q3", "kind": "long",
+        "prompt": "Find three Lean wastes in a workplace you know (or a supermarket you visit). Name the waste type and suggest one fix for each.",
+        "hint": "TIMWOODS." },
+      { "id": "q4", "kind": "long",
+        "prompt": "Customers complain that deliveries arrive with damaged boxes. Use the 5 Whys to reach a possible root cause.",
+        "hint": "Write five questions and five answers." },
+      { "id": "q5", "kind": "long",
+        "prompt": "Plan a PDCA cycle to reduce picking errors from 2% to 0.5%. Write one or two sentences for each step.",
+        "hint": "Start small in Do." },
+      { "id": "q6", "kind": "short",
+        "prompt": "Why can a high OTIF still come with unhappy customers?",
+        "hint": "Think about the service experience." }
+    ]
+  },
+
+  "exit": {
+    "questions": [
+      { "id": "e1", "kind": "short", "prompt": "One thing I learned today:" },
+      { "id": "e2", "kind": "short", "prompt": "One thing that is still not clear:" },
+      { "id": "e3", "kind": "choice", "prompt": "How confident are you with today's topic?", "options": ["1 – Not yet", "2", "3", "4", "5 – Very confident"] }
+    ]
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "n": 12,
+  "goals": [
+    "Know what the final exam covers: the whole course, with more weight on Sessions 7–11.",
+    "Use the full formula sheet with confidence.",
+    "Answer case questions with Frame, Evaluate, Act, Review and the Six Rights.",
+    "Practise with mixed questions and find the topics to revise."
+  ],
+
+  "handout": {
+    "intro": "The final exam is taken in class. It covers the whole course, with more weight on Sessions 7–11. This revision guide shows what to revise, every formula you need, and how to write strong answers. Ms. Maria will tell you the exact format and time.",
+    "sections": [
+      {
+        "h": "1. What to revise",
+        "blocks": [
+          { "table": {
+            "head": ["Session", "Make sure you can…"],
+            "rows": [
+              ["1–5 (see the midterm guide)", "SCOR and the Six Rights; forecasting and bullwhip; procurement, Kraljic and TCO; Incoterms, documents and landed cost; ROP, safety stock, EOQ, ABC"],
+              ["7 · Operations and quality", "MTS/MTO/ATO/ETO; MRP; four quality dimensions; OTIF, order accuracy, perfect order; NPS; PDCA; 8 Lean wastes; 5 Whys; fishbone"],
+              ["8 · Warehousing", "Layout and slotting; storage and equipment; picking methods; dispatch documents; e-commerce fulfilment; cross-docking; WMS, barcode, RFID; safety and KPIs"],
+              ["9 · Transport", "Mode choice and total cost; route planning; delivery windows; network design; last mile; 3PL/4PL; cost per delivery, fuel, utilisation"],
+              ["10 · Risk", "Risk types; hidden dependencies; risk register; probability × impact; four strategies; triggers; resilience; real disruptions"],
+              ["11 · Leadership", "Strategic vs tactical; good and bad costs; balanced scorecard; technology selection; Scope 1/2/3; reverse logistics; leading teams"]
+            ]
+          } }
+        ]
+      },
+      {
+        "h": "2. Full formula sheet",
+        "blocks": [
+          { "table": {
+            "head": ["What", "Formula"],
+            "rows": [
+              ["Moving average", "Sum of the last n periods ÷ n"],
+              ["Exponential smoothing", "New = old + α × (actual − old)"],
+              ["MAPE", "Average of |actual − forecast| ÷ actual × 100"],
+              ["Weighted score", "Σ (score × weight)"],
+              ["Landed cost", "Goods + freight + insurance + duty + taxes + fees + inland transport"],
+              ["Reorder point", "(daily demand × lead time) + safety stock"],
+              ["Safety stock", "Z × σd × √LT   (95% → 1.65; 99% → 2.33)"],
+              ["EOQ", "√(2 × D × S ÷ H)"],
+              ["Turnover / days of stock", "Cost of goods sold ÷ average stock; 365 ÷ turnover"],
+              ["OTIF", "Orders on time and in full ÷ all orders × 100"],
+              ["NPS", "% promoters (9–10) − % detractors (0–6)"],
+              ["Cost per delivery", "Total transport cost ÷ deliveries"],
+              ["Vehicle utilisation", "Load carried ÷ capacity × 100"],
+              ["Fuel saving", "km ÷ 100 × (old L/100 km − new L/100 km) × fuel price"],
+              ["Risk score", "Probability (1–5) × impact (1–5)"]
+            ]
+          } },
+          { "p": "Show your working and write the unit. A correct method earns marks even if one number is wrong." }
+        ]
+      },
+      {
+        "h": "3. Writing strong case answers",
+        "blocks": [
+          { "steps": [
+            "**Frame** – What is the real problem? Which of the Six Rights is broken? What are the limits?",
+            "**Evaluate** – Compare two or three options with numbers. What could go wrong?",
+            "**Act** – Choose one. Who does what, by when?",
+            "**Review** – Which KPI will show it worked? When will you check?"
+          ] },
+          { "callout": { "title": "Link the chain", "text": "Strong answers show connections: a supplier delay affects stock, the warehouse, transport and the customer. Use the words of the course: trade-off, total cost, root cause, trigger, OTIF." } }
+        ]
+      },
+      {
+        "h": "4. Exam tips",
+        "blocks": [
+          { "list": [
+            "Read each question twice and underline the key words (calculate, explain, compare, recommend).",
+            "Short, clear sentences are best. Simple English is fine.",
+            "Do the questions you know first.",
+            "Check that each number makes sense.",
+            "Use the practice questions here, the tools and the case studies to revise."
+          ] }
+        ]
+      }
+    ]
+  },
+
+  "quiz": [
+    { "q": "A product is made only after the customer orders it, from standard parts kept in stock. Which strategy is this?",
+      "options": ["Make-to-stock", "Assemble-to-order", "Engineer-to-order", "Cross-docking"], "answer": 1, "why": "Parts are in stock; assembly starts with the order." },
+    { "q": "600 orders; 540 were on time and in full. What is OTIF?",
+      "options": ["80%", "85%", "90%", "95%"], "answer": 2, "why": "540 ÷ 600 × 100 = 90%." },
+    { "q": "Trucks wait two hours at the dock every morning. Which Lean waste is this?",
+      "options": ["Inventory", "Waiting", "Defects", "Motion"], "answer": 1, "why": "Idle time is waiting waste." },
+    { "q": "Which picking method releases groups of orders timed to truck departures?",
+      "options": ["Zone picking", "Batch picking", "Wave picking", "Single-order picking"], "answer": 2, "why": "Waves link picking to the dispatch schedule." },
+    { "q": "Moving goods straight from inbound to outbound trucks without storage is called…",
+      "options": ["Slotting", "Cross-docking", "Put-away", "Cycle counting"], "answer": 1, "why": "Cross-docking replaces storage with fast transfer." },
+    { "q": "Total transport cost QAR 48,000 for 1,600 deliveries. What is the cost per delivery?",
+      "options": ["QAR 25", "QAR 30", "QAR 33", "QAR 40"], "answer": 1, "why": "48,000 ÷ 1,600 = 30." },
+    { "q": "Which company manages your whole logistics network, including other providers?",
+      "options": ["Carrier", "3PL", "4PL", "Customs broker"], "answer": 2, "why": "A 4PL coordinates the network and the 3PLs." },
+    { "q": "Probability 3, impact 5. What are the score and level?",
+      "options": ["8 · Medium", "15 · High", "15 · Critical", "35 · Critical"], "answer": 1, "why": "3 × 5 = 15, in the High band (10–15)." },
+    { "q": "A pre-agreed signal that starts a contingency action is a…",
+      "options": ["Trigger", "KPI", "Scorecard", "BOM"], "answer": 0, "why": "Triggers make decisions in advance." },
+    { "q": "Electricity used by your warehouse counts as which scope of emissions?",
+      "options": ["Scope 1", "Scope 2", "Scope 3", "Not counted"], "answer": 1, "why": "Purchased electricity is Scope 2." },
+    { "q": "Which perspective of the balanced scorecard includes training hours and staff engagement?",
+      "options": ["Financial", "Customer", "Internal process", "Learning and growth"], "answer": 3, "why": "Learning and growth measures people and capability." },
+    { "q": "A customer returns an unopened product. What should reverse logistics aim to do first?",
+      "options": ["Throw it away", "Check and grade it, then re-sell it quickly", "Keep it forever", "Send it to the supplier without checking"], "answer": 1, "why": "Fast checking and re-selling keeps the value of the product." }
+  ],
+
+  "tiles": ["handout", "quiz"],
+  "labels": { "handout": "Revision guide", "quiz": "Practice questions" }
+}
