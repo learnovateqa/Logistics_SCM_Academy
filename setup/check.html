@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connection check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#14213D; --line:#D9DEE8; --ok:#00B86B; --bad:#FF5A36; --tint:#F4F6FA; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:Poppins, system-ui, sans-serif; color:var(--navy); background:var(--tint); }
+  main { max-width:640px; margin:0 auto; padding:24px 16px 48px; }
+  h1 { font-size:1.5rem; margin:0 0 4px; }
+  p { line-height:1.6; }
+  .card { background:#fff; border:1px solid var(--line); border-left:6px solid var(--navy); border-radius:14px; padding:16px; margin:16px 0; }
+  label { display:block; font-weight:600; margin:8px 0 4px; }
+  input { width:100%; font:inherit; color:var(--navy); padding:10px 12px; border:1px solid var(--line); border-radius:10px; }
+  button { font:inherit; font-weight:600; color:var(--navy); background:#fff; border:2px solid var(--navy); border-radius:10px; padding:10px 16px; margin-top:10px; cursor:pointer; }
+  button:hover { background:var(--tint); }
+  .result { margin-top:10px; padding:10px 12px; border-radius:10px; background:var(--tint); white-space:pre-wrap; font-size:.9rem; }
+  .result.ok { border-left:6px solid var(--ok); }
+  .result.bad { border-left:6px solid var(--bad); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Connection check</h1>
+  <p>This page checks that the site can talk to your Google Sheet.</p>
+
+  <div class="card">
+    <label for="url">Web app link (ends in /exec)</label>
+    <input id="url" placeholder="https://script.google.com/macros/s/.../exec">
+    <button id="ping">1. Check the link</button>
+    <div id="pingOut" class="result" hidden></div>
+  </div>
+
+  <div class="card">
+    <label for="code">Learner code</label>
+    <input id="code" value="L6-TEST">
+    <button id="login">2. Sign in as this learner</button>
+    <div id="loginOut" class="result" hidden></div>
+  </div>
+
+  <div class="card">
+    <label for="tcode">Teacher code (Settings tab of the Sheet)</label>
+    <input id="tcode" type="password" autocomplete="off">
+    <button id="teacher">3. Check the teacher code</button>
+    <div id="teacherOut" class="result" hidden></div>
+  </div>
+</main>
+<script src="../config.js"></script>
+<script>
+  var urlBox = document.getElementById('url');
+  urlBox.value = (window.LSCM_CONFIG && window.LSCM_CONFIG.scriptUrl) || '';
+
+  function call(body) {
+    // text/plain avoids the browser's extra "preflight" request, which Apps Script does not answer.
+    return fetch(urlBox.value.trim(), { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(body), redirect: 'follow' }).then(function (r) { return r.json(); });
+  }
+  function show(id, good, text) {
+    var el = document.getElementById(id);
+    el.hidden = false; el.className = 'result ' + (good ? 'ok' : 'bad'); el.textContent = text;
+  }
+  function failed(id) {
+    return function () { show(id, false, 'No answer. Check the link is the Web app link ending in /exec, and that "Who has access" is set to Anyone.'); };
+  }
+  document.getElementById('ping').onclick = function () {
+    call({ action: 'ping' }).then(function (r) {
+      show('pingOut', r.ok, r.ok ? 'Connected. Script version ' + r.version + '.' : r.error);
+    }, failed('pingOut'));
+  };
+  document.getElementById('login').onclick = function () {
+    call({ action: 'login', code: document.getElementById('code').value }).then(function (r) {
+      if (!r.ok) return show('loginOut', false, r.error);
+      var open = r.sessions.filter(function (s) { return s.status === 'Open'; }).length;
+      show('loginOut', true, 'Signed in as ' + r.student.name + ' (Level ' + r.student.level + ').\n' +
+        r.sessions.length + ' sessions found, ' + open + ' open.');
+    }, failed('loginOut'));
+  };
+  document.getElementById('teacher').onclick = function () {
+    call({ action: 'tLogin', teacherCode: document.getElementById('tcode').value }).then(function (r) {
+      if (!r.ok) return show('teacherOut', false, r.error);
+      show('teacherOut', true, 'Teacher code accepted.\n' + r.levels.map(function (l) { return l.name + ': ' + l.status; }).join('\n'));
+    }, failed('teacherOut'));
+  };
+</script>
+</body>
+</html>
