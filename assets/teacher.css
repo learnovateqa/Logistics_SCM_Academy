@@ -109,3 +109,23 @@ body.teacher .side a.nav.on .nico { background: #fff; }
 @media (min-width: 720px) { .t-edit-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1100px) { .t-edit-grid { grid-template-columns: repeat(3, 1fr); } }
 .t-table .sub-b { display: block; font-weight: 400; font-size: .78rem; color: var(--muted); }
+/* attendance */
+.t-att { padding: 6px; }
+.t-att-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border-bottom: 1px solid var(--line-2); flex-wrap: wrap; }
+.t-att-row:last-child { border-bottom: 0; }
+.t-att-row small { display: block; }
+.att-btns { display: flex; gap: 6px; }
+.att { min-width: 48px; min-height: 48px; padding: 6px 10px; border-radius: 12px; border: 2px solid var(--line); background: #fff; cursor: pointer; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+.att .att-l { font-size: .8rem; font-weight: 600; }
+@media (max-width: 1100px) { .att .att-l { display: none; } }
+.att-Present.on { border-color: var(--return); background: var(--return-t); }
+.att-Late.on { border-color: var(--gold); background: var(--gold-t); }
+.att-Absent.on { border-color: var(--source); background: var(--source-t); }
+.att-Excused.on { border-color: var(--deliver); background: var(--deliver-t); }
+.t-savebar { position: sticky; bottom: 0; z-index: 5; display: flex; justify-content: flex-end; align-items: center; gap: 14px; padding: 12px 0; margin-top: 8px; background: linear-gradient(transparent, var(--bg) 30%); }
+/* grades */
+table.grades th small { display: block; font-size: .7rem; text-transform: none; letter-spacing: 0; color: var(--faint); }
+table.grades .input.num { max-width: 84px; }
+table.grades sup { color: var(--muted); margin-left: 3px; }
+.w-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0 10px; }
+.t-filters .field, .t-filters select.input { max-width: 100%; min-width: 0; } .t-filters .field { flex: 1 1 260px; }

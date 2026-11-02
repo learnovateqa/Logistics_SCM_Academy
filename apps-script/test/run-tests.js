@@ -83,10 +83,10 @@ const settingsVal = key => ss.sheets.Settings.data.find(r => r[0] === key)[1];
 
 // ---------- tests ----------
 console.log('Setup');
-test('setup creates the 10 tabs with headers', () => {
+test('setup creates the 12 tabs with headers', () => {
   assert.strictEqual(ctx.setup(), 'Setup complete');
   const tabs = Object.keys(ss.sheets);
-  assert.strictEqual(tabs.length, 10);
+  assert.strictEqual(tabs.length, 12);
   assert.deepStrictEqual(ss.sheets.Students.data[0], ['Code', 'Name', 'Level', 'Batch', 'Active', 'Created', 'Email', 'Phone', 'WhatsApp', 'Details updated']);
   assert.strictEqual(ss.sheets.Students.frozen, 1);
 });
@@ -103,7 +103,7 @@ test('setup makes a random teacher code', () => assert(/^MARIA-[A-Z0-9]{6}$/.tes
 test('running setup again does not duplicate anything', () => {
   ctx.setup();
   assert.strictEqual(ss.sheets.Sessions.data.length, 13);
-  assert.strictEqual(ss.sheets.Settings.data.length, 4);
+  assert.strictEqual(ss.sheets.Settings.data.length, 10);
   assert.strictEqual(ss.sheets.Students.data.length, 2);
 });
 
@@ -263,6 +263,53 @@ test('teacher sees and can edit learner details', () => {
   assert.strictEqual(s.phone, '+97455123456');
   assert(post({ action: 'tSetStudent', teacherCode: T, code: s.code, whatsapp: '+97466000000' }).ok);
   assert.strictEqual(post({ action: 'login', code: s.code }).student.whatsapp, '+97466000000');
+});
+
+console.log('Attendance and grades');
+let g1, g2;
+test('teacher records attendance; Late counts as attended, Excused is left out', () => {
+  g1 = post({ action: 'tAddStudent', teacherCode: T, level: 6, name: 'Grade One' }).student.code;
+  g2 = post({ action: 'tAddStudent', teacherCode: T, level: 6, name: 'Grade Two' }).student.code;
+  assert(post({ action: 'tSetAttendance', teacherCode: T, level: 6, session: 1, records: [{ code: g1, status: 'Present' }, { code: g2, status: 'Absent' }] }).ok);
+  assert(post({ action: 'tSetAttendance', teacherCode: T, level: 6, session: 2, records: [{ code: g1, status: 'Late' }, { code: g2, status: 'Excused' }] }).ok);
+  // saving again updates, not duplicates
+  assert(post({ action: 'tSetAttendance', teacherCode: T, level: 6, session: 1, records: [{ code: g2, status: 'Present' }, { code: g1, status: 'Bad' }] }).ok);
+  const list = post({ action: 'tAttendance', teacherCode: T, level: 6, session: 1 }).students;
+  assert.strictEqual(list.find(s => s.code === g2).status, 'Present');
+  assert.strictEqual(post({ action: 'state', code: g1 }).results.attendance.pct, 100);
+  assert.strictEqual(post({ action: 'state', code: g2 }).results.attendance.pct, 100);
+  assert.strictEqual(ss.sheets.Attendance.data.length, 5);
+});
+test('grades: typed marks + workbook average + attendance give a weighted grade', () => {
+  post({ action: 'tSetSession', teacherCode: T, level: 6, session: 2, status: 'Open' });
+  post({ action: 'submitWorkbook', code: g1, session: 1, answers: { q1: 'x' } });
+  post({ action: 'submitWorkbook', code: g1, session: 2, answers: { q1: 'y' } });
+  const rows = post({ action: 'tList', teacherCode: T, level: 6, tab: 'Workbook' }).rows.filter(r => r.Code === g1);
+  post({ action: 'tMark', teacherCode: T, tab: 'Workbook', id: rows[0].ID, mark: '8/10' });
+  post({ action: 'tMark', teacherCode: T, tab: 'Workbook', id: rows[1].ID, mark: 'Good' }); // text mark is ignored
+  assert(post({ action: 'tSetGrade', teacherCode: T, level: 6, code: g1, midterm: 70 }).ok);
+  let g = post({ action: 'state', code: g1 }).results.grades;
+  assert.strictEqual(g.workbooks, 80); assert.strictEqual(g.attendance, 100); assert.strictEqual(g.complete, false);
+  // so far: (70*30 + 80*20 + 100*10) / 60 = 78.3
+  assert.strictEqual(g.grade, 78.3);
+  assert(post({ action: 'tSetGrade', teacherCode: T, level: 6, code: g1, final: '90' }).ok);
+  g = post({ action: 'tGrades', teacherCode: T, level: 6 }).rows.find(r => r.code === g1);
+  // (70*30 + 90*40 + 80*20 + 100*10) / 100 = 83
+  assert.strictEqual(g.grade, 83); assert.strictEqual(g.complete, true);
+  assert.strictEqual(ss.sheets.Grades.data.length, 2);
+});
+test('bad grades and weights that do not add up are refused', () => {
+  assert(/0 to 100/.test(post({ action: 'tSetGrade', teacherCode: T, level: 6, code: g1, midterm: 120 }).error));
+  assert(/add up to 100/.test(post({ action: 'tGradeSettings', teacherCode: T, weights: { midterm: 50, final: 50, workbooks: 10, attendance: 0, participation: 0 } }).error));
+  const r = post({ action: 'tGradeSettings', teacherCode: T, weights: { midterm: 25, final: 35, workbooks: 20, attendance: 10, participation: 10 } });
+  assert(r.ok, r.error); assert.strictEqual(r.weights.participation, 10);
+});
+test('teacher can hide grades from learners; attendance stays visible', () => {
+  assert(post({ action: 'tGradeSettings', teacherCode: T, showGrades: false }).ok);
+  const st = post({ action: 'state', code: g1 });
+  assert.strictEqual(st.results.grades, null); assert.strictEqual(st.results.attendance.pct, 100);
+  post({ action: 'tGradeSettings', teacherCode: T, showGrades: true });
+  assert(post({ action: 'state', code: g1 }).results.grades);
 });
 
 console.log(`\n${passed} tests passed` + (process.exitCode ? ' — SOME FAILED' : ''));

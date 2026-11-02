@@ -11,7 +11,7 @@
  *   3. Deploy > New deployment > Web app (Execute as: Me, Who has access: Anyone).
  */
 
-var VERSION = '1.1.0';
+var VERSION = '1.2.0';
 
 // ---------------------------------------------------------------- tabs ----
 
@@ -25,10 +25,14 @@ var TABS = {
   Workbook:      ['ID', 'Timestamp', 'Code', 'Name', 'Level', 'Session', 'Answers', 'Mark', 'Comment', 'Marked on'],
   Exit_Tickets:  ['ID', 'Timestamp', 'Code', 'Name', 'Level', 'Session', 'Answers', 'Mark', 'Comment', 'Marked on'],
   Lab:           ['ID', 'Timestamp', 'Code', 'Name', 'Level', 'Step', 'Data', 'Mark', 'Comment', 'Marked on'],
-  Progress:      ['Code', 'Name', 'Level', 'Sessions done', 'Lab steps', 'Cards known', 'Quizzes taken', 'Last visit', 'Data']
+  Progress:      ['Code', 'Name', 'Level', 'Sessions done', 'Lab steps', 'Cards known', 'Quizzes taken', 'Last visit', 'Data'],
+  Attendance:    ['ID', 'Level', 'Session', 'Date', 'Code', 'Name', 'Status', 'Note'],
+  Grades:        ['Code', 'Name', 'Level', 'Midterm', 'Final', 'Participation', 'Updated']
 };
 
 var STAGES = ['Plan', 'Source', 'Make', 'Deliver', 'Return'];
+var ATT_STATUS = ['Present', 'Late', 'Absent', 'Excused'];
+var GRADE_PARTS = ['MIDTERM', 'FINAL', 'WORKBOOKS', 'ATTENDANCE', 'PARTICIPATION'];
 
 // Level 6 sessions (10 teaching sessions + midterm in S6 + final in S12).
 var LEVEL6_SESSIONS = [
@@ -87,6 +91,14 @@ function setup() {
     appendObj_('Levels', { Level: 6, Name: 'Level 6', Status: 'Live', Note: '' });
   }
 
+  // Settings added in later versions (only added when missing)
+  ensureSetting_('SHOW_GRADES', 'Yes', 'Yes = learners see their own grades in the app. No = only you see them.');
+  ensureSetting_('W_MIDTERM', 30, 'Weight of the midterm in the final grade (%).');
+  ensureSetting_('W_FINAL', 40, 'Weight of the final exam (%).');
+  ensureSetting_('W_WORKBOOKS', 20, 'Weight of the average e-workbook mark (%).');
+  ensureSetting_('W_ATTENDANCE', 10, 'Weight of attendance (%).');
+  ensureSetting_('W_PARTICIPATION', 0, 'Weight of participation (%). All weights should add up to 100.');
+
   // Level 6 sessions
   var hasL6 = rows_('Sessions').some(function (r) { return String(r.Level) === '6'; });
   if (!hasL6) {
@@ -117,6 +129,7 @@ function addDropdowns_() {
   list('Sessions', 5, ['Teaching', 'Exam']);
   list('Sessions', 6, ['Open', 'Closed']);
   list('Announcements', 5, ['Yes', 'No']);
+  list('Attendance', 7, ATT_STATUS);
 }
 
 /** Adds a menu to the Sheet. */
@@ -363,6 +376,85 @@ var ACTIONS = {
     });
   },
 
+  tAttendance: function (req) {
+    teacher_(req);
+    var level = levelArg_(req.level), session = num_(req.session);
+    var rows = rows_('Attendance').filter(function (r) { return String(r.Level) === level && num_(r.Session) === session; });
+    var att = attendanceByCode_(level);
+    return { session: session, students: rows_('Students').filter(byLevel_(level)).filter(function (r) { return yes_(r.Active); }).map(function (st) {
+      var r = rows.filter(function (x) { return sameCode_(x.Code, st.Code); })[0];
+      var a = att[String(st.Code).toUpperCase()] || {};
+      return { code: String(st.Code), name: String(st.Name), status: r ? String(r.Status) : '', note: r ? String(r.Note || '') : '', pct: a.pct == null ? null : a.pct };
+    }).sort(function (a, b) { return a.name.localeCompare(b.name); }) };
+  },
+
+  tSetAttendance: function (req) {
+    teacher_(req);
+    var level = levelArg_(req.level), session = num_(req.session);
+    if (!(session >= 1)) throw new Error('Choose a session.');
+    var recs = Array.isArray(req.records) ? req.records : [];
+    return withLock_(function () {
+      var students = rows_('Students').filter(byLevel_(level));
+      var saved = 0;
+      recs.forEach(function (rec) {
+        if (ATT_STATUS.indexOf(rec.status) === -1) return;
+        var st = students.filter(function (x) { return sameCode_(x.Code, rec.code); })[0];
+        if (!st) return;
+        upsert_('Attendance', function (r) { return String(r.Level) === level && num_(r.Session) === session && sameCode_(r.Code, st.Code); },
+          { Level: Number(level), Session: session, Date: new Date(), Code: String(st.Code).toUpperCase(), Name: String(st.Name), Status: rec.status, Note: text_(rec.note, 200) });
+        saved++;
+      });
+      return { saved: saved };
+    });
+  },
+
+  tGrades: function (req) {
+    teacher_(req);
+    var level = levelArg_(req.level), g = gradesFor_(level);
+    return { weights: weights_(), showGrades: yes_(setting_('SHOW_GRADES') || 'Yes'),
+      rows: rows_('Students').filter(byLevel_(level)).filter(function (r) { return yes_(r.Active); }).map(function (st) {
+        var x = g[String(st.Code).toUpperCase()]; x.code = String(st.Code); x.name = String(st.Name); return x;
+      }).sort(function (a, b) { return a.name.localeCompare(b.name); }) };
+  },
+
+  tSetGrade: function (req) {
+    teacher_(req);
+    var level = levelArg_(req.level);
+    var st = rows_('Students').filter(byLevel_(level)).filter(function (r) { return sameCode_(r.Code, req.code); })[0];
+    if (!st) throw new Error('Learner not found.');
+    var patch = { Code: String(st.Code).toUpperCase(), Name: String(st.Name), Level: Number(level), Updated: new Date() };
+    ['midterm', 'final', 'participation'].forEach(function (k) {
+      if (req[k] === undefined) return;
+      var v = String(req[k]).trim();
+      if (v === '') { patch[k.charAt(0).toUpperCase() + k.slice(1)] = ''; return; }
+      var n = Number(v);
+      if (!isFinite(n) || n < 0 || n > 100) throw new Error('Grades must be numbers from 0 to 100.');
+      patch[k.charAt(0).toUpperCase() + k.slice(1)] = n;
+    });
+    return withLock_(function () {
+      upsert_('Grades', function (r) { return sameCode_(r.Code, st.Code); }, patch, true);
+      return { row: gradesFor_(level)[String(st.Code).toUpperCase()] };
+    });
+  },
+
+  tGradeSettings: function (req) {
+    teacher_(req);
+    return withLock_(function () {
+      if (req.showGrades !== undefined) setSetting_('SHOW_GRADES', req.showGrades ? 'Yes' : 'No');
+      if (req.weights) {
+        var total = 0;
+        GRADE_PARTS.forEach(function (k) {
+          var n = Number(req.weights[k.toLowerCase()]);
+          if (!isFinite(n) || n < 0 || n > 100) throw new Error('Each weight must be from 0 to 100.');
+          total += n;
+        });
+        if (Math.abs(total - 100) > 0.01) throw new Error('The weights must add up to 100. Now they add up to ' + total + '.');
+        GRADE_PARTS.forEach(function (k) { setSetting_('W_' + k, Number(req.weights[k.toLowerCase()])); });
+      }
+      return { weights: weights_(), showGrades: yes_(setting_('SHOW_GRADES') || 'Yes') };
+    });
+  },
+
   tSetLevel: function (req) {
     teacher_(req);
     var level = levelArg_(req.level);
@@ -414,7 +506,9 @@ function learnerState_(st) {
     sessions: sessionsFor_(st.level, false),
     announcements: rows_('Announcements').filter(byLevel_(st.level))
       .filter(function (r) { return yes_(r.Show); }).map(announcementOut_).reverse(),
-    results: { quiz: quiz, workbook: marks('Workbook', 'Session'), exit: marks('Exit_Tickets', 'Session'), lab: marks('Lab', 'Step') },
+    results: { quiz: quiz, workbook: marks('Workbook', 'Session'), exit: marks('Exit_Tickets', 'Session'), lab: marks('Lab', 'Step'),
+      attendance: attendanceByCode_(st.level)[st.code] || { pct: null, sessions: [] },
+      grades: yes_(setting_('SHOW_GRADES') || 'Yes') ? gradesFor_(st.level)[st.code] || null : null },
     progress: progData
   };
 }
@@ -531,6 +625,79 @@ function upsert_(name, test, obj, noId) {
   if (!noId && TABS[name].indexOf('ID') !== -1) obj.ID = newId_();
   appendObj_(name, obj);
   return obj.ID || '';
+}
+
+// ---------------------------------------------------- attendance & grades --
+
+/** Attendance per learner: Present and Late count as attended; Excused is left out. */
+function attendanceByCode_(level) {
+  var out = {};
+  rows_('Attendance').filter(byLevel_(level)).forEach(function (r) {
+    var k = String(r.Code).toUpperCase();
+    var a = out[k] || (out[k] = { present: 0, late: 0, absent: 0, excused: 0, sessions: [] });
+    var s = String(r.Status).toLowerCase();
+    if (a.hasOwnProperty(s)) a[s]++;
+    a.sessions.push({ session: num_(r.Session), status: String(r.Status), note: String(r.Note || '') });
+  });
+  Object.keys(out).forEach(function (k) {
+    var a = out[k], counted = a.present + a.late + a.absent;
+    a.pct = counted ? Math.round((a.present + a.late) / counted * 100) : null;
+    a.sessions.sort(function (x, y) { return x.session - y.session; });
+  });
+  return out;
+}
+
+/** Turns a mark like "8/10", "80%" or "80" into a percentage. Text marks ("Good") are ignored. */
+function markPct_(m) {
+  var s = String(m == null ? '' : m).trim(), x;
+  if ((x = s.match(/^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/)) && Number(x[2]) > 0) return Number(x[1]) / Number(x[2]) * 100;
+  if ((x = s.match(/^(\d+(?:\.\d+)?)\s*%$/))) return Number(x[1]);
+  if (/^\d+(\.\d+)?$/.test(s) && Number(s) <= 100) return Number(s);
+  return null;
+}
+
+function weights_() {
+  var w = {};
+  GRADE_PARTS.forEach(function (k) { var v = Number(setting_('W_' + k)); w[k.toLowerCase()] = isFinite(v) && setting_('W_' + k) !== '' ? v : { MIDTERM: 30, FINAL: 40, WORKBOOKS: 20, ATTENDANCE: 10, PARTICIPATION: 0 }[k]; });
+  return w;
+}
+
+/** Each learner's grade parts and the weighted grade so far (using only the parts that have a value). */
+function gradesFor_(level) {
+  var w = weights_(), att = attendanceByCode_(level), out = {};
+  var gradeRows = rows_('Grades').filter(byLevel_(level)), wb = rows_('Workbook').filter(byLevel_(level));
+  rows_('Students').filter(byLevel_(level)).forEach(function (st) {
+    var k = String(st.Code).toUpperCase();
+    var g = gradeRows.filter(function (r) { return sameCode_(r.Code, k); })[0] || {};
+    var marks = wb.filter(function (r) { return sameCode_(r.Code, k); }).map(function (r) { return markPct_(r.Mark); }).filter(function (v) { return v != null; });
+    var parts = {
+      midterm: g.Midterm === '' || g.Midterm == null ? null : Number(g.Midterm),
+      final: g.Final === '' || g.Final == null ? null : Number(g.Final),
+      participation: g.Participation === '' || g.Participation == null ? null : Number(g.Participation),
+      workbooks: marks.length ? Math.round(marks.reduce(function (a, b) { return a + b; }, 0) / marks.length * 10) / 10 : null,
+      attendance: att[k] && att[k].pct != null ? att[k].pct : null
+    };
+    var sumW = 0, sum = 0, all = true;
+    Object.keys(parts).forEach(function (p) {
+      if (!w[p]) return;
+      if (parts[p] == null) { all = false; return; }
+      sumW += w[p]; sum += parts[p] * w[p];
+    });
+    parts.workbooksMarked = marks.length;
+    parts.grade = sumW ? Math.round(sum / sumW * 10) / 10 : null;
+    parts.complete = all;
+    out[k] = parts;
+  });
+  return out;
+}
+
+function ensureSetting_(key, value, note) {
+  if (!rows_('Settings').some(function (r) { return String(r.Key) === key; })) appendObj_('Settings', { Key: key, Value: value, Note: note });
+}
+
+function setSetting_(key, value) {
+  var found = findRow_('Settings', function (r) { return String(r.Key) === key; });
+  if (found) updateRow_('Settings', found.index, { Value: value }); else appendObj_('Settings', { Key: key, Value: value, Note: '' });
 }
 
 function setting_(key) {

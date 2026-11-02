@@ -438,3 +438,10 @@ li.on .pin { background: var(--t); }
 .ibtn.tp-btn { display: inline-flex; gap: 8px; align-items: center; text-decoration: none; padding: 0 14px; font-size: .88rem; }
 @media (max-width: 480px) { .ibtn.tp-btn span { display: none; } }
 .foot a { color: inherit; }
+.h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 8px; }
+.att-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.att-chip { display: inline-flex; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: .8rem; border: 2px solid var(--line); background: #fff; }
+.att-chip.att-Present { border-color: var(--return); background: var(--return-t); }
+.att-chip.att-Late { border-color: var(--gold); background: var(--gold-t); }
+.att-chip.att-Absent { border-color: var(--source); background: var(--source-t); }
+.att-chip.att-Excused { border-color: var(--deliver); background: var(--deliver-t); }
