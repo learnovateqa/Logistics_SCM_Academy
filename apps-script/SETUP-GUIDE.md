@@ -76,6 +76,17 @@ You will mostly use the **teacher portal**: https://learnovateqa.github.io/Logis
 
 **Never delete or rename the tabs or the header row.** The script finds everything by those names.
 
+## Updating the script to a new version
+
+When Claude gives you a new version of the script (for example version 1.1 adds learners’ email and phone):
+
+1. Open your Sheet → **Extensions → Apps Script**.
+2. Open **github.com/learnovateqa/Logistics_SCM_Academy/blob/main/apps-script/Code.gs**, click **Copy raw file**.
+3. In Apps Script, click in the code, **⌘ + A**, then **⌘ + V**, then **⌘ + S**.
+4. Choose **setup** in the function box and click **▶ Run**. This adds any new columns. It never deletes data.
+5. Click **Deploy → Manage deployments → pencil ✏️ → Version: New version → Deploy**. The link stays the same.
+6. Check: open your Web app link. It should show the new version number (for example `"version":"1.1.0"`).
+
 ## If you change the script later
 
 Use **Deploy → Manage deployments → pencil icon → Version: New version → Deploy**.

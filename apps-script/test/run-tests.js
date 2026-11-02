@@ -28,7 +28,7 @@ function makeSheet(name) {
           const out = [];
           for (let i = 0; i < nr; i++) {
             const row = [];
-            for (let j = 0; j < nc; j++) { const v = (data[r - 1 + i] || [])[c - 1 + j]; row.push(v === undefined ? '' : v); }
+            for (let j = 0; j < nc; j++) { let v = (data[r - 1 + i] || [])[c - 1 + j]; if (typeof v === 'string' && v[0] === "'") v = v.slice(1); /* like Google Sheets: the apostrophe is not part of the value */ row.push(v === undefined ? '' : v); }
             out.push(row);
           }
           return out;
@@ -87,7 +87,7 @@ test('setup creates the 10 tabs with headers', () => {
   assert.strictEqual(ctx.setup(), 'Setup complete');
   const tabs = Object.keys(ss.sheets);
   assert.strictEqual(tabs.length, 10);
-  assert.deepStrictEqual(ss.sheets.Students.data[0], ['Code', 'Name', 'Level', 'Batch', 'Active', 'Created']);
+  assert.deepStrictEqual(ss.sheets.Students.data[0], ['Code', 'Name', 'Level', 'Batch', 'Active', 'Created', 'Email', 'Phone', 'WhatsApp', 'Details updated']);
   assert.strictEqual(ss.sheets.Students.frozen, 1);
 });
 test('setup seeds 12 Level 6 sessions, all Closed, exams at S6 and S12', () => {
@@ -232,6 +232,37 @@ test('a deactivated learner cannot sign in', () => {
 test('unknown actions and broken requests fail safely', () => {
   assert(!post({ action: 'deleteEverything' }).ok);
   assert(!JSON.parse(ctx.doPost({ postData: { contents: '{bad' } }).body).ok);
+});
+
+
+console.log('Learner details');
+test('setup adds the new Email/Phone columns to an old Students tab without losing data', () => {
+  const sh = ss.sheets.Students;
+  const before = sh.data.length;
+  sh.data[0] = ['Code', 'Name', 'Level', 'Batch', 'Active', 'Created']; // an old Sheet
+  ctx.setup();
+  assert.deepStrictEqual(sh.data[0].slice(6), ['Email', 'Phone', 'WhatsApp', 'Details updated']);
+  assert.strictEqual(sh.data.length, before);
+});
+test('a new learner has empty details; saving them works and is returned on sign-in', () => {
+  const code = post({ action: 'tAddStudent', teacherCode: T, level: 6, name: 'Noor Khan' }).student.code;
+  assert.strictEqual(post({ action: 'login', code }).student.email, '');
+  const r = post({ action: 'saveProfile', code, email: ' Noor.Khan@Example.com ', phone: '+974 5512 3456', whatsapp: '' });
+  assert(r.ok, r.error);
+  const st = post({ action: 'login', code }).student;
+  assert.strictEqual(st.email, 'noor.khan@example.com'); assert.strictEqual(st.phone, '+97455123456');
+});
+test('bad email or phone is refused with a clear message', () => {
+  const code = post({ action: 'tAddStudent', teacherCode: T, level: 6, name: 'Test Two' }).student.code;
+  assert(/email/.test(post({ action: 'saveProfile', code, email: 'not-an-email', phone: '55123456' }).error));
+  assert(/mobile/.test(post({ action: 'saveProfile', code, email: 'a@b.qa', phone: '12' }).error));
+  assert(/mobile number/.test(post({ action: 'saveProfile', code, email: 'a@b.qa', phone: '' }).error));
+});
+test('teacher sees and can edit learner details', () => {
+  const s = post({ action: 'tOverview', teacherCode: T, level: 6 }).students.find(x => x.name === 'Noor Khan');
+  assert.strictEqual(s.phone, '+97455123456');
+  assert(post({ action: 'tSetStudent', teacherCode: T, code: s.code, whatsapp: '+97466000000' }).ok);
+  assert.strictEqual(post({ action: 'login', code: s.code }).student.whatsapp, '+97466000000');
 });
 
 console.log(`\n${passed} tests passed` + (process.exitCode ? ' — SOME FAILED' : ''));

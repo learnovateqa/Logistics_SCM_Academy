@@ -38,7 +38,8 @@
     out: '<path d="M10 17l-5-5 5-5M5 12h11M14 4h5v16h-5"/>',
     copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/>',
     ext: '<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v6H4V6h6"/>',
-    check: '<path d="m5 12 5 5 9-10"/>'
+    check: '<path d="m5 12 5 5 9-10"/>',
+    mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'
   };
   function ico(n, s) { return '<svg width="' + (s || 20) + '" height="' + (s || 20) + '" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (P[n] || '') + '</svg>'; }
 
@@ -258,17 +259,22 @@
   VIEWS.learners = function () {
     var st = students();
     return head('Learners', st.length + ' learner' + (st.length === 1 ? '' : 's') + ' in this level. Give each learner their own code.',
-        '<button class="btn ghost" id="copyAll">' + ico('copy', 18) + ' Copy list</button>') +
+        '<div class="btns"><button class="btn ghost" id="copyAll">' + ico('copy', 18) + ' Copy codes</button><button class="btn ghost" id="copyEmails">' + ico('mail', 18) + ' Copy emails</button></div>') +
       '<form class="card pad t-add" id="addForm"><label class="field"><span>Name</span><input class="input" id="newName" required maxlength="80" placeholder="Full name"></label>' +
       '<label class="field"><span>Batch</span><input class="input" id="newBatch" maxlength="40" placeholder="' + esc(T.levelInfo.batch || 'Batch 1') + '"></label>' +
       '<button class="btn" type="submit">Add learner</button></form><div id="newCode"></div>' +
-      '<div class="card sec t-table"><table><thead><tr><th>Name</th><th>Code</th><th>Batch</th><th>Sessions done</th><th>Last visit</th><th>Access</th></tr></thead><tbody>' +
+      '<div id="editBox"></div><div class="card sec t-table"><table><thead><tr><th>Name</th><th>Code</th><th>Email</th><th>Mobile / WhatsApp</th><th>Last visit</th><th>Access</th><th></th></tr></thead><tbody>' +
       (st.length ? st.map(function (s) {
         var p = progressOf(s.code) || {};
-        return '<tr' + (s.active ? '' : ' class="off"') + '><th scope="row">' + esc(s.name) + '</th><td><code>' + esc(s.code) + '</code> <button class="icon-btn" data-copy="' + esc(s.code) + '" aria-label="Copy code">' + ico('copy', 16) + '</button></td>' +
-          '<td>' + esc(s.batch) + '</td><td>' + (p['Sessions done'] || 0) + '</td><td>' + fmtDate(p['Last visit']) + '</td>' +
-          '<td><button class="switch sm' + (s.active ? ' on' : '') + '" role="switch" aria-checked="' + s.active + '" data-active="' + esc(s.code) + '"><span class="knob"></span><span class="lbl">' + (s.active ? 'On' : 'Off') + '</span></button></td></tr>';
-      }).join('') : '<tr><td colspan="6" class="muted">No learners yet. Add the first one above.</td></tr>') + '</tbody></table></div>';
+        return '<tr' + (s.active ? '' : ' class="off"') + '><th scope="row">' + esc(s.name) + (s.batch ? '<small class="sub-b">' + esc(s.batch) + '</small>' : '') + '</th><td><code>' + esc(s.code) + '</code> <button class="icon-btn" data-copy="' + esc(s.code) + '" aria-label="Copy code">' + ico('copy', 16) + '</button></td>' +
+          '<td>' + (s.email ? '<a href="mailto:' + esc(s.email) + '">' + esc(s.email) + '</a>' : '<span class="muted">not given yet</span>') + '</td>' +
+          '<td>' + (s.phone ? '<a href="tel:' + esc(s.phone) + '">' + esc(s.phone) + '</a>' : '<span class="muted">–</span>') +
+            (s.phone || s.whatsapp ? ' <a class="wa" href="https://wa.me/' + esc((s.whatsapp || s.phone).replace(/\D/g, '')) + '" target="_blank" rel="noopener" aria-label="WhatsApp ' + esc(s.name) + '">WhatsApp</a>' : '') + '</td>' +
+          '<td>' + fmtDate(p['Last visit']) + '</td>' +
+          '<td><button class="switch sm' + (s.active ? ' on' : '') + '" role="switch" aria-checked="' + s.active + '" data-active="' + esc(s.code) + '"><span class="knob"></span><span class="lbl">' + (s.active ? 'On' : 'Off') + '</span></button></td>' +
+          '<td><button class="btn ghost sm" data-edit="' + esc(s.code) + '">Edit</button></td></tr>';
+      }).join('') : '<tr><td colspan="7" class="muted">No learners yet. Add the first one above.</td></tr>') + '</tbody></table></div>' +
+      '<p class="small muted sec">Learners enter their own email and mobile number the first time they sign in. You can correct them with Edit.</p>';
   };
   function copy(text, msg) {
     var done = function () { toast(msg || 'Copied.'); };
@@ -295,6 +301,31 @@
         if (on && !confirm('Turn off this learner’s access? They will not be able to sign in.')) return;
         b.disabled = true;
         api({ action: 'tSetStudent', code: b.getAttribute('data-active'), active: !on }).then(refreshOverview).then(render, function (err) { b.disabled = false; toast(err.message); });
+      };
+    });
+    $('#copyEmails').onclick = function () {
+      var list = students().filter(function (s) { return s.active && s.email; }).map(function (s) { return s.email; });
+      if (!list.length) { toast('No emails yet.'); return; }
+      copy(list.join(', '), list.length + ' emails copied. Paste them into the To: box of an email.');
+    };
+    $$('[data-edit]').forEach(function (b) {
+      b.onclick = function () {
+        var s = students().filter(function (x) { return x.code === b.getAttribute('data-edit'); })[0];
+        $('#editBox').innerHTML = '<form class="card pad sec t-edit" id="editForm"><h2 class="h3">Edit ' + esc(s.name) + ' <small class="muted">' + esc(s.code) + '</small></h2><div class="t-edit-grid">' +
+          '<label class="field"><span>Name</span><input class="input" id="eName" value="' + esc(s.name) + '" maxlength="80"></label>' +
+          '<label class="field"><span>Batch</span><input class="input" id="eBatch" value="' + esc(s.batch) + '" maxlength="40"></label>' +
+          '<label class="field"><span>Email</span><input class="input" id="eEmail" type="email" value="' + esc(s.email) + '"></label>' +
+          '<label class="field"><span>Mobile</span><input class="input" id="ePhone" type="tel" value="' + esc(s.phone) + '"></label>' +
+          '<label class="field"><span>WhatsApp (if different)</span><input class="input" id="eWa" type="tel" value="' + esc(s.whatsapp) + '"></label></div>' +
+          '<div class="btns"><button class="btn" type="submit">Save</button><button class="btn ghost" type="button" id="eCancel">Cancel</button></div></form>';
+        $('#editBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        $('#eCancel').onclick = function () { $('#editBox').innerHTML = ''; };
+        $('#editForm').onsubmit = function (e) {
+          e.preventDefault(); var sb = $('button[type=submit]', this); sb.disabled = true;
+          api({ action: 'tSetStudent', code: s.code, name: $('#eName').value.trim(), batch: $('#eBatch').value.trim(),
+            email: $('#eEmail').value.trim(), phone: $('#ePhone').value.trim(), whatsapp: $('#eWa').value.trim() })
+            .then(refreshOverview).then(function () { toast('Saved.'); render(); }, function (err) { sb.disabled = false; toast(err.message); });
+        };
       };
     });
     $('#copyAll').onclick = function () {

@@ -11,14 +11,14 @@
  *   3. Deploy > New deployment > Web app (Execute as: Me, Who has access: Anyone).
  */
 
-var VERSION = '1.0.0';
+var VERSION = '1.1.0';
 
 // ---------------------------------------------------------------- tabs ----
 
 var TABS = {
   Settings:      ['Key', 'Value', 'Note'],
   Levels:        ['Level', 'Name', 'Status', 'Note'],
-  Students:      ['Code', 'Name', 'Level', 'Batch', 'Active', 'Created'],
+  Students:      ['Code', 'Name', 'Level', 'Batch', 'Active', 'Created', 'Email', 'Phone', 'WhatsApp', 'Details updated'],
   Sessions:      ['Level', 'Session', 'Title', 'Stage', 'Type', 'Status', 'Canva link', 'Handout link', 'Opened on'],
   Announcements: ['ID', 'Level', 'Date', 'Text', 'Show'],
   Quiz_Scores:   ['Timestamp', 'Code', 'Name', 'Level', 'Session', 'Score', 'Total', 'Percent', 'Attempt'],
@@ -60,6 +60,11 @@ function setup() {
     var first = sh.getRange(1, 1, 1, headers.length).getValues()[0];
     var empty = first.every(function (v) { return v === '' || v === null; });
     if (empty) sh.getRange(1, 1, 1, headers.length).setValues([headers]);
+    else {
+      // New columns added in a later version: fill in only the missing header cells at the end.
+      var fixed = headers.map(function (h, i) { return first[i] === '' || first[i] === null ? h : first[i]; });
+      sh.getRange(1, 1, 1, headers.length).setValues([fixed]);
+    }
     sh.getRange(1, 1, 1, headers.length)
       .setFontWeight('bold').setFontColor('#ffffff').setBackground('#14213D');
     sh.setFrozenRows(1);
@@ -200,6 +205,19 @@ var ACTIONS = {
     });
   },
 
+  saveProfile: function (req) {
+    var st = learner_(req.code);
+    var d = contact_(req);
+    if (!d.Email) throw new Error('Please enter your email address.');
+    if (!d.Phone) throw new Error('Please enter your mobile number.');
+    return withLock_(function () {
+      var found = findRow_('Students', function (r) { return sameCode_(r.Code, st.code); });
+      d['Details updated'] = new Date();
+      updateRow_('Students', found.index, d);
+      return { student: learner_(st.code) };
+    });
+  },
+
   saveProgress: function (req) {
     var st = learner_(req.code);
     var d = req.data || {};
@@ -314,6 +332,11 @@ var ACTIONS = {
       if (req.active !== undefined) patch.Active = req.active ? 'Yes' : 'No';
       if (req.name !== undefined) patch.Name = text_(req.name, 80);
       if (req.batch !== undefined) patch.Batch = text_(req.batch, 40);
+      if (req.email !== undefined || req.phone !== undefined || req.whatsapp !== undefined) {
+        var c = contact_(req, true);
+        Object.keys(c).forEach(function (k) { patch[k] = c[k]; });
+        patch['Details updated'] = new Date();
+      }
       updateRow_('Students', found.index, patch);
       return {};
     });
@@ -363,7 +386,8 @@ function learner_(code) {
   var level = String(r.Level);
   var lv = levelList_().filter(function (l) { return l.level === level; })[0];
   if (!lv || lv.status !== 'Live') throw new Error('Your level is not open yet. Please ask Ms. Maria.');
-  return { code: String(r.Code).toUpperCase(), name: String(r.Name), level: level, batch: String(r.Batch || '') };
+  return { code: String(r.Code).toUpperCase(), name: String(r.Name), level: level, batch: String(r.Batch || ''),
+    email: String(r.Email || ''), phone: String(r.Phone || ''), whatsapp: String(r.WhatsApp || '') };
 }
 
 function learnerState_(st) {
@@ -553,8 +577,27 @@ function plain_(r) {
   return o;
 }
 
+/** Checks and tidies email and phone numbers. allowBlank: the teacher may clear a field. */
+function contact_(req, allowBlank) {
+  var out = {};
+  if (req.email !== undefined) {
+    var e = text_(req.email, 120).toLowerCase();
+    if (e && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)) throw new Error('The email address does not look right.');
+    out.Email = e;
+  }
+  ['phone', 'whatsapp'].forEach(function (k) {
+    if (req[k] === undefined) return;
+    var v = text_(req[k], 30).replace(/[^\d+]/g, '');
+    if (v && !/^\+?\d{7,15}$/.test(v)) throw new Error('The ' + (k === 'phone' ? 'mobile' : 'WhatsApp') + ' number does not look right. Use digits only, for example +97455123456.');
+    // A leading apostrophe makes Google Sheets keep the number as text (keeps + and leading zeros).
+    out[k === 'phone' ? 'Phone' : 'WhatsApp'] = v ? "'" + v : '';
+  });
+  return out;
+}
+
 function publicStudent_(r) {
-  return { code: String(r.Code), name: String(r.Name), level: String(r.Level), batch: String(r.Batch || ''), active: yes_(r.Active) };
+  return { code: String(r.Code), name: String(r.Name), level: String(r.Level), batch: String(r.Batch || ''), active: yes_(r.Active),
+    email: String(r.Email || ''), phone: String(r.Phone || ''), whatsapp: String(r.WhatsApp || '') };
 }
 
 function announcementOut_(r) {
