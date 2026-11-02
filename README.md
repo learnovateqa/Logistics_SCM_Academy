@@ -11,12 +11,21 @@ apps-script/
   Code.gs            the Google Sheet back end (paste into Extensions > Apps Script)
   SETUP-GUIDE.md     step-by-step setup on a MacBook
   test/              automatic tests for Code.gs (node apps-script/test/run-tests.js)
+index.html           the student app (sign in, Home, Sessions, Progress, Study…)
+assets/              app.css and app.js (no framework)
+levels/levels.json   the list of levels (Level 6 live; 4 and 5 coming soon)
+levels/level6/       course.json (12 sessions) + one file per session (s01.json…)
+manifest.webmanifest, sw.js, icons/   installable app, works offline
 config.js            the Web app link from Apps Script goes here
 setup/check.html     connection check: is the site talking to the Sheet?
 docs/PLAN.md         syllabus, colours, build order and interactive specs (teacher reference)
 ```
 
-The student app and the teacher dashboard are added in Parts 2 and 3.
+## Adding a level later
+
+1. Put its content in `levels/level4/` (a `course.json` and one file per session, like Level 6).
+2. In `levels/levels.json`, set `"content": true` for that level.
+3. In the Sheet: Levels tab → Status **Live**, add its sessions and learners. No code changes.
 
 ## Rules
 

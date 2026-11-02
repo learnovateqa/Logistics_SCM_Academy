@@ -1,0 +1,7 @@
+{
+  "levels": [
+    { "id": "6", "name": "Level 6", "title": "Practical frameworks and decision-making", "path": "levels/level6/", "content": true },
+    { "id": "5", "name": "Level 5", "title": "Coming soon", "path": "levels/level5/", "content": false },
+    { "id": "4", "name": "Level 4", "title": "Coming soon", "path": "levels/level4/", "content": false }
+  ]
+}
