@@ -65,7 +65,11 @@
     var s = size || 20;
     return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (P[name] || '') + '</svg>';
   }
-  var LOGO = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 18 C 9 18, 8 6, 13 6 S 20 12, 20 6" stroke="#fff"/><circle cx="4" cy="18" r="2.2" fill="#00B4B4"/><circle cx="13" cy="6" r="2.2" fill="#8338EC"/><circle cx="20" cy="6" r="2.2" fill="#00B86B"/></svg>';
+  var ART = window.LSCM_ART || { scene: function () { return ''; }, stage: function () { return ''; }, empty: function () { return ''; } };
+  var LOGO_OLD = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 18 C 9 18, 8 6, 13 6 S 20 12, 20 6" stroke="#fff"/><circle cx="4" cy="18" r="2.2" fill="#00B4B4"/><circle cx="13" cy="6" r="2.2" fill="#8338EC"/><circle cx="20" cy="6" r="2.2" fill="#00B86B"/></svg>';
+
+  var LOGO = ART.logo || LOGO_OLD;
+  var NAV_COLOR = { home: 'Plan', sessions: 'Source', lab: 'Make', tools: 'Deliver', progress: 'Return', study: 'Gold' };
 
   // -------------------------------------------------------------- state --
   var S = {
@@ -175,12 +179,12 @@
     if (!signed) { side.innerHTML = ''; side.hidden = true; tabs.innerHTML = ''; tabs.hidden = true; return; }
     side.hidden = false; tabs.hidden = false;
     side.innerHTML = NAV.map(function (n) {
-      return '<a class="nav' + (active === n.id ? ' on' : '') + '" href="' + n.href + '">' + ico(n.id) + n.label + '</a>';
+      return '<a class="nav st-' + NAV_COLOR[n.id] + (active === n.id ? ' on' : '') + '" href="' + n.href + '"><span class="nico">' + ico(n.id, 18) + '</span>' + n.label + '</a>';
     }).join('') +
       '<div class="side-h">Your route</div>' + sideRoute() +
       '<div class="side-foot">' + esc(S.state.student.name) + ' · Level ' + esc(S.state.student.level) + (S.state.student.batch ? ' · ' + esc(S.state.student.batch) : '') + '</div>';
     tabs.innerHTML = NAV.slice(0, 5).map(function (n) {
-      return '<a class="' + (active === n.id ? 'on' : '') + '" href="' + n.href + '"><span class="tico">' + ico(n.id) + '</span>' + (n.short || n.label) + '</a>';
+      return '<a class="st-' + NAV_COLOR[n.id] + (active === n.id ? ' on' : '') + '" href="' + n.href + '"><span class="tico">' + ico(n.id) + '</span>' + (n.short || n.label) + '</a>';
     }).join('');
   }
   function sideRoute() {
@@ -256,7 +260,7 @@
         '<div class="eyebrow">' + esc(CFG.school || 'Learnovate Qatar') + '</div>' +
         '<h1>Logistics &amp; Supply Chain Management</h1>' +
         '<p>Practical frameworks, real cases and decision-making for future supply chain leaders. Explained in plain English.</p>' +
-      '</div>' + routeArt() + '</div></div>' +
+      '</div><div class="hero-art">' + ART.scene() + '</div></div></div>' +
       '<div class="grid g-home sec">' +
         '<form class="card pad signin" id="signin" novalidate>' +
           '<h2 class="h2">Sign in</h2><p class="sub">Use the access code from Ms. Maria. It opens your own level.</p>' +
@@ -314,7 +318,9 @@
         '<h1>' + esc(c.course) + '</h1><p>' + esc(c.tagline) + '</p>' +
         '<div class="btns">' + (cur ? '<a class="btn light" href="#/session/' + cur.n + '">Continue Session ' + cur.n + '</a>' : '<span class="btn light" aria-disabled="true">Session 1 opens soon</span>') +
           '<a class="btn outline-w" href="#/lab">My Supply Chain</a></div>' +
-      '</div><div class="ring" style="--p:' + pct + '"><div><div><b>' + open + '/' + total + '</b><small>sessions open</small></div></div></div></div></div>' +
+        '<div class="hero-stats"><span><i class="dot"></i><b>' + open + '/' + total + '</b> sessions open</span><span><i class="dot g"></i><b>' + S.p.done.length + '</b> stops reached</span>' +
+        (Object.keys(S.p.quiz).length ? '<span><i class="dot v"></i>Average quiz <b>' + avgQuiz() + '</b></span>' : '') + '</div>' +
+      '</div><div class="hero-art">' + ART.scene() + '</div></div></div>' +
       installBanner() +
       (anns.length ? '<div class="sec">' + anns.slice(0, 3).map(function (a) {
         return '<div class="card pad ann"><div class="eyebrow">' + ico('bell', 14) + ' Announcement</div><p style="margin:6px 0 2px">' + esc(a.text) + '</p><small>' + fmtDate(a.date) + '</small></div>';
@@ -325,7 +331,7 @@
       '<div class="sec"><h2>Five stages</h2><p class="sub">Every session belongs to one stage of the SCOR model.</p><div class="grid g5">' +
         STAGE_ORDER.map(function (k) {
           var ss = c.sessions.filter(function (s) { return s.stage === k; });
-          return '<div class="stagecard st-' + k + '"><h3>' + svgStage(k) + esc(STAGE_LABEL[k]) + '</h3><p>' + esc(c.stages[k].blurb) + '</p><div class="chips">' +
+          return '<div class="stagecard st-' + k + '">' + ART.stage(k) + '<h3>' + svgStage(k) + esc(STAGE_LABEL[k]) + '</h3><p>' + esc(c.stages[k].blurb) + '</p><div class="chips">' +
             ss.map(function (s) { return '<a class="chip" href="#/session/' + s.n + '">S' + s.n + (s.type === 'Exam' ? ' ★' : '') + '</a>'; }).join('') + '</div></div>';
         }).join('') + '</div></div>' +
       '<div class="sec"><h2>How your studying is going</h2><div class="grid g4" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">' +
@@ -336,7 +342,8 @@
       '</div></div>' + foot();
   }
   function svgStage(k) { return '<span style="display:inline-grid" class="st-' + k + '"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--c)" aria-hidden="true">' + P[k] + '</svg></span>'; }
-  function stat(label, val, sub) { return '<div class="card stat"><small>' + esc(label) + '</small><b>' + esc(val) + '</b><span>' + esc(sub) + '</span></div>'; }
+  var statN = 0;
+  function stat(label, val, sub) { var k = ['Plan', 'Source', 'Make', 'Deliver', 'Return'][statN++ % 5]; return '<div class="card stat st-' + k + '"><small>' + esc(label) + '</small><b>' + esc(val) + '</b><span>' + esc(sub) + '</span></div>'; }
   function foot() { return '<p class="foot">' + esc(CFG.brand || 'Elevate with Ms. Maria') + ' · ' + esc(CFG.school || 'Learnovate Qatar') + '</p>'; }
   function routeH() {
     var cur = currentSession();
@@ -406,11 +413,12 @@
   }
   function tiles(n, light, active) {
     var sheet = sheetSession(n) || {};
-    return '<div class="tiles' + (light ? ' light' : '') + '">' + TILE_DEFS.map(function (t) {
+    var TC = ['Plan', 'Source', 'Make', 'Deliver', 'Return', 'Gold'];
+    return '<div class="tiles' + (light ? ' light' : '') + '">' + TILE_DEFS.map(function (t, ti) {
       var href = t.id === 'slides' ? (sheet.canva || '') : '#/session/' + n + '/' + t.id;
       var ext = t.id === 'slides' && sheet.canva;
       if (t.id === 'slides' && !sheet.canva) href = '#/session/' + n + '/slides';
-      return '<a class="tile' + (active === t.id ? ' on' : '') + '" href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' +
+      return '<a class="tile st-' + TC[ti] + (active === t.id ? ' on' : '') + '" href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' +
         '<span class="ti">' + ico(t.icon, 18) + '</span><b>' + t.label + (ext ? ' ' + '<span style="display:inline-block;vertical-align:-2px">' + ico('ext', 13) + '</span>' : '') + '</b><small>' + esc(tileState(n, t.id)) + '</small></a>';
     }).join('') + '</div>';
   }
@@ -420,9 +428,9 @@
     var head = '<div class="card shead st-' + meta.stage + '"><div class="meta" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">' +
       '<span class="chip st-' + meta.stage + '"><span class="d"></span>' + esc(STAGE_LABEL[meta.stage]) + '</span><small class="muted">Session ' + n + ' of ' + S.course.sessions.length + '</small>' +
       (isOpen(n) ? (isDone(n) ? '<span class="chip done">' + ico('check', 14) + ' Done</span>' : '<span class="chip gold">Open now</span>') : '<span class="chip lock">' + ico('lock', 14) + ' Locked</span>') + '</div>' +
-      '<h1>' + esc(meta.title) + '</h1><p class="muted" style="margin:0">' + esc(meta.summary) + '</p></div>';
+      '<h1>' + esc(meta.title) + '</h1><p class="muted" style="margin:0">' + esc(meta.summary) + '</p>' + ART.stage(meta.stage, 'head-art') + '</div>';
     if (!isOpen(n)) {
-      return head + '<div class="card locked sec"><div class="big">' + ico('lock', 32) + '</div><h2 class="h2">This session is locked</h2><p class="muted">It opens when Ms. Maria opens it in class.</p><a class="btn ghost" href="#/sessions">See all sessions</a></div>' + foot();
+      return head + '<div class="card locked sec">' + ART.empty() + '<h2 class="h2">This session is locked</h2><p class="muted">It opens when Ms. Maria opens it in class.</p><a class="btn ghost" href="#/sessions">See all sessions</a></div>' + foot();
     }
     if (meta.type === 'Exam') {
       return head + '<div class="card pad sec st-' + meta.stage + '"><h2 class="h2">' + esc(meta.title) + '</h2><p>' + esc(meta.summary) + '</p>' +
@@ -431,7 +439,7 @@
     return loadSession(n).then(function (content) {
       var tab = r.b || '';
       var body;
-      if (!content) body = '<div class="card pad empty">' + ico('handout', 36) + '<p>The materials for this session are being prepared.</p></div>';
+      if (!content) body = '<div class="card pad empty">' + ART.empty() + '<p>The materials for this session are being prepared.</p></div>';
       else if (!tab) body = overview(n, content);
       else body = (PANELS[tab] || overview)(n, content, meta);
       return head + '<div class="sec">' + tiles(n, true, tab) + '</div><div class="panel st-' + meta.stage + '" id="panel">' + body + '</div>' + foot();
@@ -583,7 +591,7 @@
   function viewStudy(r) {
     return loadAllContent().then(function () {
       var avail = S.course.sessions.filter(function (s) { return S.content[s.n] && isOpen(s.n); });
-      if (!avail.length) return '<h1 class="h2">Study</h1><div class="card pad empty sec">' + ico('study', 36) + '<p>Flashcards appear here when your first session opens.</p></div>' + foot();
+      if (!avail.length) return '<h1 class="h2">Study</h1><div class="card pad empty sec">' + ART.empty() + '<p>Flashcards appear here when your first session opens.</p></div>' + foot();
       var n = Number(r.a) || avail[avail.length - 1].n;
       if (!S.content[n] || !isOpen(n)) n = avail[avail.length - 1].n;
       var meta = sessionMeta(n);
@@ -627,7 +635,7 @@
   // ------------------------------------------------------- lab & tools --
   function viewLab() {
     return '<h1 class="h2">My Supply Chain</h1><p class="sub">Run your own Qatar company through the whole course.</p>' +
-      '<div class="card pad st-Make" style="border-left:8px solid var(--c)"><h2 class="h2" style="font-size:1.15rem">Coming soon</h2><p>Here you will choose a company (a food importer, a pharmacy distributor, an online shop or a building-materials supplier) and apply each session’s tools to it.</p>' +
+      '<div class="card pad st-Make labsoon" style="border-left:8px solid var(--c)">' + ART.stage('Deliver', 'head-art') + '<h2 class="h2" style="font-size:1.15rem">Coming soon</h2><p>Here you will choose a company (a food importer, a pharmacy distributor, an online shop or a building-materials supplier) and apply each session’s tools to it.</p>' +
       '<ul class="goals"><li>A supply chain map that grows each session</li><li>One lab step per teaching session</li><li>Your Control Tower: live figures for your company</li><li>Simulations: Multi-Tier Flow (bullwhip), Supplier Risk Matrix, Working Capital Balancer, Disruption Shock Test</li></ul></div>' + foot();
   }
   function toolList() { return (window.LSCM_TOOLS && window.LSCM_TOOLS.list) || []; }
