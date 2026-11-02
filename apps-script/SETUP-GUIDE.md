@@ -63,7 +63,7 @@ If both work, **send me the Web app link**. I'll add it to the site in `config.j
 
 ## Part F: Everyday use
 
-You will mostly use the teacher dashboard on the site (Part 3 of the build). Until it is ready, you can do everything in the Sheet:
+You will mostly use the **teacher portal**: https://learnovateqa.github.io/Logistics_SCM_Academy/teacher.html (sign in with your teacher code). You can also do everything in the Sheet:
 
 | To… | Do this in the Sheet |
 |---|---|
