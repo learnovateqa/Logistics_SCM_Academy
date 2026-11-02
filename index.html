@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Logistics & Supply Chain Management · Elevate with Ms. Maria</title>
+<meta name="description" content="Logistics & Supply Chain Management course site. Learnovate Qatar.">
+<meta name="theme-color" content="#14213D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #14213D; --navy-2: #1d2f57; --ink: #14213D; --muted: #4a5675;
+    --bg: #F4F6FA; --card: #ffffff; --line: #DFE4EE;
+    --plan: #00B4B4; --source: #FF5A36; --make: #8338EC; --deliver: #1F7BFF; --return: #00B86B; --gold: #FFC300;
+    --plan-t: #E6F8F8; --source-t: #FFEEEA; --make-t: #F2EBFD; --deliver-t: #E9F2FF; --return-t: #E6F8F0;
+    --radius: 18px; --shadow: 0 6px 24px rgba(20, 33, 61, .08);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; font-family: Poppins, system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.55; }
+  a { color: inherit; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+
+  /* top bar */
+  .top { background: var(--navy); position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 12px rgba(0,0,0,.18); }
+  .top::after { content: ""; display: block; height: 4px;
+    background: linear-gradient(90deg, var(--plan) 0 20%, var(--source) 20% 40%, var(--make) 40% 60%, var(--deliver) 60% 80%, var(--return) 80% 100%); }
+  .top .wrap { display: flex; align-items: center; gap: 12px; height: 64px; }
+  .logo { width: 40px; height: 40px; border-radius: 11px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
+    display: grid; place-items: center; flex: none; }
+  .brand { color: #fff; line-height: 1.2; }
+  .brand b { display: block; font-size: 1rem; font-weight: 600; }
+  .brand small { font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; opacity: .8; }
+
+  /* hero */
+  .hero { margin: 24px 0; background: radial-gradient(120% 140% at 100% 0%, var(--navy-2) 0%, var(--navy) 55%);
+    border-radius: 24px; color: #fff; padding: 36px 28px; position: relative; overflow: hidden; box-shadow: var(--shadow); }
+  .hero::after { content: ""; position: absolute; right: -60px; top: -60px; width: 260px; height: 260px; border-radius: 48px;
+    border: 2px solid rgba(255,255,255,.08); transform: rotate(18deg); }
+  .eyebrow { font-size: .74rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; opacity: .85; display: flex; align-items: center; gap: 8px; }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; background: currentColor; transform: rotate(45deg); }
+  .hero h1 { font-size: clamp(1.8rem, 4.6vw, 3rem); line-height: 1.12; margin: 12px 0 12px; font-weight: 700; max-width: 16ch; }
+  .hero p { max-width: 52ch; margin: 0 0 22px; opacity: .92; }
+  .hero-grid { display: grid; gap: 28px; align-items: center; position: relative; z-index: 1; }
+  .btns { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; font: inherit; font-weight: 600; font-size: .95rem; text-decoration: none;
+    padding: 12px 18px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,.55); color: #fff; background: transparent; }
+  .btn.primary { background: #fff; color: var(--navy); border-color: #fff; }
+  .badge-soon { display: inline-flex; align-items: center; gap: 8px; font-size: .8rem; font-weight: 600; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px rgba(255,195,0,.25); }
+  .hero-route { justify-self: center; width: 100%; max-width: 360px; }
+
+  /* sections */
+  section { margin: 40px 0; }
+  h2 { font-size: 1.45rem; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 18px; }
+
+  /* route line */
+  .route { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 18px; box-shadow: var(--shadow); }
+  .stations { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); position: relative; }
+  .stations::before { content: ""; position: absolute; left: 10%; right: 10%; top: 25px; height: 6px; border-radius: 6px;
+    background: linear-gradient(90deg, var(--plan) 0 25%, var(--source) 25% 50%, var(--make) 50% 75%, var(--deliver) 75% 100%); }
+  .stations::after { content: ""; position: absolute; left: 70%; right: 10%; top: 25px; height: 6px; border-radius: 6px;
+    background: linear-gradient(90deg, var(--deliver), var(--return)); }
+  .station { text-align: center; position: relative; z-index: 1; padding: 0 4px; }
+  .pin { width: 56px; height: 56px; margin: 0 auto 10px; border-radius: 50%; background: #fff; border: 6px solid var(--c);
+    display: grid; place-items: center; box-shadow: 0 4px 12px rgba(20,33,61,.12); }
+  .pin svg { width: 22px; height: 22px; stroke: var(--c); }
+  .station b { display: block; font-size: .95rem; }
+  .station span { font-size: .8rem; color: var(--muted); }
+
+  /* stage cards */
+  .grid { display: grid; gap: 16px; }
+  .stage { background: var(--tint); border-radius: var(--radius); padding: 18px 18px 18px 22px; border-left: 8px solid var(--c); }
+  .stage h3 { margin: 0 0 4px; font-size: 1.05rem; display: flex; align-items: center; gap: 10px; }
+  .stage h3 svg { width: 22px; height: 22px; stroke: var(--c); flex: none; }
+  .stage p { margin: 0; font-size: .92rem; }
+
+  /* level cards */
+  .level { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; }
+  .level .stripe { height: 8px; background: linear-gradient(90deg, var(--plan), var(--source), var(--make), var(--deliver), var(--return)); }
+  .level.later .stripe { background: var(--line); }
+  .level .body { padding: 20px; flex: 1; }
+  .level .tag { font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .level h3 { margin: 4px 0 6px; font-size: 1.25rem; }
+  .level p { margin: 0 0 14px; font-size: .92rem; color: var(--muted); }
+  .status { display: inline-flex; align-items: center; gap: 8px; font-size: .82rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1.5px solid var(--navy); }
+  .level.later .status { border-color: var(--line); color: var(--muted); }
+
+  /* what's inside */
+  .feature { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: flex; gap: 14px; align-items: flex-start; }
+  .ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--tint); flex: none; }
+  .ico svg { width: 22px; height: 22px; stroke: var(--c); }
+  .feature b { display: block; margin-bottom: 2px; }
+  .feature span { font-size: .9rem; color: var(--muted); }
+
+  /* footer */
+  footer { background: var(--navy); color: #fff; margin-top: 56px; padding: 32px 0 calc(28px + env(safe-area-inset-bottom)); }
+  footer::before { content: ""; display: block; height: 4px; margin-top: -32px; margin-bottom: 28px;
+    background: linear-gradient(90deg, var(--plan) 0 20%, var(--source) 20% 40%, var(--make) 40% 60%, var(--deliver) 60% 80%, var(--return) 80% 100%); }
+  footer p { margin: 4px 0; opacity: .85; font-size: .9rem; }
+
+  .plan    { --c: var(--plan);    --tint: var(--plan-t); }
+  .source  { --c: var(--source);  --tint: var(--source-t); }
+  .make    { --c: var(--make);    --tint: var(--make-t); }
+  .deliver { --c: var(--deliver); --tint: var(--deliver-t); }
+  .return  { --c: var(--return);  --tint: var(--return-t); }
+
+  @media (min-width: 720px) {
+    .grid.five { grid-template-columns: repeat(5, 1fr); }
+    .grid.three { grid-template-columns: repeat(3, 1fr); }
+    .grid.two { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 900px) {
+    .hero { padding: 48px 44px; }
+    .hero-grid { grid-template-columns: 1.3fr 1fr; }
+  }
+  @media (max-width: 719px) {
+    .grid.five { grid-template-columns: 1fr 1fr; }
+    .grid.five .stage:last-child { grid-column: 1 / -1; }
+    /* route line runs down the page on phones */
+    .stations { grid-template-columns: 1fr; gap: 18px; }
+    .stations::before { left: 25px; right: auto; top: 28px; bottom: 28px; width: 6px; height: auto;
+      background: linear-gradient(180deg, var(--plan) 0 25%, var(--source) 25% 50%, var(--make) 50% 75%, var(--deliver) 75% 90%, var(--return) 100%); }
+    .stations::after { display: none; }
+    .station { display: grid; grid-template-columns: 56px 1fr; column-gap: 14px; text-align: left; align-items: center; }
+    .pin { margin: 0; grid-row: span 2; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke-width="2.4" stroke-linecap="round">
+        <path d="M4 18 C 9 18, 8 6, 13 6 S 20 12, 20 6" stroke="#ffffff"/>
+        <circle cx="4" cy="18" r="2.2" fill="#00B4B4" stroke="none"/>
+        <circle cx="13" cy="6" r="2.2" fill="#8338EC" stroke="none"/>
+        <circle cx="20" cy="6" r="2.2" fill="#00B86B" stroke="none"/>
+      </svg>
+    </div>
+    <div class="brand"><b>Logistics &amp; Supply Chain</b><small>Elevate with Ms. Maria</small></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Learnovate Qatar · Level 6</div>
+        <h1>Logistics &amp; Supply Chain Management</h1>
+        <p>Practical frameworks, real cases and decision-making for future supply chain leaders. Explained in plain English, with tools you can use at work.</p>
+        <div class="btns">
+          <span class="btn primary"><span class="dot" aria-hidden="true"></span> Level 6 opens soon</span>
+          <a class="btn" href="#route">See the route</a>
+        </div>
+      </div>
+      <svg class="hero-route" viewBox="0 0 340 200" role="img" aria-label="A shipping route from Plan to Return and sustain">
+        <path d="M20 160 C 80 160, 70 60, 140 60 S 220 140, 260 120 S 320 40, 320 40" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="14" stroke-linecap="round"/>
+        <path d="M20 160 C 80 160, 70 60, 140 60" fill="none" stroke="#00B4B4" stroke-width="6" stroke-linecap="round"/>
+        <path d="M140 60 C 175 60, 190 100, 205 118" fill="none" stroke="#FF5A36" stroke-width="6" stroke-linecap="round"/>
+        <path d="M205 118 C 220 132, 240 128, 260 120" fill="none" stroke="#8338EC" stroke-width="6" stroke-linecap="round"/>
+        <path d="M260 120 C 285 110, 300 80, 308 62" fill="none" stroke="#1F7BFF" stroke-width="6" stroke-linecap="round"/>
+        <path d="M308 62 C 313 50, 318 42, 320 40" fill="none" stroke="#00B86B" stroke-width="6" stroke-linecap="round"/>
+        <g fill="#14213D" stroke-width="4">
+          <circle cx="20" cy="160" r="9" stroke="#00B4B4"/><circle cx="140" cy="60" r="9" stroke="#FF5A36"/>
+          <circle cx="205" cy="118" r="9" stroke="#8338EC"/><circle cx="260" cy="120" r="9" stroke="#1F7BFF"/>
+          <circle cx="320" cy="40" r="11" stroke="#00B86B"/>
+        </g>
+        <circle cx="320" cy="40" r="4" fill="#FFC300"/>
+      </svg>
+    </div>
+  </div>
+
+  <section id="route">
+    <h2>Your route through the course</h2>
+    <p class="sub">The course follows one shipment from plan to delivery and back. The line changes colour at each stage.</p>
+    <div class="route">
+      <ol class="stations">
+        <li class="station plan"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div><b>Plan</b><span>Forecasting and S&amp;OP</span></li>
+        <li class="station source"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v12H3z"/><path d="M9 21v-6h6v6"/></svg></div><b>Source</b><span>Buying and trade</span></li>
+        <li class="station make"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20V9l-6 4V9l-6 4V4H2z"/></svg></div><b>Make</b><span>Stock and quality</span></li>
+        <li class="station deliver"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 10h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></div><b>Deliver</b><span>Warehouse and transport</span></li>
+        <li class="station return"><div class="pin"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></div><b>Return &amp; sustain</b><span>Risk and leadership</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>Five stages, one supply chain</h2>
+    <p class="sub">Every session belongs to one stage of the SCOR model.</p>
+    <div class="grid five">
+      <div class="stage plan"><h3><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>Plan</h3><p>Forecast demand and agree one plan for the whole business.</p></div>
+      <div class="stage source"><h3><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v12H3z"/><path d="M9 21v-6h6v6"/></svg>Source</h3><p>Choose suppliers, build good relationships, and import through Hamad Port.</p></div>
+      <div class="stage make"><h3><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20V9l-6 4V9l-6 4V4H2z"/></svg>Make</h3><p>Control stock and keep quality high with Lean and PDCA.</p></div>
+      <div class="stage deliver"><h3><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 10h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>Deliver</h3><p>Run the warehouse and get orders to customers on time.</p></div>
+      <div class="stage return"><h3><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Return &amp; sustain</h3><p>Manage risk, returns and sustainability, and lead the team.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Programmes</h2>
+    <p class="sub">Your access code opens your own level.</p>
+    <div class="grid three">
+      <article class="level">
+        <div class="stripe"></div>
+        <div class="body">
+          <div class="tag">Level 6</div>
+          <h3>Practical frameworks and decision-making</h3>
+          <p>12 sessions · midterm and final · tools, cases and your own supply chain lab.</p>
+          <span class="status"><span class="dot" aria-hidden="true"></span> Opening soon</span>
+        </div>
+      </article>
+      <article class="level later">
+        <div class="stripe"></div>
+        <div class="body">
+          <div class="tag">Level 5</div>
+          <h3>Coming soon</h3>
+          <p>This programme will be added to the site later.</p>
+          <span class="status">Coming soon</span>
+        </div>
+      </article>
+      <article class="level later">
+        <div class="stripe"></div>
+        <div class="body">
+          <div class="tag">Level 4</div>
+          <h3>Coming soon</h3>
+          <p>This programme will be added to the site later.</p>
+          <span class="status">Coming soon</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>What you will find inside</h2>
+    <p class="sub">Everything for each session in one place, on your phone, iPad or laptop.</p>
+    <div class="grid two">
+      <div class="feature plan"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div><div><b>Sessions</b><span>Slides, handout, e-workbook, practice quiz, key terms and exit ticket.</span></div></div>
+      <div class="feature source"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h2M14 10h2M8 14h2M14 14h2M8 18h8"/></svg></div><div><b>Tools</b><span>EOQ, reorder point, safety stock and more, with the working shown step by step.</span></div></div>
+      <div class="feature make"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7.3 11 16.7 6M7.3 13l9.4 5"/></svg></div><div><b>My Supply Chain</b><span>Run your own Qatar company and see it in your Control Tower.</span></div></div>
+      <div class="feature deliver"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div><div><b>Simulations</b><span>The Bullwhip Challenge, supplier risk matrix and disruption shock test.</span></div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Elevate with Ms. Maria</b> · Learnovate Qatar</p>
+    <p>Logistics &amp; Supply Chain Management. Taught in plain English.</p>
+    <p>© 2026 Elevate with Ms. Maria</p>
+  </div>
+</footer>
+
+</body>
+</html>
