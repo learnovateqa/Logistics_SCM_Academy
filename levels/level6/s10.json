@@ -1,0 +1,188 @@
+{
+  "n": 10,
+  "goals": [
+    "Identify supply chain risks by function and by type, including hidden dependencies.",
+    "Score risks by probability and impact, and draw a heat map.",
+    "Choose a strategy for each risk: avoid, reduce, transfer or accept.",
+    "Write contingency plans with triggers, owners and a review rhythm.",
+    "Explain resilience: visibility, agility and options, using real disruptions.",
+    "Include cyber risk and documentation risk in the risk register."
+  ],
+
+  "handout": {
+    "intro": "Every supply chain will be disrupted. Risk management does not stop disruptions; it makes sure that when they come, you already know what to do. This session builds a risk management plan step by step, using real events.",
+    "sections": [
+      {
+        "h": "1. What is supply chain risk?",
+        "blocks": [
+          { "p": "Any event that can stop the flow of products, information or money. Risks move along the chain: a supplier delay becomes a stock problem, then a warehouse problem, then a late delivery, then a customer complaint." },
+          { "table": {
+            "head": ["Type", "Examples"],
+            "rows": [
+              ["Operational", "Machine breakdown, picking errors, IT failure, staff shortage"],
+              ["Financial", "Supplier bankruptcy, currency changes, sudden cost increases"],
+              ["Compliance", "Wrong customs documents, new regulations"],
+              ["External", "Storms, pandemics, port strikes, conflicts, blocked shipping routes"],
+              ["Cyber", "Ransomware or malware that stops systems"]
+            ]
+          } }
+        ]
+      },
+      {
+        "h": "2. Finding risks",
+        "blocks": [
+          { "p": "Go through each function (procurement, inventory, warehouse, transport, trade) and each risk type. Ask people at every level: drivers, buyers and supervisors know risks that never reach reports." },
+          { "callout": { "title": "Hidden dependencies", "text": "You have two suppliers for a part, so you feel safe. But both buy their raw material from the **same** factory. You have not removed the single point of failure; you have only moved it one step upstream. Ask: **what is connected to what?**" } },
+          { "p": "Record each risk in a **risk register**: number, description, function, type, warning signs, owner." }
+        ]
+      },
+      {
+        "h": "3. Scoring and the heat map",
+        "blocks": [
+          { "p": "Score each risk from 1 to 5 for **probability** (how likely) and **impact** (how bad). **Risk score = probability × impact** (1–25)." },
+          { "table": {
+            "head": ["Score", "Level", "Action"],
+            "rows": [
+              ["16–25", "Critical", "Act now. Named owner and trigger."],
+              ["10–15", "High", "Reduce soon: backup supplier, buffer stock, another route."],
+              ["5–9", "Medium", "Reduce or prepare a contingency plan."],
+              ["1–4", "Low", "Accept and monitor."]
+            ]
+          } },
+          { "p": "Plot the risks on a 5 × 5 **heat map** to see which ones to act on first. Try the **Risk score and heat map** tool." }
+        ]
+      },
+      {
+        "h": "4. Four strategies",
+        "blocks": [
+          { "table": {
+            "head": ["Strategy", "Meaning", "Example"],
+            "rows": [
+              ["Avoid", "Change the plan so the risk is gone", "Stop buying from a region at war"],
+              ["Reduce", "Lower the probability or the impact", "Second supplier, safety stock, preventive maintenance"],
+              ["Transfer", "Pass the cost to someone else", "Cargo insurance, contract clauses"],
+              ["Accept", "Live with it and watch it", "A small, rare risk that costs more to fix than to accept"]
+            ]
+          } }
+        ]
+      },
+      {
+        "h": "5. Contingency plans and triggers",
+        "blocks": [
+          { "p": "A **trigger** is a signal decided in advance that starts an action automatically. Example: “If a hurricane warning is issued within 200 km of our supplier’s plant, place the standby order with our backup supplier the same day.” A trigger turns a hard decision under pressure into a **decision already made**." },
+          { "list": [
+            "Each priority risk: strategy, owner, trigger, first actions, who to tell.",
+            "Test the plan (a desk exercise) before you need it.",
+            "Review the register **monthly** for operational risks and **quarterly** for strategic risks, and after every disruption."
+          ] }
+        ]
+      },
+      {
+        "h": "6. Real disruptions and their lessons",
+        "blocks": [
+          { "table": {
+            "head": ["Event", "What happened", "Lesson"],
+            "rows": [
+              ["Qatar, June 2017", "Land border and usual transhipment routes closed overnight; new direct sea routes via Oman, India and Turkey in days", "Have more than one route ready before you need it"],
+              ["Maersk cyber attack, June 2017", "The NotPetya malware shut down the shipping line’s IT systems for days", "Back up data, plan to work without systems, practise recovery"],
+              ["COVID-19, 2020", "Factories closed, demand jumped for some products and collapsed for others, panic buying", "Demand shocks need visibility and flexible capacity"],
+              ["Ever Given, March 2021", "One ship blocked the Suez Canal for about six days; hundreds of ships waited", "Single routes are single points of failure"],
+              ["Red Sea, from late 2023", "Attacks on ships sent most Asia–Europe container traffic around Africa, adding time and cost", "Plan longer lead times and compare suppliers by route risk"]
+            ]
+          } },
+          { "p": "Read the full Ever Given, Red Sea and Qatar 2017 cases in **Tools → Case studies**." }
+        ]
+      },
+      {
+        "h": "7. Resilience: visibility and agility",
+        "blocks": [
+          { "list": [
+            "**Visibility** – know where your stock, shipments, suppliers and orders are today, not at the end of the month.",
+            "**Agility** – the ability to change quickly: other suppliers, routes, modes and markets.",
+            "**Options cost money** – a backup supplier or extra stock you may not use is the price of resilience. The most efficient chain is often not the most resilient."
+          ] },
+          { "p": "Two useful questions for each critical supplier or site: **How long would it take to recover if it stopped?** and **How long can we keep serving customers without it?** If recovery takes longer than you can survive, act now." }
+        ]
+      },
+      {
+        "h": "8. Stock and documentation risk",
+        "blocks": [
+          { "p": "Stock risk is not only running out: it is also **too much** stock, expiry, theft and wrong records. Do not panic-buy in a crisis: it creates overstock later (the bullwhip effect)." },
+          { "p": "A wrong document can stop a container as surely as a storm. Check requirements before each shipment, keep templates up to date, and train more than one person on customs paperwork, so knowledge does not leave with one employee." }
+        ]
+      }
+    ]
+  },
+
+  "terms": [
+    { "term": "Supply chain risk", "meaning": "Any event that could stop the flow of products, information or money.", "example": "A port strike at the destination." },
+    { "term": "Risk register", "meaning": "A list of risks with their scores, owners and actions.", "example": "Risk 07: single supplier for bottle caps." },
+    { "term": "Probability", "meaning": "How likely a risk is to happen (scored 1–5).", "example": "4 = likely this year." },
+    { "term": "Impact", "meaning": "How bad the result would be (scored 1–5).", "example": "5 = production stops." },
+    { "term": "Heat map", "meaning": "A grid showing risks by probability and impact.", "example": "Critical risks sit in the top-right corner." },
+    { "term": "Single point of failure", "meaning": "One part whose failure stops the whole chain.", "example": "One supplier, one port or one route." },
+    { "term": "Mitigation", "meaning": "Action that lowers the probability or impact of a risk.", "example": "Qualifying a backup supplier." },
+    { "term": "Risk transfer", "meaning": "Passing the cost of a risk to another party.", "example": "Cargo insurance." },
+    { "term": "Contingency plan", "meaning": "A plan ready for when a risk happens.", "example": "Switch to air freight for critical items." },
+    { "term": "Trigger", "meaning": "A pre-agreed signal that starts a contingency action.", "example": "Hurricane warning within 200 km of the supplier." },
+    { "term": "Resilience", "meaning": "The ability to keep going and recover quickly after a disruption.", "example": "Rerouting through another port within days." },
+    { "term": "Agility", "meaning": "The ability to change direction quickly.", "example": "Moving production to another site." },
+    { "term": "Visibility", "meaning": "Knowing where stock, shipments and orders are in real time.", "example": "Tracking every container on a dashboard." },
+    { "term": "Cyber risk", "meaning": "The risk of attacks or failures that stop IT systems.", "example": "Ransomware locks the warehouse system." }
+  ],
+
+  "quiz": [
+    { "q": "A risk has probability 4 and impact 5. What is its score and level?",
+      "options": ["9 · Medium", "16 · Critical", "20 · Critical", "20 · Low"], "answer": 2, "why": "4 × 5 = 20, which is in the Critical band (16–25)." },
+    { "q": "You buy cargo insurance for a valuable shipment. Which strategy is this?",
+      "options": ["Avoid", "Reduce", "Transfer", "Accept"], "answer": 2, "why": "Insurance passes the financial cost of the risk to the insurer." },
+    { "q": "Two of your suppliers buy their raw material from the same factory. What is the problem?",
+      "options": ["None: you have two suppliers", "A hidden single point of failure upstream", "Too much competition", "A documentation risk"], "answer": 1, "why": "If that one factory stops, both suppliers stop." },
+    { "q": "What is a trigger in a contingency plan?",
+      "options": ["A type of forklift", "A pre-agreed signal that starts an action", "The cost of a risk", "A customer complaint"], "answer": 1, "why": "Triggers turn decisions under pressure into decisions already made." },
+    { "q": "The Ever Given blocked the Suez Canal in 2021. Which lesson fits best?",
+      "options": ["Air freight is always cheaper", "Single routes are single points of failure", "Stock is never needed", "Documents are not important"], "answer": 1, "why": "One blocked route stopped hundreds of ships." },
+    { "q": "During a crisis, a team wants to order three months of extra stock ‘just in case’. What is the risk?",
+      "options": ["No risk", "Overstock and expiry later, and a bullwhip effect upstream", "Lower holding cost", "Faster turnover"], "answer": 1, "why": "Panic buying creates overstock and distorts demand for suppliers." },
+    { "q": "What does visibility mean in risk management?",
+      "options": ["Painting trucks in bright colours", "Knowing where stock, shipments and orders are in real time", "Publishing the risk register", "Hiring more staff"], "answer": 1, "why": "You cannot react quickly if you do not know where things are." },
+    { "q": "How often should operational risks in the register be reviewed?",
+      "options": ["Never", "Once every five years", "Monthly, and after every disruption", "Only when the auditor asks"], "answer": 2, "why": "A register that is not reviewed is only a record of old risks." },
+    { "q": "A risk scores 2 (probability) × 2 (impact). What is the usual strategy?",
+      "options": ["Avoid at any cost", "Accept and monitor", "Buy a second factory", "Stop trading"], "answer": 1, "why": "Low risks (1–4) are usually accepted and watched." },
+    { "q": "Only one employee knows how to prepare customs documents. What type of risk is this?",
+      "options": ["No risk", "A single-person dependency (documentation risk)", "A market risk", "A transport risk"], "answer": 1, "why": "Cross-train others and write the procedure down." }
+  ],
+
+  "workbook": {
+    "intro": "Use the Risk score and heat map tool in Tools. Think about a company in Qatar.",
+    "questions": [
+      { "id": "q1", "kind": "long",
+        "prompt": "List five risks for a Doha company that imports fresh food by sea and air. Give each one a probability and impact score (1–5) and its total score.",
+        "hint": "Think suppliers, routes, port, cold chain, documents, IT." },
+      { "id": "q2", "kind": "long",
+        "prompt": "Take your highest risk. Choose a strategy (avoid, reduce, transfer or accept), name an owner and write one trigger.",
+        "hint": "If … then we will …" },
+      { "id": "q3", "kind": "long",
+        "prompt": "What did Qatar’s supply chains do well in June 2017? What should importers keep doing today?",
+        "hint": "Read the Qatar 2017 case in Tools." },
+      { "id": "q4", "kind": "long",
+        "prompt": "Your warehouse system is hit by ransomware and stops for three days. Write a short plan: what can you still do by hand, who do you tell, and how do you recover?",
+        "hint": "Paper pick lists, backups, customer messages." },
+      { "id": "q5", "kind": "long",
+        "prompt": "Explain the difference between efficiency and resilience with one example. When is it worth paying for resilience?",
+        "hint": "Backup supplier, extra stock." },
+      { "id": "q6", "kind": "short",
+        "prompt": "Give one example of a hidden dependency in a supply chain.",
+        "hint": "" }
+    ]
+  },
+
+  "exit": {
+    "questions": [
+      { "id": "e1", "kind": "short", "prompt": "One thing I learned today:" },
+      { "id": "e2", "kind": "short", "prompt": "One thing that is still not clear:" },
+      { "id": "e3", "kind": "choice", "prompt": "How confident are you with today's topic?", "options": ["1 – Not yet", "2", "3", "4", "5 – Very confident"] }
+    ]
+  }
+}

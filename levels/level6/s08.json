@@ -1,0 +1,204 @@
+{
+  "n": 8,
+  "goals": [
+    "Design a warehouse layout that follows the flow of goods and cuts travel.",
+    "Use slotting to place fast-moving items close to packing.",
+    "Match storage systems and handling equipment to the products.",
+    "Choose a picking method: single-order, batch, zone or wave.",
+    "Control receiving, packing and dispatch with clear documents.",
+    "Explain how e-commerce fulfilment is different, and track warehouse KPIs and safety."
+  ],
+
+  "handout": {
+    "intro": "A warehouse is not just a roof over products. It is a flow system: every metre walked and every pallet moved costs time and money. This session shows how to design and run a warehouse that is fast, accurate and safe.",
+    "sections": [
+      {
+        "h": "1. Layout: follow the flow",
+        "blocks": [
+          { "p": "Goods should move in one direction: **receiving → storage → picking → packing → dispatch**. Paths should not cross more than needed." },
+          { "list": [
+            "**Slotting** – put fast-moving items closest to packing and dispatch. Slow movers go further away or higher up. Frequency × distance = travel cost.",
+            "**Aisle width** – narrow aisles hold more stock but need special trucks and are slower; wide aisles are faster but hold less.",
+            "**Cross-aisles** – extra aisles across the racks let pickers take short cuts.",
+            "**Seasonality** – move items when their demand changes (for example before Ramadan or summer)."
+          ] },
+          { "callout": { "title": "Example", "text": "20 products make 60% of daily picks but sit in the middle of the racks. Moving them next to packing saves each picker about 45 minutes per shift. With 40 pickers, that is **30 hours of work saved every day**." } }
+        ]
+      },
+      {
+        "h": "2. Storage systems and handling equipment",
+        "blocks": [
+          { "table": {
+            "head": ["System", "Best for", "Watch out"],
+            "rows": [
+              ["Selective pallet racking", "Many different pallets; every pallet easy to reach", "Uses more space"],
+              ["Pallet flow racking", "FIFO: pallets roll forward on rollers", "Higher cost"],
+              ["Drive-in racking", "Many pallets of the same item; high density", "Hard to reach older pallets"],
+              ["Shelving", "Small items and cartons", "Slow for many small picks"],
+              ["Carton flow racks", "Fast-moving small items; picker stays in one place", "Needs replenishment from behind"]
+            ]
+          } },
+          { "p": "Choose equipment **with** the storage system: **reach trucks** or **order pickers** for narrow aisles, **counterbalance forklifts** for open yards, **pallet jacks** for short moves, **conveyors** for steady high volume (but they are hard to change later)." }
+        ]
+      },
+      {
+        "h": "3. Receiving, picking and packing",
+        "blocks": [
+          { "p": "**Receiving**: check quantity, condition, batch and expiry against the purchase order, and record differences on the goods received note **before the driver leaves**. Put the stock away and update the system quickly, so it is available to sell." },
+          { "table": {
+            "head": ["Picking method", "How it works", "Best for"],
+            "rows": [
+              ["Single-order", "One picker, one order at a time", "Few, large or complex orders"],
+              ["Batch", "Pick several orders in one trip, then sort", "Many small orders with common items"],
+              ["Zone", "Each picker covers one area; orders are combined later", "Large warehouses, many SKUs"],
+              ["Wave", "Release orders in groups that match truck departure times", "Linking picking to dispatch"]
+            ]
+          } },
+          { "p": "**Packing** is the last check before the customer: compare items with the packing slip, choose the right box and filling, and label correctly. Too-big boxes waste space and let items move; too-small boxes crush items." }
+        ]
+      },
+      {
+        "h": "4. Dispatch and documents",
+        "blocks": [
+          { "list": [
+            "**Goods received note** – what came in.",
+            "**Pick list** – what to pick and where.",
+            "**Packing slip** – what is in the box (for the customer).",
+            "**Dispatch / delivery note** – what left, signed by the warehouse and the driver.",
+            "**Bill of lading or waybill** – the carrier’s transport document."
+          ] },
+          { "p": "Load in **reverse delivery order**: the first stop is loaded last. A daily dispatch log (carrier, vehicle, seal number, time, photo of each pallet) ends most disputes about short or damaged deliveries." },
+          { "p": "**Traceability** – record batch numbers at receiving and dispatch so you can trace any product back to its supplier. For food and medicines, this is required by law." }
+        ]
+      },
+      {
+        "h": "5. E-commerce fulfilment",
+        "blocks": [
+          { "table": {
+            "head": ["", "Traditional (B2B)", "E-commerce (B2C)"],
+            "rows": [
+              ["Order size", "Pallets and cartons", "One or two items"],
+              ["Number of orders", "Fewer, larger", "Thousands, small"],
+              ["Speed expected", "Days", "Same day or next day"],
+              ["Returns", "Few", "Many (often 20% or more for fashion)"],
+              ["Packing", "Bulk", "Each order packed and labelled for a home"]
+            ]
+          } },
+          { "list": [
+            "**Each-picking** with batch or wave picking and put-walls to sort orders.",
+            "**Micro-fulfilment centres or dark stores** – small warehouses inside the city for fast delivery.",
+            "**3PL fulfilment** – many online sellers pay a third-party logistics company to store, pick, pack and ship for them.",
+            "**Returns handling** – check, re-pack, re-stock or dispose quickly; returned stock is cash."
+          ] }
+        ]
+      },
+      {
+        "h": "6. Cross-docking",
+        "blocks": [
+          { "p": "In **cross-docking**, goods arrive, are sorted by destination and leave again within hours, without being stored. It saves storage and handling, but needs very good coordination: if the inbound truck is late, the outbound trucks are late too." }
+        ]
+      },
+      {
+        "h": "7. Technology: WMS, barcodes and RFID",
+        "blocks": [
+          { "p": "A **warehouse management system (WMS)** knows where every item is (aisle, rack, level) and directs each task: put-away, picking route, packing, loading. Every move is **confirmed by a scan**." },
+          { "list": [
+            "**Barcodes** – cheap and reliable; each item or carton is scanned one by one.",
+            "**RFID** – tags read by radio; a whole pallet can be read at once at the door.",
+            "The WMS must be **connected to the ERP**, so sales, finance and the warehouse see the same stock."
+          ] }
+        ]
+      },
+      {
+        "h": "8. Safety and KPIs",
+        "blocks": [
+          { "p": "**Safety first**: separate people and forklifts with marked walkways, mirrors and barriers; train and certify every driver; set speed limits; keep floors clean. Safe warehouses are also faster warehouses." },
+          { "table": {
+            "head": ["KPI", "What it shows"],
+            "rows": [
+              ["Lines picked per hour", "Productivity"],
+              ["Picking accuracy", "How many lines are picked correctly"],
+              ["Dock-to-stock time", "How fast received goods become available"],
+              ["Orders shipped on time", "Link to the transport schedule"],
+              ["Damage rate", "Units damaged ÷ units handled"],
+              ["Inventory record accuracy", "System stock vs counted stock"]
+            ]
+          } },
+          { "p": "Look at productivity **and** accuracy together: pushing speed alone creates errors and rework." }
+        ]
+      }
+    ]
+  },
+
+  "terms": [
+    { "term": "Slotting", "meaning": "Deciding where each item is stored, with fast movers closest to packing.", "example": "The top 20 items moved to ground level near packing." },
+    { "term": "Selective pallet racking", "meaning": "Racking where every pallet can be reached directly.", "example": "Standard racks with one pallet per position." },
+    { "term": "Reach truck", "meaning": "A forklift designed for narrow aisles and high racks.", "example": "Used in 3-metre aisles." },
+    { "term": "Batch picking", "meaning": "Picking several orders in one trip, then sorting them.", "example": "One picker collects 12 small orders at once." },
+    { "term": "Zone picking", "meaning": "Each picker works in one area; parts of an order are combined later.", "example": "Cold room team and dry goods team." },
+    { "term": "Wave picking", "meaning": "Releasing groups of orders timed to truck departures.", "example": "The 2 p.m. wave for the 4 p.m. trucks." },
+    { "term": "Put-away", "meaning": "Moving received goods to their storage location.", "example": "Pallets put away within 2 hours of arrival." },
+    { "term": "Dispatch note", "meaning": "The signed record of what left the warehouse.", "example": "Signed by the driver at collection." },
+    { "term": "Traceability", "meaning": "Being able to follow a product’s batch from supplier to customer.", "example": "Finding which pharmacies received batch B2471." },
+    { "term": "Cross-docking", "meaning": "Moving goods from inbound to outbound trucks without storing them.", "example": "Promotion stock in Monday morning, out Monday evening." },
+    { "term": "E-commerce fulfilment", "meaning": "Storing, picking, packing and shipping online orders, and handling returns.", "example": "Same-day delivery of a phone case in Doha." },
+    { "term": "Dark store", "meaning": "A small, closed-to-the-public store used only to fulfil online orders fast.", "example": "Groceries delivered in 30 minutes." },
+    { "term": "WMS", "meaning": "Warehouse management system: software that tracks locations and directs warehouse work.", "example": "The WMS sends the picker the shortest route." },
+    { "term": "Dock-to-stock time", "meaning": "Time from goods arriving to being available in the system.", "example": "Target: under 4 hours." }
+  ],
+
+  "quiz": [
+    { "q": "Where should the fastest-moving items be stored?",
+      "options": ["At the back of the warehouse", "On the highest racks", "Close to packing and dispatch", "Next to receiving only"], "answer": 2, "why": "Slotting puts fast movers where pickers travel least." },
+    { "q": "A warehouse stores many pallets of the same drink and wants high density. Which system fits?",
+      "options": ["Carton flow racks", "Drive-in racking", "Shelving", "Selective racking"], "answer": 1, "why": "Drive-in racking stores many pallets of one item deep, using little floor space." },
+    { "q": "An online shop has hundreds of small orders with the same popular items. Which picking method saves most walking?",
+      "options": ["Single-order picking", "Batch picking", "No picking", "Cross-docking"], "answer": 1, "why": "Batch picking collects several orders in one trip." },
+    { "q": "What is wave picking?",
+      "options": ["Picking during the night only", "Releasing groups of orders timed to truck departures", "Picking without a list", "A type of forklift"], "answer": 1, "why": "Waves link picking to the dispatch schedule." },
+    { "q": "When should differences in a delivery be recorded at receiving?",
+      "options": ["Next week", "Before the supplier’s driver leaves", "Only if the customer complains", "Never"], "answer": 1, "why": "Recording them at the dock, with the driver present, gives evidence for the claim." },
+    { "q": "A truck has three stops: A first, then B, then C. Which goods are loaded first?",
+      "options": ["Stop A", "Stop B", "Stop C", "It does not matter"], "answer": 2, "why": "Load in reverse order, so the first stop’s goods are at the door." },
+    { "q": "What is cross-docking?",
+      "options": ["Storing goods for a long time", "Moving goods from inbound to outbound trucks without storing them", "A safety rule", "Counting stock"], "answer": 1, "why": "Goods are sorted and sent on within hours." },
+    { "q": "How is e-commerce fulfilment different from supplying shops?",
+      "options": ["Fewer, larger orders", "Many small orders, fast delivery and many returns", "No packing", "No technology needed"], "answer": 1, "why": "Online orders are small and many, customers expect speed, and returns are common." },
+    { "q": "What can RFID do that a barcode cannot?",
+      "options": ["Be printed on paper", "Read many tagged items at once without line of sight", "Work without a reader", "Cost less"], "answer": 1, "why": "RFID tags are read by radio, so a whole pallet can be read at the door." },
+    { "q": "A warehouse raises picking speed from 60 to 80 lines per hour, but accuracy falls to 95%. What is the problem?",
+      "options": ["There is no problem", "Speed without accuracy creates errors, returns and rework", "Accuracy is not a KPI", "The target was too low"], "answer": 1, "why": "Look at productivity and accuracy together." }
+  ],
+
+  "workbook": {
+    "intro": "Think about a warehouse you know, or imagine one for a Doha food wholesaler.",
+    "questions": [
+      { "id": "q1", "kind": "long",
+        "prompt": "A Doha wholesaler has 800 items; 40 items make 70% of picks, but they are spread all over the racks. What layout change would you make first, and what result do you expect?",
+        "hint": "Slotting. Say where the items go and why." },
+      { "id": "q2", "kind": "long",
+        "prompt": "The wholesaler uses single-order picking for all 150 shop orders a day. Recommend a better method (or mix of methods) and explain how orders would be grouped and sorted.",
+        "hint": "Batch, zone, wave." },
+      { "id": "q3", "kind": "long",
+        "prompt": "Customers often say deliveries were short, but the warehouse says everything was shipped. What dispatch controls would you introduce?",
+        "hint": "Signatures, photos, log." },
+      { "id": "q4", "kind": "long",
+        "prompt": "An online fashion shop in Qatar gets 25% of orders returned. Describe a returns process that turns returns back into sellable stock quickly.",
+        "hint": "Check, grade, re-pack, re-stock, refund." },
+      { "id": "q5", "kind": "long",
+        "prompt": "Choose four warehouse KPIs for the wholesaler. For each one, say how you measure it and how often you review it.",
+        "hint": "Mix productivity, accuracy and safety." },
+      { "id": "q6", "kind": "short",
+        "prompt": "Name two safety controls that separate people from forklifts.",
+        "hint": "" }
+    ]
+  },
+
+  "exit": {
+    "questions": [
+      { "id": "e1", "kind": "short", "prompt": "One thing I learned today:" },
+      { "id": "e2", "kind": "short", "prompt": "One thing that is still not clear:" },
+      { "id": "e3", "kind": "choice", "prompt": "How confident are you with today's topic?", "options": ["1 – Not yet", "2", "3", "4", "5 – Very confident"] }
+    ]
+  }
+}

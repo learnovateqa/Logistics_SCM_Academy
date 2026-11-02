@@ -96,7 +96,8 @@
       "type": "Teaching",
       "title": "Operations, quality and continuous improvement",
       "short": "Quality",
-      "summary": "Make-to-stock and make-to-order, quality in logistics, OTIF, Lean, PDCA and solving quality problems."
+      "summary": "Make-to-stock and make-to-order, quality in logistics, OTIF, Lean, PDCA and solving quality problems.",
+      "file": "s07.json"
     },
     {
       "n": 8,
@@ -104,7 +105,8 @@
       "type": "Teaching",
       "title": "Warehousing and e-commerce fulfilment",
       "short": "Warehousing",
-      "summary": "Warehouse layout and slotting, storage and handling equipment, picking methods, e-commerce fulfilment, safety and KPIs."
+      "summary": "Warehouse layout and slotting, storage and handling equipment, picking methods, e-commerce fulfilment, safety and KPIs.",
+      "file": "s08.json"
     },
     {
       "n": 9,
@@ -112,7 +114,8 @@
       "type": "Teaching",
       "title": "Transport, distribution and last mile",
       "short": "Transport",
-      "summary": "Choosing transport modes, route planning, delivery scheduling, distribution networks, last-mile delivery and transport KPIs."
+      "summary": "Choosing transport modes, route planning, delivery scheduling, distribution networks, last-mile delivery and transport KPIs.",
+      "file": "s09.json"
     },
     {
       "n": 10,
@@ -120,7 +123,8 @@
       "type": "Teaching",
       "title": "Risk and resilience",
       "short": "Risk",
-      "summary": "Finding, scoring and reducing supply chain risk, with real disruptions: COVID, the Ever Given, the Red Sea and cyber attacks."
+      "summary": "Finding, scoring and reducing supply chain risk, with real disruptions: COVID, the Ever Given, the Red Sea and cyber attacks.",
+      "file": "s10.json"
     },
     {
       "n": 11,
@@ -128,7 +132,8 @@
       "type": "Teaching",
       "title": "Leading a sustainable, digital supply chain",
       "short": "Leadership",
-      "summary": "Choosing technology, sustainability and reverse logistics, the balanced scorecard, and leading high-performing teams."
+      "summary": "Choosing technology, sustainability and reverse logistics, the balanced scorecard, and leading high-performing teams.",
+      "file": "s11.json"
     },
     {
       "n": 12,
@@ -136,7 +141,8 @@
       "type": "Exam",
       "title": "Final exam",
       "short": "Final",
-      "summary": "Review of the whole course, then the final exam in class."
+      "summary": "Review of the whole course with a revision guide, full formula sheet and practice questions, then the final exam in class.",
+      "file": "s12.json"
     }
   ]
 }

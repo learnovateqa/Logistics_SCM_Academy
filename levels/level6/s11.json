@@ -1,0 +1,206 @@
+{
+  "n": 11,
+  "goals": [
+    "Move from tactical to strategic thinking across three time horizons.",
+    "Tell good costs from bad costs, and use total cost analysis.",
+    "Build a balanced scorecard for the supply chain, including sustainability.",
+    "Choose and implement supply chain technology step by step, and measure its return.",
+    "Explain Scope 1, 2 and 3 emissions, reverse logistics and the circular economy.",
+    "Lead a high-performing team with clear communication, delegation and structured problem-solving."
+  ],
+
+  "handout": {
+    "intro": "This last teaching session brings the whole course together. A supply chain leader sees the whole system, makes decisions that balance cost, service and sustainability, chooses the right technology, and builds a team that keeps improving.",
+    "sections": [
+      {
+        "h": "1. From tactical to strategic",
+        "blocks": [
+          { "table": {
+            "head": ["Tactical question", "Strategic question"],
+            "rows": [
+              ["How do we move this shipment faster?", "What capabilities do we need so speed, cost and reliability come together every year?"],
+              ["How do we cut this cost?", "What does this cost protect, and what does cutting it risk?"],
+              ["How do we clear this backlog?", "Why do backlogs keep happening, and how do we stop them?"]
+            ]
+          } },
+          { "p": "Leaders work on **three horizons at once**: this quarter (keep the operation running), the coming year (build capability and people), and 3–5 years ahead (network, technology and partnerships)." },
+          { "p": "**Scenario thinking** helps: “What if demand grows 20% faster? What if a key supplier region closes? What if same-day delivery becomes normal?”" }
+        ]
+      },
+      {
+        "h": "2. Cost control and value creation",
+        "blocks": [
+          { "p": "**Total cost analysis** looks at the whole chain, not one budget line. A cheaper, slower transport mode may raise stock cost, stockouts and customer losses." },
+          { "table": {
+            "head": ["Good costs (investments)", "Bad costs (waste)"],
+            "rows": [
+              ["Training that cuts picking errors", "Rework caused by poor processes"],
+              ["Technology that improves visibility", "Express freight caused by poor planning"],
+              ["Preventive maintenance", "Old stock caused by forecast errors"],
+              ["Supplier development", "Overtime caused by uneven inbound flow"]
+            ]
+          } },
+          { "callout": { "title": "A simple rule", "text": "No cost-cutting proposal is approved without saying **what it protects and what it risks**. Fix the process first; the saving follows." } }
+        ]
+      },
+      {
+        "h": "3. The balanced scorecard",
+        "blocks": [
+          { "p": "A **balanced scorecard** looks at performance from four perspectives, so cost is never the only thing that counts. For a supply chain, add **sustainability**." },
+          { "table": {
+            "head": ["Perspective", "Example KPIs"],
+            "rows": [
+              ["Financial", "Total logistics cost, cost per unit shipped, inventory carrying cost"],
+              ["Customer", "OTIF, order accuracy, lead time, customer satisfaction (NPS)"],
+              ["Internal process", "Throughput, capacity use, dock-to-stock time"],
+              ["Learning and growth", "Training hours, staff engagement, improvement projects"],
+              ["Sustainability", "CO₂ per unit shipped, packaging waste, share of low-carbon transport"]
+            ]
+          } },
+          { "p": "For each KPI write: **target, how it is measured, data source, how often, owner**. Review monthly: look at the three biggest gaps, find the causes, agree actions." }
+        ]
+      },
+      {
+        "h": "4. Choosing and implementing technology",
+        "blocks": [
+          { "steps": [
+            "**Define the problem in numbers** (for example: order accuracy 91%, stockouts 18% of items).",
+            "**Map the process as it is today** before talking to vendors. Automating a broken process only makes it break faster.",
+            "**Evaluate options**: fit to your processes (avoid heavy customisation), connection to your ERP and other systems, vendor references and local support, **total cost over 5–7 years**.",
+            "**Implement in phases**: clean the data first, train superusers, run old and new side by side, go live step by step (for example receiving, then picking, then dispatch).",
+            "**Measure the return** against the problem you started with."
+          ] },
+          { "callout": { "title": "Case: FreshChain", "text": "A fresh-produce wholesaler used spreadsheets: order accuracy 91%, stockouts on 18% of items, 6% of stock value lost to spoilage each quarter. It chose a cloud WMS first (batch and expiry tracking, FIFO) and delayed route software until the WMS was stable. After 12 months: order accuracy 99.2%, stockouts 4%, spoilage 1.8%. The project paid for itself in 14 months." } },
+          { "p": "**AI and analytics** support decisions; they do not replace them. A model trained on messy data gives confident wrong answers." }
+        ]
+      },
+      {
+        "h": "5. Sustainability: emissions",
+        "blocks": [
+          { "p": "The **Greenhouse Gas (GHG) Protocol** groups a company’s emissions into three scopes:" },
+          { "table": {
+            "head": ["Scope", "What it covers", "Supply chain example"],
+            "rows": [
+              ["Scope 1", "Direct emissions from sources you own", "Diesel burned by your own trucks and forklifts"],
+              ["Scope 2", "Purchased electricity and energy", "Electricity for your warehouse and cold rooms"],
+              ["Scope 3", "Everything else in the value chain", "Suppliers’ production, transport by carriers, customers’ use, waste"]
+            ]
+          } },
+          { "p": "For most companies, **Scope 3 is the largest part**, so the supply chain is where much of the reduction must happen. Practical steps: fuller trucks and better routes, cleaner transport modes, less and lighter packaging, energy-efficient warehouses, and choosing suppliers with lower emissions." }
+        ]
+      },
+      {
+        "h": "6. Reverse logistics and the circular economy",
+        "blocks": [
+          { "p": "**Reverse logistics** manages goods coming back: returns, repairs, recalls, reusable pallets and crates, and recycling." },
+          { "list": [
+            "**Returns** – check, grade, then re-sell, repair, return to the supplier, recycle or dispose. Fast decisions keep value.",
+            "**Recalls** – traceability (batch numbers) lets you find and collect affected products quickly.",
+            "**Circular economy** – keep products and materials in use: reduce, reuse, repair, refurbish, recycle.",
+            "**Reusable packaging** – crates and pallets that come back and are used again."
+          ] }
+        ]
+      },
+      {
+        "h": "7. Leading a high-performing team",
+        "blocks": [
+          { "list": [
+            "**Communication** – a short weekly cross-team meeting: each team shares one success, one problem and one request.",
+            "**Delegation** – match the task to the person, explain the goal and limits, support without taking over, review together.",
+            "**Structured problem-solving** – define the problem with facts, collect data, find the root cause, test a fix, monitor the result.",
+            "**Developing people** – stretch tasks, honest feedback, rotations between functions.",
+            "**Trust** – be open about decisions, admit mistakes, share credit.",
+            "**Healthy conflict** – disagree about ideas and data, not about people."
+          ] }
+        ]
+      },
+      {
+        "h": "8. FLOW and the Six Rights as a leader",
+        "blocks": [
+          { "table": {
+            "head": ["FLOW", "As a leader"],
+            "rows": [
+              ["Forecast", "Build capability before it is needed: people, systems, suppliers"],
+              ["Link", "Break silos with shared goals, shared data and shared accountability"],
+              ["Optimize", "Make continuous improvement part of daily work"],
+              ["Win", "Define success broadly: customers, finances, team, partners and the planet"]
+            ]
+          } },
+          { "p": "**Right product. Right place. Right time. Right cost. Right information. Right decision.** The goal is not perfection, but a supply chain that gets better every quarter." }
+        ]
+      }
+    ]
+  },
+
+  "terms": [
+    { "term": "Strategic thinking", "meaning": "Linking supply chain decisions to long-term goals, not only today’s problems.", "example": "Building supplier capacity before demand grows." },
+    { "term": "Total cost analysis", "meaning": "Looking at all the cost effects of a decision across the chain.", "example": "Slower transport saves freight but adds stock cost." },
+    { "term": "Good cost", "meaning": "Spending that brings a return.", "example": "Training that cuts picking errors." },
+    { "term": "Bad cost", "meaning": "Spending caused by waste or failure.", "example": "Express freight because of late planning." },
+    { "term": "Balanced scorecard", "meaning": "A set of KPIs from several perspectives: financial, customer, process, learning (and sustainability).", "example": "Cost and OTIF reviewed together every month." },
+    { "term": "ERP", "meaning": "Enterprise resource planning: one system for orders, stock, finance and planning.", "example": "Sales orders flow from the ERP to the WMS." },
+    { "term": "Superuser", "meaning": "A team member trained in a new system who helps colleagues.", "example": "Two superusers support the warehouse at go-live." },
+    { "term": "Data migration", "meaning": "Moving and cleaning data from an old system to a new one.", "example": "A full stock count before the WMS goes live." },
+    { "term": "Return on investment (ROI)", "meaning": "What a project gains compared with what it costs.", "example": "Paid back in 14 months." },
+    { "term": "Scope 3 emissions", "meaning": "Indirect emissions in the value chain, outside the company’s own sites and energy.", "example": "Emissions from carriers and suppliers." },
+    { "term": "Reverse logistics", "meaning": "Managing products that move back: returns, repairs, recalls, recycling.", "example": "Collecting reusable crates from shops." },
+    { "term": "Circular economy", "meaning": "Keeping products and materials in use as long as possible.", "example": "Refurbishing returned phones for re-sale." },
+    { "term": "Delegation", "meaning": "Giving a task and the authority to do it to a team member.", "example": "A supervisor leads the cycle-count project." },
+    { "term": "Silo", "meaning": "A department that works alone without sharing with others.", "example": "Procurement changes suppliers without telling the warehouse." }
+  ],
+
+  "quiz": [
+    { "q": "Which question is strategic rather than tactical?",
+      "options": ["How do we clear today’s backlog?", "What capabilities do we need so backlogs stop happening?", "Which truck leaves first?", "Who is on the night shift?"], "answer": 1, "why": "Strategic questions look at long-term capability, not only today’s task." },
+    { "q": "Which is a ‘bad cost’?",
+      "options": ["Training for pickers", "Preventive maintenance", "Express freight because planning was late", "A WMS that improves accuracy"], "answer": 2, "why": "Express freight caused by poor planning is waste; the others are investments." },
+    { "q": "OTIF and customer satisfaction belong to which balanced scorecard perspective?",
+      "options": ["Financial", "Customer", "Learning and growth", "Internal process"], "answer": 1, "why": "They measure what the customer experiences." },
+    { "q": "What should you do BEFORE talking to technology vendors?",
+      "options": ["Sign a contract", "Map how the process works today and define the problem in numbers", "Train all staff", "Delete old data"], "answer": 1, "why": "The process map and the problem are the requirements the system must meet." },
+    { "q": "Why is heavy customisation of a software system a warning sign?",
+      "options": ["It is always free", "It raises cost, delays the project and makes upgrades hard", "It makes the system faster", "Vendors forbid it"], "answer": 1, "why": "Every future upgrade must be adapted to the custom code." },
+    { "q": "Diesel burned by your own delivery trucks is which scope of emissions?",
+      "options": ["Scope 1", "Scope 2", "Scope 3", "Not counted"], "answer": 0, "why": "Direct emissions from sources the company owns are Scope 1." },
+    { "q": "Emissions from your suppliers’ factories are…",
+      "options": ["Scope 1", "Scope 2", "Scope 3", "Scope 4"], "answer": 2, "why": "Value-chain emissions outside your own operations are Scope 3." },
+    { "q": "Which is an example of reverse logistics?",
+      "options": ["Buying raw materials", "Collecting returned and damaged products from customers", "Forecasting demand", "Loading trucks for delivery"], "answer": 1, "why": "Reverse logistics moves goods back up the chain." },
+    { "q": "What is good delegation?",
+      "options": ["Giving tasks with no explanation", "Doing everything yourself", "Matching the task to the person, explaining the goal and limits, and supporting them", "Checking every step yourself"], "answer": 2, "why": "Clear goals and support build capacity and develop people." },
+    { "q": "In FLOW, ‘Link’ as a leader means…",
+      "options": ["Buying new trucks", "Breaking silos with shared goals and shared data", "Cutting all costs", "Working alone"], "answer": 1, "why": "Linking connects teams, partners and strategy." }
+  ],
+
+  "workbook": {
+    "intro": "This workbook brings the course together. Use a company you know in Qatar.",
+    "questions": [
+      { "id": "q1", "kind": "long",
+        "prompt": "List two good costs and two bad costs in a supply chain you know. For each bad cost, name the process that causes it.",
+        "hint": "Bad costs are symptoms of a weak process." },
+      { "id": "q2", "kind": "long",
+        "prompt": "Build a balanced scorecard with two KPIs for each perspective: financial, customer, internal process, learning and growth, and sustainability. Give each KPI a target.",
+        "hint": "Ten KPIs in total." },
+      { "id": "q3", "kind": "long",
+        "prompt": "A Doha distributor still runs on spreadsheets. Write a five-step plan to choose and introduce a warehouse system.",
+        "hint": "Problem in numbers → process map → evaluate → phased go-live → measure." },
+      { "id": "q4", "kind": "long",
+        "prompt": "For the same company, give one example each of Scope 1, Scope 2 and Scope 3 emissions, and one way to reduce each.",
+        "hint": "Own trucks, electricity, carriers and suppliers." },
+      { "id": "q5", "kind": "long",
+        "prompt": "Design a simple returns process for an online electronics shop: what happens to each returned item?",
+        "hint": "Check → grade → re-sell / repair / return to supplier / recycle." },
+      { "id": "q6", "kind": "long",
+        "prompt": "Your procurement and warehouse teams blame each other for late deliveries. As their leader, what three things do you do?",
+        "hint": "Shared data, a weekly meeting, structured problem-solving." }
+    ]
+  },
+
+  "exit": {
+    "questions": [
+      { "id": "e1", "kind": "short", "prompt": "The most useful thing I learned in this course:" },
+      { "id": "e2", "kind": "short", "prompt": "One topic I want to revise before the final exam:" },
+      { "id": "e3", "kind": "choice", "prompt": "How confident are you with today's topic?", "options": ["1 – Not yet", "2", "3", "4", "5 – Very confident"] }
+    ]
+  }
+}

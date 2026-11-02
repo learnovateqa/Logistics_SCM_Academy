@@ -1,0 +1,183 @@
+{
+  "n": 9,
+  "goals": [
+    "Compare road, rail, sea and air, and choose a mode using total cost.",
+    "Plan routes: cluster stops, sequence them and match the vehicle to the load.",
+    "Balance delivery windows with cost, and protect customers with early communication.",
+    "Design a distribution network: direct, warehouses, cross-docks and last mile.",
+    "Decide when to use a 3PL or 4PL.",
+    "Manage transport cost with KPIs: cost per delivery, fuel use, vehicle use and on-time delivery."
+  ],
+
+  "handout": {
+    "intro": "Transport is the most visible part of the supply chain: a late truck is seen by the customer at once. This session shows how to choose modes, plan routes and networks, and control cost without losing service.",
+    "sections": [
+      {
+        "h": "1. Four main modes",
+        "blocks": [
+          { "table": {
+            "head": ["Mode", "Strengths", "Weaknesses", "Typical use"],
+            "rows": [
+              ["Road", "Door to door, flexible, fast for short distances", "Traffic, driver hours, higher cost per tonne over long distances", "Local and regional delivery, the last mile"],
+              ["Rail", "Low cost per tonne-km for heavy goods over long distances, low emissions", "Fixed routes and timetables; needs trucks at both ends", "Bulk and containers between hubs"],
+              ["Sea", "Lowest cost per unit, huge capacity (the largest ships carry over 20,000 containers)", "Slow (weeks); ports, weather and route disruptions", "International trade in volume"],
+              ["Air", "Fastest and most reliable on time", "Highest cost per kg, limited space", "Urgent, high-value or perishable goods"]
+            ]
+          } },
+          { "p": "**Multimodal / intermodal** transport combines modes: for example sea to a port, rail inland, truck for the last kilometres. In the Gulf, **sea–air** through a hub is common: cheaper than air, faster than sea." }
+        ]
+      },
+      {
+        "h": "2. Choosing a mode: total cost, not freight cost",
+        "blocks": [
+          { "p": "Consider weight and volume, distance, required transit time, product (fragile, perishable, dangerous), and the **cost of being late**." },
+          { "callout": { "title": "Example", "text": "Switching from road to rail saves €5,000 in freight but adds one week in transit. One more week of stock costs €4,000. Net saving: only **€1,000**, and if late goods cause stockouts, the saving may disappear. Try the **Transport mode trade-off** tool." } },
+          { "p": "When disruptions hit a route, the choice changes. During the **Red Sea crisis** most container lines sent ships around Africa, which added time and cost. Some shippers moved urgent goods to air or sea–air." }
+        ]
+      },
+      {
+        "h": "3. Route planning",
+        "blocks": [
+          { "steps": [
+            "**Cluster** – group stops by area (north Doha, Al Wakrah, Industrial Area).",
+            "**Sequence** – put the stops in the shortest order that respects time windows and driver hours.",
+            "**Match the vehicle** – do not send a 15-tonne truck with 2 tonnes, or a van with 8 tonnes."
+          ] },
+          { "p": "Routes get complex fast: 3 stops can be ordered 6 ways, but **10 stops can be ordered more than 3.6 million ways**. Route-planning software helps, but people must add local knowledge: a customer who only receives in the morning, or a dock too small for long trucks." },
+          { "p": "Many companies use **fixed route templates** for regular customers (about 70% of deliveries) and plan only the rest each day." }
+        ]
+      },
+      {
+        "h": "4. Delivery windows and customer service",
+        "blocks": [
+          { "list": [
+            "Narrow windows (1 hour) cost more: more distance, more waiting, sometimes an extra vehicle. Wider windows (4 hours) allow fuller, cheaper routes.",
+            "Offer clear options, for example: **standard** (2 days, 4-hour window), **priority** (next day, 2-hour window, higher price), **scheduled** (fixed days for regular customers).",
+            "**Call early when a truck is late.** A store told at 8 a.m. that delivery will be at 11:30 can plan; a store that discovers it at 11 a.m. feels let down.",
+            "Drivers are the face of the company: train them in documents, safety and polite communication."
+          ] }
+        ]
+      },
+      {
+        "h": "5. Distribution networks",
+        "blocks": [
+          { "table": {
+            "head": ["Design", "Advantage", "Disadvantage"],
+            "rows": [
+              ["Direct from factory", "Simple, no warehouse cost", "Long distances, slow, small deliveries"],
+              ["One central warehouse", "Less total stock and safety stock", "Longer delivery distance to far customers"],
+              ["Several regional warehouses", "Close to customers, fast delivery", "More stock and more buildings"],
+              ["Cross-dock", "Little storage, fast flow", "Needs tight coordination of trucks"]
+            ]
+          } },
+          { "p": "Network design is a trade-off between **transport cost, stock cost and speed**. Review it every 1–3 years as demand and customers change." },
+          { "p": "The **last mile** (to the customer’s door) is usually the most expensive part. Failed deliveries double the cost of that stop. Solutions: delivery time slots, parcel lockers and pickup points, and texts with live tracking." }
+        ]
+      },
+      {
+        "h": "6. 3PL and 4PL",
+        "blocks": [
+          { "list": [
+            "**3PL (third-party logistics)** – a company that runs logistics services for you: transport, warehousing, fulfilment.",
+            "**4PL (fourth-party logistics)** – a company that manages your whole logistics network and several 3PLs for you."
+          ] },
+          { "p": "Outsourcing turns fixed costs (trucks, buildings) into variable costs and gives flexibility for peaks. But you must manage the provider with clear SLAs and KPIs, and you still own the customer relationship." }
+        ]
+      },
+      {
+        "h": "7. Transport KPIs and cost control",
+        "blocks": [
+          { "table": {
+            "head": ["KPI", "Formula", "Example"],
+            "rows": [
+              ["Cost per delivery", "Total transport cost ÷ deliveries", "€42,500 ÷ 1,700 = **€25**"],
+              ["Fuel use", "Litres per 100 km", "32 → 29 L/100 km saves €2,880 per truck a year (60,000 km, €1.60/L)"],
+              ["Vehicle use (fill rate)", "Load carried ÷ capacity", "5 t ÷ 15 t = 33%"],
+              ["On-time delivery", "Deliveries in the window ÷ all deliveries", "96%"]
+            ]
+          } },
+          { "p": "Fuel is often 25–35% of road transport cost. Better routes, driver training, correct tyre pressure and less idling all cut fuel, cost and emissions." },
+          { "callout": { "title": "Case: six weeks of better routing", "text": "A food distributor re-sequenced five city routes, moved two customers from daily to three deliveries a week, and matched trucks to loads. Cost per delivery fell from €23.80 to €21.20, fuel from 30.5 to 28.9 L/100 km, vehicle use rose from 61% to 69%, and on-time delivery from 93% to 96%, with no new technology." } }
+        ]
+      },
+      {
+        "h": "8. Technology: GPS, telematics and IoT",
+        "blocks": [
+          { "p": "**GPS tracking** shows where each vehicle is and warns when it is late or off route. **Telematics** adds fuel use, speed and harsh braking. **IoT sensors** watch temperature in refrigerated trucks: if it rises above the limit, the receiver is warned before the goods arrive." }
+        ]
+      }
+    ]
+  },
+
+  "terms": [
+    { "term": "Mode of transport", "meaning": "The way goods travel: road, rail, sea or air.", "example": "Sea for volume, air for urgent medicines." },
+    { "term": "Intermodal transport", "meaning": "Using two or more modes for one shipment, usually in the same container.", "example": "Ship to port, train inland, truck to the warehouse." },
+    { "term": "Sea–air", "meaning": "Sea freight to a hub, then air freight to the destination.", "example": "Cheaper than air, faster than sea." },
+    { "term": "Route planning", "meaning": "Choosing the best order of stops and vehicle for each delivery run.", "example": "Clustering stops in north Doha." },
+    { "term": "Delivery window", "meaning": "The agreed time range for a delivery.", "example": "7:00–9:00 a.m." },
+    { "term": "Distribution network", "meaning": "The set of warehouses, depots and routes that bring goods to customers.", "example": "One national warehouse and two regional depots." },
+    { "term": "Last mile", "meaning": "The final step of delivery, to the customer’s door.", "example": "A courier van in a residential area." },
+    { "term": "Failed delivery", "meaning": "A delivery that cannot be completed, often because nobody is there.", "example": "The courier must return the next day." },
+    { "term": "3PL", "meaning": "Third-party logistics: an outside company that runs logistics services.", "example": "A 3PL stores and ships for an online shop." },
+    { "term": "4PL", "meaning": "Fourth-party logistics: a company that manages the whole logistics network and other providers.", "example": "A 4PL manages three 3PLs in the GCC." },
+    { "term": "Cost per delivery", "meaning": "Total transport cost divided by the number of deliveries.", "example": "€42,500 ÷ 1,700 = €25." },
+    { "term": "Vehicle utilisation", "meaning": "How much of a vehicle’s capacity is used.", "example": "5 tonnes in a 15-tonne truck = 33%." },
+    { "term": "Telematics", "meaning": "Technology that sends vehicle data such as location, speed and fuel use.", "example": "Alerts for harsh braking." },
+    { "term": "Tonne-kilometre", "meaning": "One tonne moved one kilometre: a way to compare transport cost and emissions.", "example": "Rail has a low cost per tonne-km." }
+  ],
+
+  "quiz": [
+    { "q": "Which mode is usually cheapest per unit for large volumes over long distances by water?",
+      "options": ["Air", "Road", "Sea", "Courier van"], "answer": 2, "why": "Sea freight has the lowest cost per unit, but it is slow." },
+    { "q": "Vaccines must reach a hospital abroad within two days. Which mode fits best?",
+      "options": ["Sea", "Rail", "Air", "Barge"], "answer": 2, "why": "Air is fastest; the cost of being late is very high." },
+    { "q": "Rail saves €6,000 in freight but adds two weeks. Each extra week of stock costs €2,500. What is the net result?",
+      "options": ["Save €1,000", "Save €3,500", "Lose €1,000", "Save €6,000"], "answer": 0, "why": "€6,000 − (2 × €2,500) = €1,000 saved, if no stockouts happen." },
+    { "q": "What is the first step in route planning?",
+      "options": ["Buy new trucks", "Cluster stops by area", "Call every customer", "Choose the driver"], "answer": 1, "why": "Cluster, then sequence, then match the vehicle." },
+    { "q": "Total transport cost €30,000; 1,200 deliveries. What is the cost per delivery?",
+      "options": ["€20", "€25", "€30", "€36"], "answer": 1, "why": "€30,000 ÷ 1,200 = €25." },
+    { "q": "A 10-tonne truck carries 4 tonnes. What is the vehicle utilisation?",
+      "options": ["4%", "25%", "40%", "60%"], "answer": 2, "why": "4 ÷ 10 × 100 = 40%." },
+    { "q": "A truck will be three hours late. What protects the customer relationship most?",
+      "options": ["Say nothing", "Call the customer early with a new arrival time", "Cancel the delivery", "Blame the traffic later"], "answer": 1, "why": "Early communication lets the customer plan; it costs almost nothing." },
+    { "q": "What is the main advantage of one central warehouse instead of several regional ones?",
+      "options": ["Faster delivery everywhere", "Less total stock and safety stock", "Shorter distances", "No transport needed"], "answer": 1, "why": "Fewer locations need less total stock, but delivery distances grow." },
+    { "q": "Which company manages your whole logistics network, including other providers?",
+      "options": ["1PL", "2PL", "3PL", "4PL"], "answer": 3, "why": "A 4PL manages the network and coordinates 3PLs." },
+    { "q": "How many different orders are possible for 10 delivery stops?",
+      "options": ["10", "100", "About 3,600", "More than 3.6 million"], "answer": 3, "why": "10 × 9 × 8 × … × 1 = 3,628,800. That is why routing tools help." }
+  ],
+
+  "workbook": {
+    "intro": "Use the Cost per delivery, Fuel saving and Transport mode trade-off tools in Tools.",
+    "questions": [
+      { "id": "q1", "kind": "long",
+        "prompt": "Choose the best mode for each shipment and explain why: (a) 20 containers of building materials from China to Doha; (b) urgent spare parts for a gas plant from Germany; (c) daily fresh bread to 40 cafés in Doha.",
+        "hint": "Think about cost of being late." },
+      { "id": "q2", "kind": "long",
+        "prompt": "A fleet of 12 trucks drives 50,000 km each a year. Better routing cuts fuel use from 30 to 27 litres per 100 km. Fuel costs QAR 2.05 per litre. Calculate the saving per truck and for the fleet.",
+        "hint": "Litres saved = km ÷ 100 × (old − new)." },
+      { "id": "q3", "kind": "long",
+        "prompt": "A Doha supermarket chain wants one-hour delivery windows at all 25 stores. Explain the cost to your transport operation and suggest a fair offer.",
+        "hint": "Tiers: standard, priority, scheduled." },
+      { "id": "q4", "kind": "long",
+        "prompt": "An online shop in Qatar has many failed deliveries (customers not at home). Suggest three solutions for the last mile.",
+        "hint": "Time slots, lockers, tracking." },
+      { "id": "q5", "kind": "long",
+        "prompt": "Should a growing online shop run its own vans or use a 3PL? Give two advantages and two risks of using a 3PL, then decide.",
+        "hint": "Fixed vs variable cost; control." },
+      { "id": "q6", "kind": "short",
+        "prompt": "Name one way GPS or IoT sensors improve delivery quality.",
+        "hint": "" }
+    ]
+  },
+
+  "exit": {
+    "questions": [
+      { "id": "e1", "kind": "short", "prompt": "One thing I learned today:" },
+      { "id": "e2", "kind": "short", "prompt": "One thing that is still not clear:" },
+      { "id": "e3", "kind": "choice", "prompt": "How confident are you with today's topic?", "options": ["1 – Not yet", "2", "3", "4", "5 – Very confident"] }
+    ]
+  }
+}
