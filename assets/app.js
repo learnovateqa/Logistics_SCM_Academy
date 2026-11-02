@@ -269,8 +269,9 @@
           '<button class="btn" type="submit" id="signinBtn">Sign in</button>' +
         '</form>' +
         '<div class="grid">' + levels.map(function (l) {
-          return '<div class="card pad"><div class="eyebrow muted">' + esc(l.name) + '</div><h3 style="margin:6px 0 4px">' + esc(l.title) + '</h3>' +
-            (l.content ? '<span class="chip gold">Open with your code</span>' : '<span class="chip lock">Coming soon</span>') + '</div>';
+          return '<div class="card level-card"><div class="stripe"></div><div class="pad"><div class="eyebrow muted">' + esc(l.name) + '</div><h3 style="margin:6px 0 4px">' + esc(l.title) + '</h3>' +
+            '<p class="muted small" style="margin:0 0 10px">' + esc(l.about || '') + '</p>' +
+            '<div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip">' + (l.sessions || 12) + ' sessions</span><span class="chip">Midterm and final</span><span class="chip gold">Sign in with your code</span></div></div></div>';
         }).join('') + '</div>' +
       '</div>' +
       '<p class="foot">© ' + new Date().getFullYear() + ' ' + esc(CFG.brand || 'Elevate with Ms. Maria') + ' · ' + esc(CFG.school || 'Learnovate Qatar') + '</p>';
@@ -303,7 +304,7 @@
   }
   function viewNoContent() {
     return '<div class="card pad empty">' + ico('flag', 40) + '<h2 class="h2">Welcome, ' + esc(S.state.student.name) + '</h2>' +
-      '<p>Your course (Level ' + esc(S.state.student.level) + ') is being prepared. Please check again soon.</p>' +
+      '<p>Your Level ' + esc(S.state.student.level) + ' course materials are being uploaded by Ms. Maria. Please check again soon.</p>' +
       '<button class="btn ghost" onclick="location.reload()">Check again</button></div>';
   }
 
