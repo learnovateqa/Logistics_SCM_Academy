@@ -434,3 +434,7 @@ li.on .pin { background: var(--t); }
 .week::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px; background: var(--band); }
 .level-card { overflow: hidden; }
 .level-card .stripe { height: 8px; background: var(--band); }
+/* Teacher portal button in the top bar (signed out) */
+.ibtn.tp-btn { display: inline-flex; gap: 8px; align-items: center; text-decoration: none; padding: 0 14px; font-size: .88rem; }
+@media (max-width: 480px) { .ibtn.tp-btn span { display: none; } }
+.foot a { color: inherit; }

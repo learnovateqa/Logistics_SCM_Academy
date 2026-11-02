@@ -102,3 +102,10 @@ body.teacher .side a.nav .nico svg, body.teacher .side a.nav.on .nico svg { stro
 body.teacher .side a.nav .nico { background: var(--bg); }
 body.teacher .side a.nav.on .nico { background: #fff; }
 .t-mitem .chip { color: var(--navy); }
+.t-table a { color: var(--navy); }
+.t-table .wa { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px; border: 1.5px solid var(--return); font-size: .75rem; font-weight: 600; text-decoration: none; }
+.t-edit { border-left: 8px solid var(--gold); }
+.t-edit-grid { display: grid; gap: 0 12px; }
+@media (min-width: 720px) { .t-edit-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .t-edit-grid { grid-template-columns: repeat(3, 1fr); } }
+.t-table .sub-b { display: block; font-weight: 400; font-size: .78rem; color: var(--muted); }

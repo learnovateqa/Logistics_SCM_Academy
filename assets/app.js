@@ -50,6 +50,8 @@
     truck: '<rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 10h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>',
     flag: '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
     x: '<path d="M6 6l12 12M18 6 6 18"/>',
+    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    teacher: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/>',
     out: '<path d="M10 17l-5-5 5-5M5 12h11M14 4h5v16h-5"/>',
     install: '<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 7v7M9 11l3 3 3-3M10 18h4"/>',
     print: '<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',
@@ -168,6 +170,7 @@
           '<input id="q" type="search" placeholder="Search sessions, terms, tools" autocomplete="off"></form>' : '') +
         '<div class="top-btns">' +
           (signed ? '<button class="ibtn only-phone" id="searchBtn" aria-label="Search">' + ico('search') + '</button>' : '') +
+          (!signed ? '<a class="ibtn tp-btn" href="teacher.html">' + ico('teacher', 18) + '<span>Teacher portal</span></a>' : '') +
           '<button class="ibtn" id="aaBtn" aria-label="Text size">AA</button>' +
           (signed ? '<button class="avatar" id="meBtn" aria-label="My menu">' + esc(name.trim().charAt(0).toUpperCase() || '?') + '</button>' : '') +
         '</div>' +
@@ -211,6 +214,7 @@
   function openMenu() {
     var bg = $('#sheetBg'), sh = $('#sheet');
     sh.innerHTML = '<div class="who"><b>' + esc(S.state.student.name) + '</b><br><small>Level ' + esc(S.state.student.level) + ' · code ' + esc(S.state.student.code) + '</small></div>' +
+      '<a href="#/profile">' + ico('user') + 'My details (email and phone)</a>' +
       '<a href="#/study">' + ico('study') + 'Study: flashcards and glossary</a>' +
       '<a href="#/install">' + ico('install') + 'Install the app</a>' +
       '<button id="signOut">' + ico('out') + 'Sign out</button>';
@@ -234,9 +238,10 @@
     var r = route();
     var main = $('#main');
     if (!S.code || !S.state) { frame(null); wireFrame(); main.innerHTML = viewWelcome(); wireWelcome(); window.scrollTo(0, 0); return; }
-    var views = { home: viewHome, sessions: viewSessions, session: viewSession, lab: viewLab, tools: viewTools, progress: viewProgress, study: viewStudy, search: viewSearch, install: viewInstall };
+    if (needsProfile() && r.view !== 'profile') { frame(''); wireFrame(); main.innerHTML = viewProfile({ first: true }); WIRE.profile(); window.scrollTo(0, 0); return; }
+    var views = { profile: viewProfile, home: viewHome, sessions: viewSessions, session: viewSession, lab: viewLab, tools: viewTools, progress: viewProgress, study: viewStudy, search: viewSearch, install: viewInstall };
     var v = views[r.view] || viewHome;
-    var active = r.view === 'session' ? 'sessions' : (r.view === 'search' || r.view === 'install' ? '' : r.view);
+    var active = r.view === 'session' ? 'sessions' : (r.view === 'search' || r.view === 'install' || r.view === 'profile' ? '' : r.view);
     frame(active); wireFrame();
     if (!S.course) { main.innerHTML = viewNoContent(); return; }
     var out = v(r);
@@ -251,6 +256,37 @@
     var q = $('#q'); if (q && r.view === 'search') q.value = r.a;
   }
   var WIRE = {};
+
+  // ------------------------------------------------------------ profile --
+  // Older script versions do not send email/phone: then we never ask.
+  function needsProfile() { var st = S.state && S.state.student; return !!(st && 'email' in st && (!st.email || !st.phone)); }
+  function viewProfile(r) {
+    var st = S.state.student, first = r && r.first;
+    return '<div class="card pad signin" style="margin:0 auto">' +
+      '<div class="eyebrow muted">' + (first ? 'Welcome, ' + esc(st.name.split(' ')[0]) : 'My details') + '</div>' +
+      '<h1 class="h2" style="margin:6px 0 4px">' + (first ? 'Your contact details' : 'My details') + '</h1>' +
+      '<p class="sub">' + (first ? 'Before you start, please give Ms. Maria your email and mobile number. ' : '') + 'Only Ms. Maria can see these details.</p>' +
+      '<form id="profForm" novalidate>' +
+      '<label class="field"><span>Email</span><input class="input" id="pEmail" type="email" inputmode="email" autocomplete="email" value="' + esc(st.email) + '" placeholder="name@example.com" required></label>' +
+      '<label class="field"><span>Mobile number</span><input class="input" id="pPhone" type="tel" inputmode="tel" autocomplete="tel" value="' + esc(st.phone) + '" placeholder="+974 5512 3456" required></label>' +
+      '<label class="field"><span>WhatsApp number <small class="muted">(only if different)</small></span><input class="input" id="pWa" type="tel" inputmode="tel" value="' + esc(st.whatsapp) + '" placeholder="+974 …"></label>' +
+      '<div id="profMsg"></div><div class="btns"><button class="btn" type="submit" id="profBtn">' + (first ? 'Save and continue' : 'Save') + '</button>' +
+      (first ? '' : '<a class="btn ghost" href="#/home">Cancel</a>') + '</div></form></div>' + foot();
+  }
+  WIRE.profile = function () {
+    var f = $('#profForm'); if (!f) return;
+    f.onsubmit = function (e) {
+      e.preventDefault();
+      var btn = $('#profBtn'), msg = $('#profMsg');
+      var email = $('#pEmail').value.trim(), phone = $('#pPhone').value.trim();
+      if (!email || !phone) { msg.innerHTML = '<p class="note err">Please enter your email and mobile number.</p>'; return; }
+      btn.disabled = true; btn.textContent = 'Saving…';
+      api({ action: 'saveProfile', code: S.code, email: email, phone: phone, whatsapp: $('#pWa').value.trim() }).then(function (r) {
+        S.state.student = r.student; store.set('state', S.state); toast('Thank you. Your details are saved.');
+        go('#/home'); render();
+      }, function (err) { btn.disabled = false; btn.textContent = 'Save'; msg.innerHTML = '<p class="note err">' + esc(err.message) + '</p>'; });
+    };
+  };
 
   // ------------------------------------------------------------ welcome --
   function viewWelcome() {
@@ -345,7 +381,7 @@
   function svgStage(k) { return '<span style="display:inline-grid" class="st-' + k + '"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--c)" aria-hidden="true">' + P[k] + '</svg></span>'; }
   var statN = 0;
   function stat(label, val, sub) { var k = ['Plan', 'Source', 'Make', 'Deliver', 'Return'][statN++ % 5]; return '<div class="card stat st-' + k + '"><small>' + esc(label) + '</small><b>' + esc(val) + '</b><span>' + esc(sub) + '</span></div>'; }
-  function foot() { return '<p class="foot">' + esc(CFG.brand || 'Elevate with Ms. Maria') + ' · ' + esc(CFG.school || 'Learnovate Qatar') + '</p>'; }
+  function foot() { return '<p class="foot">' + esc(CFG.brand || 'Elevate with Ms. Maria') + ' · ' + esc(CFG.school || 'Learnovate Qatar') + ' · <a href="teacher.html">Teacher portal</a></p>'; }
   function routeH() {
     var cur = currentSession();
     return '<ol>' + S.course.sessions.map(function (s) {
