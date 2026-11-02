@@ -120,7 +120,7 @@
     var lv = S.state && levelInfo(S.state.student.level);
     if (!lv || !lv.content) { S.course = null; return Promise.resolve(); }
     if (S.course && S.course.level === lv.id) return Promise.resolve();
-    return getJSON(lv.path + 'course.json').then(function (c) { c.path = lv.path; S.course = c; S.content = {}; });
+    return getJSON(lv.path + 'course.json').then(function (c) { c.path = lv.path; S.course = c; S.content = {}; S.cases = null; });
   }
   function loadSession(n) {
     if (S.content[n]) return Promise.resolve(S.content[n]);
@@ -240,7 +240,7 @@
       main.innerHTML = '<div class="empty">Loading…</div>';
       out.then(function (html) { main.innerHTML = html; afterRender(r); }, function () { main.innerHTML = '<div class="card pad note err">This page could not be loaded. Check your internet connection and try again.</div>'; });
     } else { main.innerHTML = out; afterRender(r); }
-    if (!r.b) window.scrollTo(0, 0);
+    if (!r.b || r.view === 'tools') window.scrollTo(0, 0);
   }
   function afterRender(r) {
     var w = WIRE[r.view]; if (w) w(r);
@@ -630,19 +630,58 @@
       '<div class="card pad st-Make" style="border-left:8px solid var(--c)"><h2 class="h2" style="font-size:1.15rem">Coming soon</h2><p>Here you will choose a company (a food importer, a pharmacy distributor, an online shop or a building-materials supplier) and apply each session’s tools to it.</p>' +
       '<ul class="goals"><li>A supply chain map that grows each session</li><li>One lab step per teaching session</li><li>Your Control Tower: live figures for your company</li><li>Simulations: Multi-Tier Flow (bullwhip), Supplier Risk Matrix, Working Capital Balancer, Disruption Shock Test</li></ul></div>' + foot();
   }
-  var TOOLS = ['EOQ calculator', 'Reorder point', 'Safety stock', 'Inventory turnover and days of stock', 'ABC analysis', 'Supplier scoring matrix', 'Total cost of ownership', 'Landed cost', 'Forecasting and forecast error', 'Transport cost per delivery', 'OTIF and order accuracy', 'Risk score'];
-  function viewTools() {
-    return '<h1 class="h2">Tools</h1><p class="sub">Supply chain calculators that show the working step by step.</p>' +
-      '<div class="grid g3">' + TOOLS.map(function (t, i) {
-        var k = STAGE_ORDER[i % 5];
-        return '<div class="card pad st-' + k + '" style="border-top:6px solid var(--c)"><b>' + esc(t) + '</b><p class="muted small" style="margin:4px 0 0">Coming soon</p></div>';
-      }).join('') + '</div>' + foot();
+  function toolList() { return (window.LSCM_TOOLS && window.LSCM_TOOLS.list) || []; }
+  function loadCases() {
+    if (S.cases) return Promise.resolve(S.cases);
+    return getJSON(S.course.path + 'cases.json').then(function (c) { S.cases = c.cases; return S.cases; }, function () { S.cases = []; return S.cases; });
   }
+  function viewTools(r) {
+    if (r.a === 'case') return viewCase(r.b);
+    if (r.a) {
+      var t = toolList().filter(function (x) { return x.id === r.a; })[0];
+      if (!t) return '<div class="card pad empty">This tool was not found. <a href="#/tools">See all tools</a></div>';
+      return '<a class="back" href="#/tools">← All tools</a><div class="card shead st-' + t.stage + '"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">' +
+        '<span class="chip st-' + t.stage + '"><span class="d"></span>' + esc(STAGE_LABEL[t.stage]) + '</span><small class="muted">Used in Session ' + t.session + '</small></div>' +
+        '<h1>' + esc(t.name) + '</h1><p class="muted" style="margin:0">' + esc(t.intro) + '</p></div><div class="sec" id="toolMount"></div>' + foot();
+    }
+    return loadCases().then(function (cases) {
+      return '<h1 class="h2">Tools</h1><p class="sub">Supply chain calculators that show the working step by step, and real case studies.</p>' +
+        STAGE_ORDER.map(function (k) {
+          var ts = toolList().filter(function (t) { return t.stage === k; });
+          if (!ts.length) return '';
+          return '<div class="stage-h st-' + k + '"><i></i>' + esc(STAGE_LABEL[k]) + '</div><div class="grid g3">' + ts.map(function (t) {
+            return '<a class="card pad toolcard st-' + k + '" href="#/tools/' + t.id + '"><span class="ti">' + ico('tools', 20) + '</span><b>' + esc(t.name) + '</b><small>' + esc(t.intro) + '</small></a>';
+          }).join('') + '</div>';
+        }).join('') +
+        '<div class="sec"><h2>Case studies</h2><p class="sub">Real events from Qatar and the world, and workplace cases to practise decisions.</p><div class="grid g2">' +
+        cases.map(function (c) {
+          return '<a class="card pad toolcard st-' + c.stage + '" href="#/tools/case/' + c.id + '"><span class="chip st-' + c.stage + '"><span class="d"></span>' + (c.real ? 'Real event · ' : 'Workplace case · ') + esc(c.place) + '</span>' +
+            '<b style="margin-top:8px">' + esc(c.title) + '</b><small>' + esc(c.summary) + '</small></a>';
+        }).join('') + '</div></div>' +
+        '<div class="sec"><h2>Simulations</h2><p class="sub">Coming soon in My Supply Chain: Multi-Tier Flow (bullwhip), Supplier Risk Matrix, Working Capital Balancer and Disruption Shock Test.</p></div>' + foot();
+    });
+  }
+  function viewCase(id) {
+    return loadCases().then(function (cases) {
+      var c = cases.filter(function (x) { return x.id === id; })[0];
+      if (!c) return '<div class="card pad empty">This case was not found. <a href="#/tools">See all tools</a></div>';
+      return '<a class="back" href="#/tools">← Tools and cases</a><div class="card shead st-' + c.stage + '"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">' +
+        '<span class="chip st-' + c.stage + '"><span class="d"></span>' + esc(STAGE_LABEL[c.stage]) + '</span><small class="muted">' + (c.real ? 'Real event' : 'Workplace case') + ' · ' + esc(c.place) + ' · Session ' + c.session + '</small></div>' +
+        '<h1>' + esc(c.title) + '</h1><p class="muted" style="margin:0">' + esc(c.summary) + '</p></div>' +
+        '<div class="card handout sec st-' + c.stage + '">' + c.sections.map(function (s) { return '<section><h3>' + esc(s.h) + '</h3>' + s.blocks.map(block).join('') + '</section>'; }).join('') +
+        '<section><h3>Your decisions</h3><p class="muted small">Use Frame, Evaluate, Act, Review. Write your answers, then discuss them in class.</p><ol class="steps">' + c.questions.map(function (q) { return '<li>' + md(q) + '</li>'; }).join('') + '</ol></section>' +
+        (c.sources && c.sources.length ? '<section><h3>Sources</h3><ul class="small">' + c.sources.map(function (x) { return '<li><a href="' + esc(x[1]) + '" target="_blank" rel="noopener">' + esc(x[0]) + '</a></li>'; }).join('') + '</ul></section>' : '') +
+        '</div>' + foot();
+    });
+  }
+  WIRE.tools = function (r) {
+    var el = $('#toolMount'); if (el && window.LSCM_TOOLS) window.LSCM_TOOLS.mount(el, r.a);
+  };
 
   // ------------------------------------------------------------- search --
   function viewSearch(r) {
     var q = (r.a || '').trim().toLowerCase();
-    return loadAllContent().then(function () {
+    return Promise.all([loadAllContent(), loadCases()]).then(function () {
       if (!q) return '<h1 class="h2">Search</h1><p class="sub">Type a word in the search box.</p>';
       var hits = [];
       function has(s) { return String(s || '').toLowerCase().indexOf(q) !== -1; }
@@ -654,7 +693,8 @@
           c.handout.sections.forEach(function (h) { if (has(h.h) || has(JSON.stringify(h.blocks))) hits.push({ href: '#/session/' + s.n + '/handout', title: h.h, sub: 'Handout · ' + s.title, kind: 'Handout · Session ' + s.n }); });
         }
       });
-      TOOLS.forEach(function (t) { if (has(t)) hits.push({ href: '#/tools', title: t, sub: 'Calculator', kind: 'Tool' }); });
+      toolList().forEach(function (t) { if (has(t.name) || has(t.intro)) hits.push({ href: '#/tools/' + t.id, title: t.name, sub: t.intro, kind: 'Tool' }); });
+      (S.cases || []).forEach(function (c) { if (has(c.title) || has(c.summary) || has(c.place) || has(JSON.stringify(c.sections))) hits.push({ href: '#/tools/case/' + c.id, title: c.title, sub: c.summary, kind: 'Case study' }); });
       function hl(s) { var e = esc(s), i = e.toLowerCase().indexOf(esc(q)); return i === -1 ? e : e.slice(0, i) + '<mark>' + e.slice(i, i + esc(q).length) + '</mark>' + e.slice(i + esc(q).length); }
       return '<h1 class="h2">Search</h1><p class="sub">' + hits.length + ' result' + (hits.length === 1 ? '' : 's') + ' for “' + esc(r.a) + '”</p>' +
         (hits.length ? '<div class="card">' + hits.slice(0, 60).map(function (h) { return '<a class="res" href="' + h.href + '"><small>' + esc(h.kind) + '</small><b>' + hl(h.title) + '</b><small>' + hl(h.sub) + '</small></a>'; }).join('') + '</div>'
