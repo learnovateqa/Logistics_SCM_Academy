@@ -15,7 +15,7 @@ assets/tools.js      the calculators (tests: node tests/tools.test.js)
 levels/level6/cases.json   case studies (Qatar 2017, Hamad Port, Ever Given, Red Sea, workplace cases)
 index.html           the student app (sign in, Home, Sessions, Progress, Study…)
 assets/              app.css and app.js (no framework)
-levels/levels.json   the list of levels (Level 6 live; 4 and 5 coming soon)
+levels/levels.json   the list of levels and their card titles (Level 6 has content; 4 and 5 show as ready programmes, content to come)
 levels/level6/       course.json (12 sessions) + one file per session (s01.json…)
 manifest.webmanifest, sw.js, icons/   installable app, works offline
 config.js            the Web app link from Apps Script goes here

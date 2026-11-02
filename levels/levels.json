@@ -1,7 +1,7 @@
 {
   "levels": [
-    { "id": "6", "name": "Level 6", "title": "Practical frameworks and decision-making", "path": "levels/level6/", "content": true },
-    { "id": "5", "name": "Level 5", "title": "Coming soon", "path": "levels/level5/", "content": false },
-    { "id": "4", "name": "Level 4", "title": "Coming soon", "path": "levels/level4/", "content": false }
+    { "id": "6", "name": "Level 6", "title": "Practical frameworks and decision-making", "about": "Strategy, real cases and decision-making for future supply chain leaders.", "sessions": 12, "path": "levels/level6/", "content": true },
+    { "id": "5", "name": "Level 5", "title": "Supply chain operations and planning", "about": "Planning, sourcing, inventory and warehouse operations in practice.", "sessions": 12, "path": "levels/level5/", "content": false },
+    { "id": "4", "name": "Level 4", "title": "Logistics foundations", "about": "The basics of logistics: stock, warehousing, transport and customer service.", "sessions": 12, "path": "levels/level4/", "content": false }
   ]
 }

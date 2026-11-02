@@ -432,3 +432,5 @@ li.on .pin { background: var(--t); }
 .btn.ghost:hover { border-color: var(--c, var(--navy)); }
 .week { background: radial-gradient(120% 140% at 100% 0%, var(--navy-2) 0%, var(--navy) 60%); }
 .week::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px; background: var(--band); }
+.level-card { overflow: hidden; }
+.level-card .stripe { height: 8px; background: var(--band); }
