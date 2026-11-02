@@ -1,0 +1,250 @@
+{
+  "cases": [
+    {
+      "id": "qatar-2017", "stage": "Source", "session": 4, "place": "Qatar", "real": true,
+      "title": "Qatar 2017: rebuilding supply routes in weeks",
+      "summary": "When land, sea and air links with four neighbours closed overnight, Qatar had to find new routes for food and goods quickly.",
+      "sections": [
+        { "h": "What happened", "blocks": [
+          { "p": "In **June 2017**, Saudi Arabia, the United Arab Emirates, Bahrain and Egypt cut diplomatic and trade links with Qatar. Qatar’s only land border, with Saudi Arabia, closed. Ships could no longer bring Qatar’s cargo through the usual transhipment ports in the neighbouring countries." },
+          { "p": "Many everyday goods, including fresh food, had arrived by these routes. The supply chain had to change at once." }
+        ] },
+        { "h": "How the supply chain responded", "blocks": [
+          { "list": [
+            "**New sea routes.** Within days, direct container services connected Hamad Port with **Sohar** and **Salalah** in Oman. The first Hamad–Sohar service started on **11 June 2017**.",
+            "**More direct lines.** Services to **India** (Mundra and Nhava Sheva), **Turkey**, Pakistan and other countries followed, so ships came straight to Qatar without stopping in a neighbouring Gulf port.",
+            "**Air freight for urgent goods.** In July 2017 the first **165 dairy cows** were flown in from Europe by air cargo, part of a plan for about 4,000 cows to build local milk production.",
+            "**More volume at Hamad Port.** Container volume handled by Qatar’s ports rose from about **46,000 TEU in April 2017 to about 83,000 TEU in September 2017**."
+          ] },
+          { "p": "Hamad Port was **officially opened in September 2017**, a few months after the crisis began. The dispute ended with the **Al-Ula Declaration on 5 January 2021**." }
+        ] },
+        { "h": "Supply chain lessons", "blocks": [
+          { "table": { "head": ["Lesson", "In this case"], "rows": [
+            ["Single points of failure are dangerous", "One land border and a few transhipment ports carried much of the trade."],
+            ["Options must exist before the crisis", "A large new port made fast route changes possible."],
+            ["Mix transport modes", "Sea for volume, air for urgent and high-value goods."],
+            ["Build local capacity", "Local dairy production reduced dependence on imports."]
+          ] } }
+        ] }
+      ],
+      "questions": [
+        "Frame: Which of the Six Rights were most at risk in the first week, and why?",
+        "Evaluate: Compare sea through Oman with air freight for fresh food. Use cost, speed and capacity.",
+        "Act: You manage a Doha food importer in June 2017. List your first three actions.",
+        "Review: What should a Qatari importer keep doing today, even though the routes are open again?"
+      ],
+      "sources": [
+        ["The Peninsula: Hamad Port posts strong performance (Nov 2017)", "https://thepeninsulaqatar.com/article/12/11/2017/Hamad-Port-posts-strong-performance"],
+        ["gCaptain: Shipping routes via Oman opened to give Qatar food lifeline", "https://gcaptain.com/shipping-routes-via-oman-opened-give-qatar-food-lifeline/"],
+        ["Baladna: Qatari company flies in cows", "https://baladna.com/en/qatari-company-flies-in-cows-to-meet-countrys-dairy-needs"],
+        ["Baker McKenzie: GCC and Egypt sign the Al-Ula Declaration", "https://sanctionsnews.bakermckenzie.com/gcc-and-egypt-sign-the-al-ula-declaration-ending-the-qatar-boycott"]
+      ]
+    },
+    {
+      "id": "hamad-port", "stage": "Deliver", "session": 4, "place": "Qatar", "real": true,
+      "title": "Hamad Port: Qatar’s gateway",
+      "summary": "A new deep-water port south of Doha, built for growth and now a regional transhipment hub.",
+      "sections": [
+        { "h": "The port", "blocks": [
+          { "p": "Hamad Port is in **Umm Al Houl, south of Doha**. It was officially opened in **September 2017**. It is managed by **Mwani Qatar** (Qatar Ports Management Company), and container terminals are run by **QTerminals**." },
+          { "p": "The port was designed for about **7.5 million TEU a year** when all phases are complete. In **2024** it handled about **1.42 million TEU**. Almost half of that (48%) was **transhipment**: containers moved from one ship to another to reach other countries." }
+        ] },
+        { "h": "Why it matters for supply chains", "blocks": [
+          { "list": [
+            "**Direct services** to many countries mean fewer transhipment stops and shorter, more reliable lead times.",
+            "**Spare capacity** gives room for growth and for sudden changes, as in 2017.",
+            "**Transhipment** brings more shipping lines and more choice of routes to Qatari importers."
+          ] },
+          { "callout": { "title": "Key term: TEU", "text": "Twenty-foot Equivalent Unit: one standard 20-foot container. A 40-foot container counts as 2 TEU." } }
+        ] }
+      ],
+      "questions": [
+        "Why does a port with spare capacity make a country’s supply chain more resilient?",
+        "Your company imports from India. How does a direct service to Hamad Port change your lead time and safety stock?",
+        "Transhipment is almost half of the port’s volume. Who benefits from this, and how?"
+      ],
+      "sources": [
+        ["Hellenic Shipping News: Hamad Port to have capacity of 7.5 million TEUs", "https://www.hellenicshippingnews.com/hamad-port-to-have-capacity-of-7-5-million-teus-on-completion/"],
+        ["Hellenic Shipping News: Hamad Port clocks 1.421mn TEUs in 2024", "https://www.hellenicshippingnews.com/?p=1086029"],
+        ["Oman Observer: Opening of Hamad Port (Sept 2017)", "https://www.omanobserver.om/ampArticle/73974"]
+      ]
+    },
+    {
+      "id": "ever-given", "stage": "Return", "session": 10, "place": "Suez Canal, Egypt", "real": true,
+      "title": "The Ever Given: six days that blocked world trade",
+      "summary": "One container ship stuck across the Suez Canal stopped hundreds of ships between Asia and Europe.",
+      "sections": [
+        { "h": "What happened", "blocks": [
+          { "p": "On **23 March 2021**, the container ship *Ever Given* ran aground across the Suez Canal in strong winds. It blocked the canal for about **six days** until it was refloated on **29 March 2021**." },
+          { "p": "Hundreds of ships waited at both ends (reports counted more than 400). Some carriers sent ships around the **Cape of Good Hope** in southern Africa, which added **up to two weeks** to the journey and more fuel cost. Clearing the queue took several more days after the ship moved." }
+        ] },
+        { "h": "Effects along the chain", "blocks": [
+          { "list": [
+            "Late deliveries for factories and shops in Europe (right time broken).",
+            "Containers and ships out of position for weeks afterwards.",
+            "Higher freight rates in a market already under pressure."
+          ] }
+        ] }
+      ],
+      "questions": [
+        "Use the risk tool: give the event a probability and an impact score for a company that imports from Asia.",
+        "Which mitigation would you choose: more safety stock, a second supplier closer to home, or air freight for critical items? Explain the trade-off.",
+        "What early-warning information would have helped a planner on 23 March?"
+      ],
+      "sources": [
+        ["Wikipedia: 2021 Suez Canal obstruction", "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"],
+        ["Seatrade Maritime: Ever Given re-floated", "https://www.seatrade-maritime.com/containers/ever-given-blocking-suez-canal-re-floated"]
+      ]
+    },
+    {
+      "id": "red-sea", "stage": "Return", "session": 10, "place": "Red Sea", "real": true,
+      "title": "The Red Sea crisis: the long way round",
+      "summary": "Attacks on ships near the Red Sea sent much of Asia–Europe trade around Africa for more than two years.",
+      "sections": [
+        { "h": "What happened", "blocks": [
+          { "p": "From **late 2023**, attacks on merchant ships in and near the Red Sea made the route through the **Suez Canal** unsafe. Most large container lines sent their ships around the **Cape of Good Hope** instead." },
+          { "p": "The longer route means more days at sea, more fuel, more ships needed for the same service, and higher freight rates." },
+          { "p": "In **2026**, some carriers began returning selected services to the Red Sea, but the return is gradual, and analysts expect a full return in early 2027 at the earliest. The situation can change quickly." }
+        ] },
+        { "h": "What supply chain managers did", "blocks": [
+          { "list": [
+            "Added longer lead times to plans and raised safety stock for imported items.",
+            "Used other routes and modes for urgent goods (for example sea–air through Gulf hubs).",
+            "Compared suppliers by **landed cost and route risk**, not only by price.",
+            "Watched carrier announcements weekly, because services changed often."
+          ] }
+        ] }
+      ],
+      "questions": [
+        "Use the safety stock tool: lead time goes from 5 to 7 weeks. What happens to safety stock?",
+        "Is this a short-term disruption or a structural change? How does your answer change your plan?",
+        "Which supplier would you choose now: a cheaper one in Asia, or a more expensive one in Turkey? Use total cost of ownership."
+      ],
+      "sources": [
+        ["Carra Globe: Red Sea shipping 2026", "https://carraglobe.com/red-sea-carrier-return-2026/"],
+        ["Air Cargo News: Box lines unlikely to return to Suez Canal in 2026 (March 2026)", "https://www.aircargonews.net/supply-chains/2026/03/box-lines-unlikely-to-return-to-suez-canal-in-2026-following-middle-east-strikes/"],
+        ["SLST: Suez Canal return 2026", "https://slstist.com/en/suez-canal-red-sea-return-2026/"]
+      ]
+    },
+    {
+      "id": "pharma-stock", "stage": "Make", "session": 5, "place": "Pharmaceutical distributor", "real": false,
+      "title": "Three medicines, three stock problems",
+      "summary": "An inventory planner faces expired stock, a stockout and overstock at the same time.",
+      "sections": [
+        { "h": "The situation", "blocks": [
+          { "p": "Priya plans stock for 150 medicines at a distributor that supplies hospitals and pharmacies. Her manager asks for a plan to fix three problems:" },
+          { "list": [
+            "**Medicine A expired on the shelf.** Monthly demand fell from 200 to 60 units over six months, but the reorder point and safety stock were never changed.",
+            "**Medicine B was out of stock for five days.** Demand is steady at 100 units a month, lead time is 10 days, and safety stock was only 50 units. One 3-day supplier delay used it all.",
+            "**Medicine C has 600 units** in stock, but monthly demand is only 80. A promotion forecast a sales spike that never came."
+          ] }
+        ] },
+        { "h": "What Priya did", "blocks": [
+          { "steps": [
+            "A: lowered the reorder point and safety stock, and set a monthly demand review.",
+            "B: recalculated safety stock using the real variation in lead time (raised to 150 units) and asked the supplier for early warning of delays.",
+            "C: returned part of the stock for a partial refund, offered a discount to clear more, lowered the maximum stock level, and asked for promotion forecasts to be checked before ordering."
+          ] },
+          { "callout": { "title": "The point", "text": "She fixed the causes (old data, wrong safety stock, unchecked forecasts), not only the numbers." } }
+        ] }
+      ],
+      "questions": [
+        "Which of the Six Rights did each problem break?",
+        "Use the safety stock tool (demand and lead time both vary) to check Priya’s new safety stock for Medicine B.",
+        "What rule would you add so problem A does not happen again?"
+      ],
+      "sources": []
+    },
+    {
+      "id": "dc-layout", "stage": "Deliver", "session": 8, "place": "Distribution centre", "real": false,
+      "title": "The warehouse where layout was the problem",
+      "summary": "Pickers walk too far, the wrong trucks work in the aisles, and dispatch has no records.",
+      "sections": [
+        { "h": "The situation", "blocks": [
+          { "list": [
+            "Twenty products make up **60% of daily picks**, but they sit in middle rows far from packing.",
+            "Counterbalance forklifts work in aisles designed for reach trucks, so every turn is slow.",
+            "Every order is picked on its own, so pickers walk the same aisle many times.",
+            "Picking rate is **62 lines per hour**, against a benchmark of **85**. The night shift does 48, the day shift 70.",
+            "Dispatch relies on verbal confirmation, so disputes with carriers have no evidence."
+          ] }
+        ] },
+        { "h": "The manager’s plan", "blocks": [
+          { "steps": [
+            "Move the top 20 products to ground-level locations next to packing (slotting). Saving: about 45 minutes per picker per shift.",
+            "Buy three reach trucks for the narrow aisles; keep counterbalance trucks in the open yard. Payback about 14 months.",
+            "Batch picking for small orders; single-order picking for large ones. Walking time down about 22%.",
+            "Rebalance staff between shifts and train new night pickers. Target: 75 lines per hour.",
+            "Signature, photo and a daily log (carrier, vehicle, seal number, time) for every collection."
+          ] }
+        ] }
+      ],
+      "questions": [
+        "40 pickers each save 45 minutes per shift. How many labour hours is that per day?",
+        "Which KPIs would you check every week to see if the plan works?",
+        "Which change would you make first, and why?"
+      ],
+      "sources": []
+    },
+    {
+      "id": "food-routes", "stage": "Deliver", "session": 9, "place": "Food distributor", "real": false,
+      "title": "Recovering a bad delivery day",
+      "summary": "Three trucks stuck in traffic and two missed time slots, with a big supermarket customer threatening to leave.",
+      "sections": [
+        { "h": "Before", "blocks": [
+          { "table": { "head": ["KPI", "Before", "After six weeks"], "rows": [
+            ["Cost per delivery", "€23.80", "€21.20"],
+            ["Fuel use", "30.5 L / 100 km", "28.9 L / 100 km"],
+            ["Vehicle use", "61%", "69%"],
+            ["On-time delivery", "93%", "96%"]
+          ] } }
+        ] },
+        { "h": "What changed", "blocks": [
+          { "steps": [
+            "Re-sequenced five regular routes that crossed the city centre several times.",
+            "Moved two customers from daily to three deliveries a week, with a small stock buffer at their stores.",
+            "Matched vehicles to loads: large trucks on large routes, 7.5-tonne trucks on small ones.",
+            "Called customers early when a truck was late, so they could plan."
+          ] },
+          { "p": "The yearly saving was more than **€130,000**, with no new technology and no loss of service." }
+        ] }
+      ],
+      "questions": [
+        "Use the cost per delivery tool: 1,700 deliveries cost €42,500. What is the cost per delivery?",
+        "Why does early communication protect the customer relationship even when the delivery is late?",
+        "Which trade-off did the company accept when it moved two customers to three deliveries a week?"
+      ],
+      "sources": []
+    },
+    {
+      "id": "coffee-risk", "stage": "Return", "session": 10, "place": "Coffee importer", "real": false,
+      "title": "Two disruptions on one Monday",
+      "summary": "A port strike and a hurricane warning hit a coffee company’s supply chain on the same day.",
+      "sections": [
+        { "h": "The situation", "blocks": [
+          { "list": [
+            "A **port strike at Rotterdam** stops container ships from unloading. Several containers of roasted beans are waiting at sea.",
+            "A **hurricane warning** covers a growing region where two suppliers provide **35%** of the company’s arabica beans.",
+            "One customer will stop its production line if the beans are five days late."
+          ] }
+        ] },
+        { "h": "The risk analyst’s decisions", "blocks": [
+          { "steps": [
+            "Divert two containers to Antwerp (extra cost) and send one container’s worth by air (four times the sea cost, but less than the customer’s line-stoppage cost).",
+            "Model three scenarios for eight weeks: both suppliers working, one down, both down.",
+            "Check all documents for shipments on the way before they reach customs.",
+            "Set a trigger: if the hurricane warning comes within 200 km of a supplier’s plant, place a standby order with a South American supplier at once.",
+            "Report to the board in 72 hours with each risk, its score, its owner and the next action."
+          ] },
+          { "callout": { "title": "The point", "text": "A trigger turns a hard decision under pressure into a decision made in advance." } }
+        ] }
+      ],
+      "questions": [
+        "Score both risks in the risk tool. Which is higher, and why?",
+        "Air freight costs four times more. When is it still the right choice?",
+        "Write one more trigger for the port strike."
+      ],
+      "sources": []
+    }
+  ]
+}

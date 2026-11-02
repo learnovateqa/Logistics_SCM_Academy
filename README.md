@@ -11,6 +11,8 @@ apps-script/
   Code.gs            the Google Sheet back end (paste into Extensions > Apps Script)
   SETUP-GUIDE.md     step-by-step setup on a MacBook
   test/              automatic tests for Code.gs (node apps-script/test/run-tests.js)
+assets/tools.js      the calculators (tests: node tests/tools.test.js)
+levels/level6/cases.json   case studies (Qatar 2017, Hamad Port, Ever Given, Red Sea, workplace cases)
 index.html           the student app (sign in, Home, Sessions, Progress, Study…)
 assets/              app.css and app.js (no framework)
 levels/levels.json   the list of levels (Level 6 live; 4 and 5 coming soon)
