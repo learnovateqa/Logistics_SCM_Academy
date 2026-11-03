@@ -1,6 +1,6 @@
-/* Offline support. If you change this file, change CACHE (e.g. lscm-v7) so phones get the new version. */
-var CACHE = 'lscm-v7';
-var SHELL = ['./', 'index.html', 'config.js', 'assets/app.css', 'assets/app.js', 'assets/tools.js', 'assets/art.js', 'assets/sims.js', 'assets/lab.js', 'levels/levels.json', 'manifest.webmanifest', 'icons/logo.svg', 'icons/icon-192.png'];
+/* Offline support. If you change this file, change CACHE (e.g. lscm-v8) so phones get the new version. */
+var CACHE = 'lscm-v8';
+var SHELL = ['./', 'index.html', 'config.js', 'assets/app.css', 'assets/app.js', 'assets/tools.js', 'assets/art.js', 'assets/sims.js', 'assets/explore.js', 'assets/lab.js', 'levels/levels.json', 'manifest.webmanifest', 'icons/logo.svg', 'icons/icon-192.png'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));

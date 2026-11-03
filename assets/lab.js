@@ -262,10 +262,10 @@
     if (!ctx.isOpen(n)) return '<a class="back" href="#/lab">← My Supply Chain</a><div class="card pad empty">This step opens with Session ' + n + '.</div>';
     var saved = ctx.lab().steps[n], vals = saved ? saved.values : {};
     var fields = s.fields(c, ctx);
-    var simLink = SIMS.SIMS.filter(function (x) { return x.session === n; })[0];
+    var simLinks = SIMS.SIMS.filter(function (x) { return x.session === n; });
     return '<a class="back" href="#/lab">← My Supply Chain</a><div class="card shead st-' + s.stage + '"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span class="chip st-' + s.stage + '"><span class="d"></span>' + STAGE_LABEL[s.stage] + '</span><small class="muted">Lab step · Session ' + n + ' · ' + esc(c.name) + '</small>' + (saved ? '<span class="chip done">✓ Saved</span>' : '') + '</div>' +
       '<h1>' + esc(s.title) + '</h1><p class="muted" style="margin:0">' + esc(s.intro) + '</p></div>' +
-      (simLink ? '<p class="sec"><a class="btn ghost" href="#/lab/sim/' + simLink.id + '">Try the ' + esc(simLink.name) + '</a></p>' : '') +
+      (simLinks.length ? '<p class="sec btns">' + simLinks.map(function (x) { return '<a class="btn ghost" href="#/lab/sim/' + x.id + '">Try the ' + esc(x.name) + '</a>'; }).join('') + '</p>' : '') +
       '<div class="tool-grid sec"><form class="card pad lab-form" id="labForm" onsubmit="return false">' + fields.map(function (fd) { return fieldHtml(fd, vals); }).join('') + '</form>' +
       '<div class="card pad tool-out"><h3 class="h3">Your results</h3><div id="labOut"></div><button class="btn" id="labSave">' + (saved ? 'Update and send to Ms. Maria' : 'Save and send to Ms. Maria') + '</button>' +
       (saved && saved.sent ? '<p class="small muted" style="margin-top:8px">Last sent ' + new Date(saved.sent).toLocaleDateString('en-GB') + '</p>' : '') + '</div></div>';
