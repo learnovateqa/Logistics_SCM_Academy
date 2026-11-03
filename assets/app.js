@@ -366,6 +366,7 @@
         (Object.keys(S.p.quiz).length ? '<span><i class="dot v"></i>Average quiz <b>' + avgQuiz() + '</b></span>' : '') + '</div>' +
       '</div><div class="hero-art">' + ART.scene() + '</div></div></div>' +
       installBanner() +
+      ((st.exams || []).length ? '<div class="sec">' + st.exams.map(examCard).join('') + '</div>' : '') +
       (anns.length ? '<div class="sec">' + anns.slice(0, 3).map(function (a) {
         return '<div class="card pad ann"><div class="eyebrow">' + ico('bell', 14) + ' Announcement</div><p style="margin:6px 0 2px">' + esc(a.text) + '</p><small>' + fmtDate(a.date) + '</small></div>';
       }).join('') + '</div>' : '') +
@@ -451,7 +452,7 @@
     var r = (S.state && S.state.results) || {}, sheet = sheetSession(n) || {};
     if (id === 'slides') return sheet.canva ? 'Open in Canva' : 'Link coming';
     if (id === 'quiz') { var b = S.p.quiz[n]; return b != null ? 'Best ' + b + '%' : 'Open'; }
-    if (id === 'workbook') { var w = r.workbook && r.workbook[n]; return w ? (w.mark ? 'Marked ' + w.mark : 'Sent') : 'Open'; }
+    if (id === 'workbook') { var w = r.workbook && r.workbook[n]; return w ? (w.total ? 'Score ' + w.score + '/' + w.total + (w.mark ? ' · ' + w.mark : '') : w.mark ? 'Marked ' + w.mark : 'Sent') : 'Open'; }
     if (id === 'exit') { var x = r.exit && r.exit[n]; return x ? 'Sent' : 'Open'; }
     return 'Open';
   }
@@ -481,7 +482,7 @@
     }
     if (meta.type === 'Exam' && !meta.file) {
       return head + '<div class="card pad sec st-' + meta.stage + '"><h2 class="h2">' + esc(meta.title) + '</h2><p>' + esc(meta.summary) + '</p>' +
-        '<p class="note">The exam is taken in class. Ms. Maria will tell you the format. A revision page for this exam will appear here.</p>' + doneButton(n) + '</div>' + foot();
+        (examFor(n) ? examCard(examFor(n)) : '') + '<p class="note">The exam is taken in class. Ms. Maria will tell you the format. A revision page for this exam will appear here.</p>' + doneButton(n) + '</div>' + foot();
     }
     return loadSession(n).then(function (content) {
       var tab = r.b || '';
@@ -489,7 +490,7 @@
       if (!content) body = '<div class="card pad empty">' + ART.empty() + '<p>The materials for this session are being prepared.</p></div>';
       else if (!tab) body = overview(n, content);
       else body = (PANELS[tab] && (tab === 'slides' || tab === 'handout' || content[tab === 'terms' ? 'terms' : tab]) ? PANELS[tab] : overview)(n, content, meta);
-      return head + '<div class="sec">' + tiles(n, true, tab) + '</div><div class="panel st-' + meta.stage + '" id="panel">' + body + '</div>' + foot();
+      return head + (examFor(n) ? '<div class="sec">' + examCard(examFor(n)) + '</div>' : '') + '<div class="sec">' + tiles(n, true, tab) + '</div><div class="panel st-' + meta.stage + '" id="panel">' + body + '</div>' + foot();
     });
   }
   function doneButton(n) {
@@ -531,7 +532,10 @@
         }).join('') +
         '<div class="pad" id="quizEnd"><button class="btn" type="submit">Check my answers</button></div></form>';
     },
-    workbook: function (n, c) { return formPanel(n, 'workbook', 'E-workbook', c.workbook.intro, c.workbook.questions); },
+    workbook: function (n, c) {
+      if (c.workbook.tasks && window.LSCM_WB) return '<div id="wbMount">' + window.LSCM_WB.render(n, c, wbCtx(n, c)) + '</div>';
+      return formPanel(n, 'workbook', 'E-workbook', c.workbook.intro, c.workbook.questions);
+    },
     exit: function (n, c) { return formPanel(n, 'exit', 'Exit ticket', 'Two minutes at the end of class. Your answers go to Ms. Maria.', c.exit.questions); }
   };
   function block(b) {
@@ -545,6 +549,31 @@
       return '<div class="stagecard st-' + k + '"><h3>' + svgStage(k) + esc(STAGE_LABEL[k]) + '</h3><p style="margin-bottom:0">' + esc(S.course.stages[k].blurb) + '</p></div>';
     }).join('') + '</div>';
     return '';
+  }
+  function wbCtx(n, c) {
+    var ctx = {
+      draft: function () { return S.p.drafts['wb' + n]; },
+      setDraft: function (d) { S.p.drafts['wb' + n] = d; store.set('p:' + S.code, S.p); },
+      result: function () { return ((S.state.results && S.state.results.workbook) || {})[n]; },
+      fmtDate: fmtDate, toast: toast,
+      submit: function (answers, score, total) {
+        return api({ action: 'submitWorkbook', code: S.code, session: n, answers: answers, score: score, total: total }).then(function () { return refreshState(); });
+      },
+      rerender: function (focusId) {
+        var m = $('#wbMount'); if (!m) return;
+        var y = focusId && document.getElementById(focusId) ? document.getElementById(focusId).getBoundingClientRect().top : null;
+        m.innerHTML = window.LSCM_WB.render(n, c, ctx); window.LSCM_WB.wire(m, n, c, ctx);
+        if (y != null) { var el = document.getElementById(focusId); if (el) window.scrollBy(0, el.getBoundingClientRect().top - y); }
+      }
+    };
+    return ctx;
+  }
+  function examFor(n) { return ((S.state && S.state.exams) || []).filter(function (e) { return e.session === n; })[0]; }
+  function examUrl(e) { return e.url + (e.url.indexOf('?') === -1 ? '?' : '&') + 'code=' + encodeURIComponent(S.code) + '&name=' + encodeURIComponent(S.state.student.name); }
+  function examCard(e) {
+    return '<div class="card pad exam-card"><div><div class="eyebrow">' + ico('flag', 14) + ' Exam open</div><h3 class="h3" style="margin:4px 0">' + esc(e.label) + '</h3>' +
+      '<p class="small" style="margin:0">Opens in a new tab. Your score goes to Ms. Maria when you finish. Only your first attempt counts.</p></div>' +
+      '<a class="btn" href="' + esc(examUrl(e)) + '" target="_blank" rel="noopener">Start the ' + esc(e.label.toLowerCase()) + '</a></div>';
   }
   function formPanel(n, kind, title, intro, qs) {
     var res = (S.state.results && S.state.results[kind === 'exit' ? 'exit' : 'workbook'] || {})[n];
@@ -566,6 +595,7 @@
   }
   WIRE.session = function (r) {
     var n = Number(r.a);
+    var wm = $('#wbMount'); if (wm && S.content[n]) window.LSCM_WB.wire(wm, n, S.content[n], wbCtx(n, S.content[n]));
     $$('[data-done]').forEach(function (b) { b.onclick = function () { if (!isDone(n)) S.p.done.push(n); saveLocal(); toast('Great work! Your shipment moved one stop.'); render(); }; });
     $$('[data-undone]').forEach(function (b) { b.onclick = function () { S.p.done = S.p.done.filter(function (x) { return x !== n; }); saveLocal(); render(); }; });
     var qf = $('#quizForm');
@@ -623,7 +653,7 @@
       var q = S.p.quiz[s.n], w = res.workbook && res.workbook[s.n];
       return '<li class="' + cls + '">' + (here ? '<div class="truck" title="Your shipment">' + ico('truck', 24) + '</div>' : '<div class="pin">' + (d ? ico('check', 18) : '<span>' + s.n + '</span>') + '</div>') +
         '<div class="card srow st-' + s.stage + '" style="padding:10px 14px"><div class="meta"><small class="muted">Session ' + s.n + ' · ' + esc(STAGE_LABEL[s.stage]) + '</small>' +
-        (q != null ? '<span class="chip gold">Quiz ' + q + '%</span>' : '') + (w ? '<span class="chip">' + (w.mark ? 'Workbook ' + esc(w.mark) : 'Workbook sent') + '</span>' : '') + '</div>' +
+        (q != null ? '<span class="chip gold">Quiz ' + q + '%</span>' : '') + (w ? '<span class="chip">' + (w.total ? 'Workbook ' + w.score + '/' + w.total + (w.mark ? ' · ' + esc(w.mark) : '') : w.mark ? 'Workbook ' + esc(w.mark) : 'Workbook sent') + '</span>' : '') + '</div>' +
         '<h3 style="margin:2px 0 0">' + esc(s.title) + '</h3></div></li>';
     }).join('') + '</ol>';
     var att = res.attendance || {}, gr = res.grades;

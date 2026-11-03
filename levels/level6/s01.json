@@ -1,214 +1,747 @@
 {
-  "n": 1,
-  "goals": [
-    "Explain the difference between logistics and supply chain management.",
-    "Describe the flows in a supply chain: products, information, money and returns.",
-    "Map a supply chain using the five stages of the SCOR model.",
-    "Use the Six Rights to check whether a supply chain decision is good.",
-    "Use FLOW and the Frame–Evaluate–Act–Review method to think through a decision.",
-    "Describe what makes a supply chain digital."
-  ],
-
-  "handout": {
-    "intro": "A supply chain is every step a product takes to reach the customer. This session gives you the words and tools we will use for the whole course.",
-    "sections": [
-      {
-        "h": "1. What is a supply chain?",
-        "blocks": [
-          { "p": "Think about a carton of fresh milk in a Doha supermarket. Before it reaches the shelf, it passes through many hands: a dairy farm, a factory that pasteurises and packs it, a cold store, a refrigerated truck and finally the store." },
-          { "p": "All of these organisations, and all the steps between them, form one **supply chain**. Each step depends on the one before it." },
-          { "callout": { "title": "Upstream and downstream", "text": "**Upstream** means towards the suppliers (the farm). **Downstream** means towards the customer (the shopper)." } }
-        ]
-      },
-      {
-        "h": "2. Logistics and supply chain management are not the same",
-        "blocks": [
-          { "table": {
-            "head": ["", "Logistics", "Supply chain management (SCM)"],
-            "rows": [
-              ["Focus", "Moving and storing goods", "The whole network, from raw materials to the customer"],
-              ["Questions", "How do we transport, store, pick and deliver?", "Who are our suppliers? How much do we make? How do all parts work together?"],
-              ["Example", "Booking a refrigerated truck for the milk", "Agreeing a weekly plan with the farm, the factory and the stores"]
-            ]
-          } },
-          { "p": "A simple way to remember it: **the supply chain is the whole system; logistics is the engine that moves it.**" }
-        ]
-      },
-      {
-        "h": "3. Four flows",
-        "blocks": [
-          { "list": [
-            "**Products** flow downstream: from supplier to customer.",
-            "**Information** flows both ways: orders, forecasts, tracking updates and delivery confirmations.",
-            "**Money** flows upstream: the customer pays the store, the store pays the supplier.",
-            "**Returns** flow backwards: damaged items, recycling and repairs. This is called **reverse logistics**."
-          ] },
-          { "callout": { "title": "Why information matters", "text": "A shipment can arrive on time but still be stopped at customs because a document is wrong. When information fails, the products stop too." } }
-        ]
-      },
-      {
-        "h": "4. The SCOR model: five stages",
-        "blocks": [
-          { "p": "The **SCOR model** (Supply Chain Operations Reference) is used around the world to describe any supply chain in the same way. We use its five classic stages, and each stage has its own colour on this site." },
-          { "stages": true },
-          { "callout": { "title": "Good to know", "text": "In 2022 the Association for Supply Chain Management (ASCM) updated the model. The new version, SCOR DS, uses seven processes: Orchestrate, Plan, Order, Source, Transform, Fulfil and Return. Make became Transform, and Deliver was split into Order and Fulfil. The idea is the same." } }
-        ]
-      },
-      {
-        "h": "5. The Six Rights",
-        "blocks": [
-          { "p": "A good supply chain gets six things right. Use them as a checklist for any decision or problem." },
-          { "table": {
-            "head": ["Right", "Question to ask"],
-            "rows": [
-              ["Right product", "Is it exactly what the customer ordered?"],
-              ["Right place", "Is it where it is needed?"],
-              ["Right time", "Does it arrive when it is needed, not too late and not too early?"],
-              ["Right cost", "Is the cost right for the service the customer needs? (Not always the lowest cost.)"],
-              ["Right information", "Do people have accurate, up-to-date information?"],
-              ["Right decision", "Was it the best choice with the information available?"]
-            ]
-          } },
-          { "p": "When something goes wrong, ask: **which right was broken?** A late delivery is a time failure. A wrong item is a product failure. A decision made from old stock records is an information failure, and it usually causes a decision failure too." }
-        ]
-      },
-      {
-        "h": "6. Trade-offs: you cannot improve one part alone",
-        "blocks": [
-          { "p": "Every part of the supply chain affects the others. Improving one part can make another part worse." },
-          { "list": [
-            "Holding less stock saves warehouse cost, but may need more frequent deliveries, so transport costs rise.",
-            "Choosing the cheapest supplier saves money today, but poor quality can increase returns tomorrow.",
-            "Air freight is fast, but it can cost many times more than sea freight."
-          ] },
-          { "p": "A Level 6 professional looks at the **whole chain**, not only their own department." }
-        ]
-      },
-      {
-        "h": "7. FLOW: four disciplines for the whole course",
-        "blocks": [
-          { "table": {
-            "head": ["Letter", "Meaning", "In practice"],
-            "rows": [
-              ["F – Forecast", "Look ahead", "Predict demand, risks and capacity before they happen."],
-              ["L – Link", "Connect", "Share information with suppliers, warehouses, transport and customers."],
-              ["O – Optimize", "Improve", "Find better ways without hurting quality or service. Not just cutting cost."],
-              ["W – Win", "Create value", "Measurable results: on time, in full, at the right cost, every time."]
-            ]
-          } }
-        ]
-      },
-      {
-        "h": "8. How to make a decision: Frame, Evaluate, Act, Review",
-        "blocks": [
-          { "steps": [
-            "**Frame** – Define the real problem and the limits (time, money, space, information).",
-            "**Evaluate** – List the options and compare them with data, not opinion. Ask what could go wrong.",
-            "**Act** – Carry out the choice and tell everyone affected.",
-            "**Review** – Compare the result with what you expected. What will you do differently next time?"
-          ] },
-          { "callout": { "title": "Example", "text": "Customers complain about late deliveries. Framing it as a transport problem is easy, but the real cause may be slow picking in the warehouse. A good frame saves time and money." } }
-        ]
-      },
-      {
-        "h": "9. The digital supply chain",
-        "blocks": [
-          { "p": "A **digital supply chain** captures every event as data and shares it in one place, so everyone works from **one version of the truth**." },
-          { "table": {
-            "head": ["Tool", "What it records"],
-            "rows": [
-              ["Barcode / QR code", "Which item was received, picked or shipped (scanned one by one)"],
-              ["RFID tag", "Many items at once, without scanning each one"],
-              ["GPS tracker", "Where a truck or container is right now"],
-              ["IoT sensor", "Conditions such as temperature or shock during transport"],
-              ["ERP / WMS systems", "Orders, stock, money and warehouse movements in one system"]
-            ]
-          } },
-          { "p": "Data is only useful when it reaches the right person in time. A temperature alert from a milk truck matters only if the warehouse sees it **before** the milk goes on the shelf." }
-        ]
+ "n": 1,
+ "goals": [
+  "Explain the difference between logistics and supply chain management.",
+  "Describe the flows in a supply chain: products, information, money and returns.",
+  "Map a supply chain using the five stages of the SCOR model.",
+  "Use the Six Rights to check whether a supply chain decision is good.",
+  "Use FLOW and the Frame–Evaluate–Act–Review method to think through a decision.",
+  "Describe what makes a supply chain digital."
+ ],
+ "handout": {
+  "intro": "A supply chain is every step a product takes to reach the customer. This session gives you the words and tools we will use for the whole course.",
+  "sections": [
+   {
+    "h": "1. What is a supply chain?",
+    "blocks": [
+     {
+      "p": "Think about a carton of fresh milk in a Doha supermarket. Before it reaches the shelf, it passes through many hands: a dairy farm, a factory that pasteurises and packs it, a cold store, a refrigerated truck and finally the store."
+     },
+     {
+      "p": "All of these organisations, and all the steps between them, form one **supply chain**. Each step depends on the one before it."
+     },
+     {
+      "callout": {
+       "title": "Upstream and downstream",
+       "text": "**Upstream** means towards the suppliers (the farm). **Downstream** means towards the customer (the shopper)."
       }
+     }
     ]
+   },
+   {
+    "h": "2. Logistics and supply chain management are not the same",
+    "blocks": [
+     {
+      "table": {
+       "head": [
+        "",
+        "Logistics",
+        "Supply chain management (SCM)"
+       ],
+       "rows": [
+        [
+         "Focus",
+         "Moving and storing goods",
+         "The whole network, from raw materials to the customer"
+        ],
+        [
+         "Questions",
+         "How do we transport, store, pick and deliver?",
+         "Who are our suppliers? How much do we make? How do all parts work together?"
+        ],
+        [
+         "Example",
+         "Booking a refrigerated truck for the milk",
+         "Agreeing a weekly plan with the farm, the factory and the stores"
+        ]
+       ]
+      }
+     },
+     {
+      "p": "A simple way to remember it: **the supply chain is the whole system; logistics is the engine that moves it.**"
+     }
+    ]
+   },
+   {
+    "h": "3. Four flows",
+    "blocks": [
+     {
+      "list": [
+       "**Products** flow downstream: from supplier to customer.",
+       "**Information** flows both ways: orders, forecasts, tracking updates and delivery confirmations.",
+       "**Money** flows upstream: the customer pays the store, the store pays the supplier.",
+       "**Returns** flow backwards: damaged items, recycling and repairs. This is called **reverse logistics**."
+      ]
+     },
+     {
+      "callout": {
+       "title": "Why information matters",
+       "text": "A shipment can arrive on time but still be stopped at customs because a document is wrong. When information fails, the products stop too."
+      }
+     }
+    ]
+   },
+   {
+    "h": "4. The SCOR model: five stages",
+    "blocks": [
+     {
+      "p": "The **SCOR model** (Supply Chain Operations Reference) is used around the world to describe any supply chain in the same way. We use its five classic stages, and each stage has its own colour on this site."
+     },
+     {
+      "stages": true
+     },
+     {
+      "callout": {
+       "title": "Good to know",
+       "text": "In 2022 the Association for Supply Chain Management (ASCM) updated the model. The new version, SCOR DS, uses seven processes: Orchestrate, Plan, Order, Source, Transform, Fulfil and Return. Make became Transform, and Deliver was split into Order and Fulfil. The idea is the same."
+      }
+     }
+    ]
+   },
+   {
+    "h": "5. The Six Rights",
+    "blocks": [
+     {
+      "p": "A good supply chain gets six things right. Use them as a checklist for any decision or problem."
+     },
+     {
+      "table": {
+       "head": [
+        "Right",
+        "Question to ask"
+       ],
+       "rows": [
+        [
+         "Right product",
+         "Is it exactly what the customer ordered?"
+        ],
+        [
+         "Right place",
+         "Is it where it is needed?"
+        ],
+        [
+         "Right time",
+         "Does it arrive when it is needed, not too late and not too early?"
+        ],
+        [
+         "Right cost",
+         "Is the cost right for the service the customer needs? (Not always the lowest cost.)"
+        ],
+        [
+         "Right information",
+         "Do people have accurate, up-to-date information?"
+        ],
+        [
+         "Right decision",
+         "Was it the best choice with the information available?"
+        ]
+       ]
+      }
+     },
+     {
+      "p": "When something goes wrong, ask: **which right was broken?** A late delivery is a time failure. A wrong item is a product failure. A decision made from old stock records is an information failure, and it usually causes a decision failure too."
+     }
+    ]
+   },
+   {
+    "h": "6. Trade-offs: you cannot improve one part alone",
+    "blocks": [
+     {
+      "p": "Every part of the supply chain affects the others. Improving one part can make another part worse."
+     },
+     {
+      "list": [
+       "Holding less stock saves warehouse cost, but may need more frequent deliveries, so transport costs rise.",
+       "Choosing the cheapest supplier saves money today, but poor quality can increase returns tomorrow.",
+       "Air freight is fast, but it can cost many times more than sea freight."
+      ]
+     },
+     {
+      "p": "A Level 6 professional looks at the **whole chain**, not only their own department."
+     }
+    ]
+   },
+   {
+    "h": "7. FLOW: four disciplines for the whole course",
+    "blocks": [
+     {
+      "table": {
+       "head": [
+        "Letter",
+        "Meaning",
+        "In practice"
+       ],
+       "rows": [
+        [
+         "F – Forecast",
+         "Look ahead",
+         "Predict demand, risks and capacity before they happen."
+        ],
+        [
+         "L – Link",
+         "Connect",
+         "Share information with suppliers, warehouses, transport and customers."
+        ],
+        [
+         "O – Optimize",
+         "Improve",
+         "Find better ways without hurting quality or service. Not just cutting cost."
+        ],
+        [
+         "W – Win",
+         "Create value",
+         "Measurable results: on time, in full, at the right cost, every time."
+        ]
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "h": "8. How to make a decision: Frame, Evaluate, Act, Review",
+    "blocks": [
+     {
+      "steps": [
+       "**Frame** – Define the real problem and the limits (time, money, space, information).",
+       "**Evaluate** – List the options and compare them with data, not opinion. Ask what could go wrong.",
+       "**Act** – Carry out the choice and tell everyone affected.",
+       "**Review** – Compare the result with what you expected. What will you do differently next time?"
+      ]
+     },
+     {
+      "callout": {
+       "title": "Example",
+       "text": "Customers complain about late deliveries. Framing it as a transport problem is easy, but the real cause may be slow picking in the warehouse. A good frame saves time and money."
+      }
+     }
+    ]
+   },
+   {
+    "h": "9. The digital supply chain",
+    "blocks": [
+     {
+      "p": "A **digital supply chain** captures every event as data and shares it in one place, so everyone works from **one version of the truth**."
+     },
+     {
+      "table": {
+       "head": [
+        "Tool",
+        "What it records"
+       ],
+       "rows": [
+        [
+         "Barcode / QR code",
+         "Which item was received, picked or shipped (scanned one by one)"
+        ],
+        [
+         "RFID tag",
+         "Many items at once, without scanning each one"
+        ],
+        [
+         "GPS tracker",
+         "Where a truck or container is right now"
+        ],
+        [
+         "IoT sensor",
+         "Conditions such as temperature or shock during transport"
+        ],
+        [
+         "ERP / WMS systems",
+         "Orders, stock, money and warehouse movements in one system"
+        ]
+       ]
+      }
+     },
+     {
+      "p": "Data is only useful when it reaches the right person in time. A temperature alert from a milk truck matters only if the warehouse sees it **before** the milk goes on the shelf."
+     }
+    ]
+   }
+  ]
+ },
+ "terms": [
+  {
+   "term": "Supply chain",
+   "meaning": "All the organisations and steps that bring a product from raw materials to the customer.",
+   "example": "Farm → factory → cold store → truck → supermarket."
   },
-
-  "terms": [
-    { "term": "Supply chain", "meaning": "All the organisations and steps that bring a product from raw materials to the customer.", "example": "Farm → factory → cold store → truck → supermarket." },
-    { "term": "Logistics", "meaning": "Planning and carrying out the movement and storage of goods and information.", "example": "Booking a truck and storing pallets in a warehouse." },
-    { "term": "Supply chain management (SCM)", "meaning": "Managing the whole network so that all parts work together.", "example": "Agreeing one weekly plan with suppliers, factory and stores." },
-    { "term": "Upstream", "meaning": "Towards the suppliers and raw materials.", "example": "The dairy farm is upstream of the supermarket." },
-    { "term": "Downstream", "meaning": "Towards the final customer.", "example": "The supermarket is downstream of the factory." },
-    { "term": "Reverse logistics", "meaning": "Moving goods backwards in the chain for return, repair, reuse or recycling.", "example": "Collecting damaged items from customers." },
-    { "term": "SCOR model", "meaning": "A standard model that describes any supply chain in five stages: Plan, Source, Make, Deliver, Return.", "example": "Mapping a company's activities onto the five stages." },
-    { "term": "Six Rights", "meaning": "Right product, place, time, cost, information and decision: a checklist for supply chain performance.", "example": "A late delivery breaks the 'right time'." },
-    { "term": "Trade-off", "meaning": "Giving up some of one thing to get more of another.", "example": "Faster air freight, but a higher cost." },
-    { "term": "FLOW", "meaning": "Forecast, Link, Optimize, Win: four disciplines of a well-run supply chain.", "example": "Sharing the forecast with suppliers is 'Link'." },
-    { "term": "Lead time", "meaning": "The time between placing an order and receiving it.", "example": "The supplier delivers 5 days after the order." },
-    { "term": "Visibility", "meaning": "Being able to see where goods, orders and stock are at any time.", "example": "Tracking a container on a map." },
-    { "term": "Digital supply chain", "meaning": "A supply chain that captures events as data and shares it in one system.", "example": "Barcode scans update stock levels immediately." },
-    { "term": "One version of the truth", "meaning": "Everyone uses the same, up-to-date data instead of separate spreadsheets.", "example": "Sales and the warehouse see the same stock figure." }
-  ],
-
-  "quiz": [
-    { "q": "Which sentence best describes the difference between logistics and supply chain management?",
-      "options": ["They mean exactly the same thing.", "Logistics moves and stores goods; supply chain management manages the whole network.", "Logistics is only about money; supply chain management is only about trucks.", "Supply chain management is a small part of logistics."],
-      "answer": 1, "why": "The supply chain is the whole system. Logistics is the engine that moves and stores the goods inside it." },
-    { "q": "A dairy farm supplies a factory that supplies a supermarket. From the supermarket's point of view, the farm is…",
-      "options": ["downstream", "upstream", "reverse", "outbound"],
-      "answer": 1, "why": "Upstream means towards the suppliers and raw materials." },
-    { "q": "Which flow usually moves upstream, from the customer towards the supplier?",
-      "options": ["Products", "Money", "Finished goods", "Deliveries"],
-      "answer": 1, "why": "The customer pays the store, and the store pays its supplier, so money moves upstream." },
-    { "q": "A customer returns a damaged phone so it can be repaired. This is part of…",
-      "options": ["procurement", "forecasting", "reverse logistics", "cross-docking"],
-      "answer": 2, "why": "Reverse logistics moves goods backwards for return, repair, reuse or recycling." },
-    { "q": "In the SCOR model, choosing and buying from suppliers belongs to which stage?",
-      "options": ["Plan", "Source", "Make", "Deliver"],
-      "answer": 1, "why": "Source covers buying materials and services from suppliers." },
-    { "q": "An order arrives on time and in the right place, but it contains the wrong item. Which of the Six Rights was broken?",
-      "options": ["Right time", "Right place", "Right product", "Right cost"],
-      "answer": 2, "why": "The wrong item is a product failure." },
-    { "q": "What does 'right cost' mean?",
-      "options": ["Always the lowest possible cost", "The cost that gives the required service without waste", "The highest cost, for the best quality", "The cost the supplier asks for"],
-      "answer": 1, "why": "The right cost is not always the lowest. It is the cost that delivers the service the customer needs, without waste." },
-    { "q": "A warehouse cuts its stock to save money. Now the trucks must deliver twice as often. This is an example of…",
-      "options": ["a trade-off", "reverse logistics", "a forecast", "visibility"],
-      "answer": 0, "why": "Saving in one area (stock) created a cost in another (transport). That is a trade-off." },
-    { "q": "In FLOW, sharing your forecast with your suppliers so they can plan is an example of…",
-      "options": ["Forecast", "Link", "Optimize", "Win"],
-      "answer": 1, "why": "Link means connecting the parts of the chain with shared information." },
-    { "q": "Which tool can read many items at once, without scanning each one?",
-      "options": ["Barcode", "RFID tag", "Paper delivery note", "Spreadsheet"],
-      "answer": 1, "why": "RFID tags are read by radio, so many items can be counted at once without line-of-sight." }
-  ],
-
-  "workbook": {
-    "intro": "Answer in your own words. Short, clear sentences are best. Your answers are sent to Ms. Maria.",
-    "questions": [
-      { "id": "q1", "kind": "long",
-        "prompt": "Choose a product you know well (for example, bottled water, a phone or a car part). Write its supply chain from raw materials to the customer. Name at least five steps.",
-        "hint": "Example start: sand and oil → bottle factory → water plant → …" },
-      { "id": "q2", "kind": "long",
-        "prompt": "Put each step of your supply chain into one SCOR stage: Plan, Source, Make, Deliver or Return.",
-        "hint": "Write it like this: Plan – … / Source – … / Make – … / Deliver – … / Return – …" },
-      { "id": "q3", "kind": "long",
-        "prompt": "A pharmacy chain in Doha says: \"Our deliveries arrive on time, but the stock figures in our system are often wrong, so we order too much.\" Which of the Six Rights is broken? Explain in two or three sentences.",
-        "hint": "Think about which right comes first, and what it causes next." },
-      { "id": "q4", "kind": "long",
-        "prompt": "Describe one trade-off in a supply chain you know. What is gained, and what is lost?",
-        "hint": "Use the words \"gain\" and \"cost\"." },
-      { "id": "q5", "kind": "long",
-        "prompt": "Customers complain about late deliveries. Use Frame, Evaluate, Act, Review to plan what you would do. Write one sentence for each step.",
-        "hint": "Frame: What is the real problem? It may not be transport." },
-      { "id": "q6", "kind": "short",
-        "prompt": "Name one digital tool (barcode, RFID, GPS, IoT or ERP) and say how it helps the Six Rights.",
-        "hint": "Example: GPS helps 'right time' because…" }
-    ]
+  {
+   "term": "Logistics",
+   "meaning": "Planning and carrying out the movement and storage of goods and information.",
+   "example": "Booking a truck and storing pallets in a warehouse."
   },
-
-  "exit": {
-    "questions": [
-      { "id": "e1", "kind": "short", "prompt": "One thing I learned today:" },
-      { "id": "e2", "kind": "short", "prompt": "One thing that is still not clear:" },
-      { "id": "e3", "kind": "choice", "prompt": "How confident are you with today's topic?", "options": ["1 – Not yet", "2", "3", "4", "5 – Very confident"] }
-    ]
+  {
+   "term": "Supply chain management (SCM)",
+   "meaning": "Managing the whole network so that all parts work together.",
+   "example": "Agreeing one weekly plan with suppliers, factory and stores."
+  },
+  {
+   "term": "Upstream",
+   "meaning": "Towards the suppliers and raw materials.",
+   "example": "The dairy farm is upstream of the supermarket."
+  },
+  {
+   "term": "Downstream",
+   "meaning": "Towards the final customer.",
+   "example": "The supermarket is downstream of the factory."
+  },
+  {
+   "term": "Reverse logistics",
+   "meaning": "Moving goods backwards in the chain for return, repair, reuse or recycling.",
+   "example": "Collecting damaged items from customers."
+  },
+  {
+   "term": "SCOR model",
+   "meaning": "A standard model that describes any supply chain in five stages: Plan, Source, Make, Deliver, Return.",
+   "example": "Mapping a company's activities onto the five stages."
+  },
+  {
+   "term": "Six Rights",
+   "meaning": "Right product, place, time, cost, information and decision: a checklist for supply chain performance.",
+   "example": "A late delivery breaks the 'right time'."
+  },
+  {
+   "term": "Trade-off",
+   "meaning": "Giving up some of one thing to get more of another.",
+   "example": "Faster air freight, but a higher cost."
+  },
+  {
+   "term": "FLOW",
+   "meaning": "Forecast, Link, Optimize, Win: four disciplines of a well-run supply chain.",
+   "example": "Sharing the forecast with suppliers is 'Link'."
+  },
+  {
+   "term": "Lead time",
+   "meaning": "The time between placing an order and receiving it.",
+   "example": "The supplier delivers 5 days after the order."
+  },
+  {
+   "term": "Visibility",
+   "meaning": "Being able to see where goods, orders and stock are at any time.",
+   "example": "Tracking a container on a map."
+  },
+  {
+   "term": "Digital supply chain",
+   "meaning": "A supply chain that captures events as data and shares it in one system.",
+   "example": "Barcode scans update stock levels immediately."
+  },
+  {
+   "term": "One version of the truth",
+   "meaning": "Everyone uses the same, up-to-date data instead of separate spreadsheets.",
+   "example": "Sales and the warehouse see the same stock figure."
   }
+ ],
+ "quiz": [
+  {
+   "q": "Which sentence best describes the difference between logistics and supply chain management?",
+   "options": [
+    "They mean exactly the same thing.",
+    "Logistics moves and stores goods; supply chain management manages the whole network.",
+    "Logistics is only about money; supply chain management is only about trucks.",
+    "Supply chain management is a small part of logistics."
+   ],
+   "answer": 1,
+   "why": "The supply chain is the whole system. Logistics is the engine that moves and stores the goods inside it."
+  },
+  {
+   "q": "A dairy farm supplies a factory that supplies a supermarket. From the supermarket's point of view, the farm is…",
+   "options": [
+    "downstream",
+    "upstream",
+    "reverse",
+    "outbound"
+   ],
+   "answer": 1,
+   "why": "Upstream means towards the suppliers and raw materials."
+  },
+  {
+   "q": "Which flow usually moves upstream, from the customer towards the supplier?",
+   "options": [
+    "Products",
+    "Money",
+    "Finished goods",
+    "Deliveries"
+   ],
+   "answer": 1,
+   "why": "The customer pays the store, and the store pays its supplier, so money moves upstream."
+  },
+  {
+   "q": "A customer returns a damaged phone so it can be repaired. This is part of…",
+   "options": [
+    "procurement",
+    "forecasting",
+    "reverse logistics",
+    "cross-docking"
+   ],
+   "answer": 2,
+   "why": "Reverse logistics moves goods backwards for return, repair, reuse or recycling."
+  },
+  {
+   "q": "In the SCOR model, choosing and buying from suppliers belongs to which stage?",
+   "options": [
+    "Plan",
+    "Source",
+    "Make",
+    "Deliver"
+   ],
+   "answer": 1,
+   "why": "Source covers buying materials and services from suppliers."
+  },
+  {
+   "q": "An order arrives on time and in the right place, but it contains the wrong item. Which of the Six Rights was broken?",
+   "options": [
+    "Right time",
+    "Right place",
+    "Right product",
+    "Right cost"
+   ],
+   "answer": 2,
+   "why": "The wrong item is a product failure."
+  },
+  {
+   "q": "What does 'right cost' mean?",
+   "options": [
+    "Always the lowest possible cost",
+    "The cost that gives the required service without waste",
+    "The highest cost, for the best quality",
+    "The cost the supplier asks for"
+   ],
+   "answer": 1,
+   "why": "The right cost is not always the lowest. It is the cost that delivers the service the customer needs, without waste."
+  },
+  {
+   "q": "A warehouse cuts its stock to save money. Now the trucks must deliver twice as often. This is an example of…",
+   "options": [
+    "a trade-off",
+    "reverse logistics",
+    "a forecast",
+    "visibility"
+   ],
+   "answer": 0,
+   "why": "Saving in one area (stock) created a cost in another (transport). That is a trade-off."
+  },
+  {
+   "q": "In FLOW, sharing your forecast with your suppliers so they can plan is an example of…",
+   "options": [
+    "Forecast",
+    "Link",
+    "Optimize",
+    "Win"
+   ],
+   "answer": 1,
+   "why": "Link means connecting the parts of the chain with shared information."
+  },
+  {
+   "q": "Which tool can read many items at once, without scanning each one?",
+   "options": [
+    "Barcode",
+    "RFID tag",
+    "Paper delivery note",
+    "Spreadsheet"
+   ],
+   "answer": 1,
+   "why": "RFID tags are read by radio, so many items can be counted at once without line-of-sight."
+  }
+ ],
+ "workbook": {
+  "intro": "Every task follows the Session 1 slides. Tap your answers, then press Check. Your first check is your score. Then write tasks A to C and submit.",
+  "tasks": [
+   {
+    "id": "T1",
+    "type": "pick",
+    "slide": 6,
+    "stage": "Plan",
+    "title": "Logistics or SCM?",
+    "intro": "Is each activity mainly **logistics** (moving and storing goods) or **supply chain management** (the whole network)?",
+    "options": [
+     "Logistics",
+     "SCM"
+    ],
+    "items": [
+     {
+      "text": "Booking a refrigerated truck for tomorrow’s deliveries",
+      "answer": "Logistics"
+     },
+     {
+      "text": "Choosing a new packaging supplier for all factories",
+      "answer": "SCM"
+     },
+     {
+      "text": "Planning the fastest route for 20 deliveries",
+      "answer": "Logistics"
+     },
+     {
+      "text": "Agreeing a monthly sales and production plan with partners",
+      "answer": "SCM"
+     },
+     {
+      "text": "Putting pallets in the right place in the warehouse",
+      "answer": "Logistics"
+     },
+     {
+      "text": "Deciding to make a product in Qatar instead of importing it",
+      "answer": "SCM"
+     }
+    ]
+   },
+   {
+    "id": "T2",
+    "type": "pick",
+    "slide": 8,
+    "stage": "Source",
+    "title": "Which flow?",
+    "intro": "Which of the four flows is each example?",
+    "options": [
+     "Products",
+     "Information",
+     "Money",
+     "Returns"
+    ],
+    "items": [
+     {
+      "text": "A supermarket pays the dairy for last month’s milk",
+      "answer": "Money"
+     },
+     {
+      "text": "A truck delivers 300 cartons of yoghurt",
+      "answer": "Products"
+     },
+     {
+      "text": "The store sends next week’s order to the supplier",
+      "answer": "Information"
+     },
+     {
+      "text": "A customer sends back a damaged phone for repair",
+      "answer": "Returns"
+     },
+     {
+      "text": "A GPS tracker shows where the delivery truck is now",
+      "answer": "Information"
+     },
+     {
+      "text": "Empty crates are collected and sent back to the dairy",
+      "answer": "Returns"
+     }
+    ]
+   },
+   {
+    "id": "T3",
+    "type": "pick",
+    "slide": 10,
+    "stage": "Make",
+    "title": "Sort into SCOR stages",
+    "intro": "A juice company in Doha. Which SCOR stage is each activity?",
+    "options": [
+     "Plan",
+     "Source",
+     "Make",
+     "Deliver",
+     "Return"
+    ],
+    "items": [
+     {
+      "text": "Forecast juice sales for Ramadan",
+      "answer": "Plan"
+     },
+     {
+      "text": "Compare quotes from three bottle suppliers",
+      "answer": "Source"
+     },
+     {
+      "text": "Sign a contract with the chosen bottle supplier",
+      "answer": "Source"
+     },
+     {
+      "text": "Squeeze, bottle and label the juice",
+      "answer": "Make"
+     },
+     {
+      "text": "Pick store orders in the warehouse",
+      "answer": "Deliver"
+     },
+     {
+      "text": "Drive the van to 30 cafés",
+      "answer": "Deliver"
+     },
+     {
+      "text": "Collect out-of-date bottles from stores for recycling",
+      "answer": "Return"
+     }
+    ]
+   },
+   {
+    "id": "T4",
+    "type": "pick",
+    "slide": 13,
+    "stage": "Deliver",
+    "title": "Spot the broken right",
+    "intro": "Which of the Six Rights was broken?",
+    "options": [
+     "Right product",
+     "Right place",
+     "Right time",
+     "Right cost",
+     "Right information",
+     "Right decision"
+    ],
+    "items": [
+     {
+      "text": "The delivery for the Al Khor store arrives at the Al Wakrah store",
+      "answer": "Right place"
+     },
+     {
+      "text": "Juice for a weekend promotion arrives on Monday, after the promotion",
+      "answer": "Right time"
+     },
+     {
+      "text": "The customer ordered 1-litre bottles but received 500 ml bottles",
+      "answer": "Right product"
+     },
+     {
+      "text": "The system shows 120 boxes in stock, but the shelf is empty",
+      "answer": "Right information"
+     },
+     {
+      "text": "Paper cups worth QAR 300 are sent by air for QAR 900",
+      "answer": "Right cost"
+     }
+    ]
+   },
+   {
+    "id": "T5",
+    "type": "order",
+    "slide": 17,
+    "stage": "Return",
+    "title": "Put the four steps in order",
+    "intro": "Customers complain about late deliveries. Tap the steps in the right order: Frame, Evaluate, Act, Review.",
+    "items": [
+     {
+      "text": "Find where the delay really happens: orders leave the warehouse 3 hours late"
+     },
+     {
+      "text": "Compare options: more pickers, a second shift or a shorter pick route"
+     },
+     {
+      "text": "Start a second picking shift and tell drivers and customers"
+     },
+     {
+      "text": "After 4 weeks, check on-time deliveries and the extra cost"
+     }
+    ]
+   },
+   {
+    "id": "T6",
+    "type": "match",
+    "slide": 19,
+    "stage": "Plan",
+    "title": "Match the digital tool",
+    "intro": "Choose what each tool records.",
+    "items": [
+     {
+      "text": "Barcode / QR code",
+      "answer": "One item at a time, when it is scanned"
+     },
+     {
+      "text": "RFID tag",
+      "answer": "Many items at once, without scanning each one"
+     },
+     {
+      "text": "GPS tracker",
+      "answer": "Where a truck or container is right now"
+     },
+     {
+      "text": "IoT sensor",
+      "answer": "Temperature or shock during transport"
+     },
+     {
+      "text": "ERP / WMS system",
+      "answer": "Orders, stock and money in one system"
+     }
+    ]
+   },
+   {
+    "id": "T7",
+    "type": "match",
+    "slide": 21,
+    "stage": "Source",
+    "title": "Match the key terms",
+    "intro": "Choose the meaning of each term.",
+    "items": [
+     {
+      "text": "Upstream",
+      "answer": "Towards the suppliers"
+     },
+     {
+      "text": "Downstream",
+      "answer": "Towards the customer"
+     },
+     {
+      "text": "Reverse logistics",
+      "answer": "Moving returns, repairs and recycling back up the chain"
+     },
+     {
+      "text": "Trade-off",
+      "answer": "Gaining in one area but losing in another"
+     },
+     {
+      "text": "Lead time",
+      "answer": "The time from placing an order to receiving it"
+     },
+     {
+      "text": "Visibility",
+      "answer": "Being able to see where goods and orders are at any moment"
+     }
+    ]
+   }
+  ],
+  "written": [
+   {
+    "id": "A",
+    "slide": 14,
+    "title": "Your trade-off",
+    "prompt": "Describe one trade-off in a supply chain you know. What is gained, and what is lost? (40–60 words)",
+    "frame": "“In ___, the company chose to ___. It gained ___, but it lost ___ because ___.”"
+   },
+   {
+    "id": "B",
+    "slide": 9,
+    "title": "Your supply chain on SCOR",
+    "prompt": "Choose a product you know well. Write its supply chain in five steps, one for each SCOR stage.",
+    "frame": "“Plan: ___ / Source: ___ / Make: ___ / Deliver: ___ / Return: ___”"
+   },
+   {
+    "id": "C",
+    "slide": 18,
+    "title": "Frame, Evaluate, Act, Review",
+    "prompt": "Customers of a Doha pharmacy chain complain that medicines are often out of stock. Write one sentence for each step.",
+    "frame": "“Frame: The real problem may be ___. Evaluate: I would compare ___. Act: I would ___. Review: I would check ___.”"
+   }
+  ]
+ },
+ "exit": {
+  "questions": [
+   {
+    "id": "e1",
+    "kind": "short",
+    "prompt": "One thing I learned today:"
+   },
+   {
+    "id": "e2",
+    "kind": "short",
+    "prompt": "One thing that is still not clear:"
+   },
+   {
+    "id": "e3",
+    "kind": "choice",
+    "prompt": "How confident are you with today's topic?",
+    "options": [
+     "1 – Not yet",
+     "2",
+     "3",
+     "4",
+     "5 – Very confident"
+    ]
+   }
+  ]
+ }
 }

@@ -542,3 +542,43 @@ input[type=range] { width: 100%; accent-color: var(--navy); }
   .slot { overflow: hidden; }
   .slot i { display: none; }
 }
+/* ======================================================= interactive e-workbook */
+.wb { display: grid; gap: 14px; }
+.wb-top, .wb-send { display: flex; justify-content: space-between; gap: 14px; align-items: center; flex-wrap: wrap; }
+.wb-score { text-align: right; background: var(--gold-t); border-radius: 14px; padding: 8px 16px; }
+.wb-score b { display: block; font-size: 1.5rem; line-height: 1.2; }
+.wb-score small { color: var(--muted); }
+.wb-toc { display: flex; flex-wrap: wrap; gap: 8px; }
+.wb-toc a { font-size: .85rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; background: #fff; border: 1.5px solid var(--line); color: var(--navy); text-decoration: none; }
+.wb-toc a.on { background: var(--return-t); border-color: var(--return); }
+.wb-task { padding: 18px 20px; border-top: 7px solid var(--c); }
+.wb-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.wb-head .h3 { margin: 2px 0 6px; }
+.wb-row { padding: 10px 0; border-top: 1px solid var(--line); display: grid; gap: 8px; }
+.wb-row p { margin: 0; }
+.wb-match { grid-template-columns: 1fr minmax(200px, 380px); align-items: center; }
+@media (max-width: 600px) { .wb-match { grid-template-columns: 1fr; } }
+.wb-picks { display: flex; flex-wrap: wrap; gap: 6px; }
+.wb-pick { font: inherit; font-size: .88rem; font-weight: 600; min-height: 40px; padding: 6px 12px; border-radius: 10px; border: 1.5px solid #B9BFCC; background: #fff; color: var(--navy); cursor: pointer; }
+.wb-pick[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+.wb-pick[disabled] { cursor: default; }
+.wb-row.right .wb-pick[aria-pressed="true"], .wb-row.right select { background: var(--return-t); border-color: var(--return); color: var(--navy); }
+.wb-row.wrong .wb-pick[aria-pressed="true"], .wb-row.wrong select { background: var(--source-t); border-color: var(--source); color: var(--navy); }
+.wb-row.right input, .wb-row.right select { border-color: var(--return); }
+.wb-row.wrong input { border-color: var(--source); background: var(--source-t); }
+.wb-fix { grid-column: 1 / -1; font-size: .84rem; color: var(--navy); background: var(--gold-t); border-radius: 8px; padding: 4px 10px; justify-self: start; }
+.wb-num { display: flex; gap: 8px; align-items: center; }
+.wb-pool { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px; }
+.wb-chip { font: inherit; font-size: .9rem; text-align: left; padding: 8px 12px; border-radius: 12px; border: 1.5px dashed var(--muted); background: #fff; color: var(--navy); cursor: pointer; }
+.wb-seq { margin: 0 0 8px; padding-left: 1.4em; display: grid; gap: 6px; }
+.wb-seq li { background: var(--t, var(--bg)); border-radius: 10px; padding: 8px 12px; }
+.wb-seq li.right { background: var(--return-t); }
+.wb-seq li.wrong { background: var(--source-t); }
+.wb-seq li .wb-fix { display: block; margin-top: 4px; }
+.wb-locked { margin: 10px 0 0; }
+.wb-w { padding: 12px 0; border-top: 1px solid var(--line); }
+.wb-w h4 { margin: 0 0 4px; }
+.wb-w p { margin: 0 0 8px; }
+.wb-frame { background: var(--deliver-t); border-radius: 10px; padding: 8px 12px; font-size: .92rem; }
+.wb-w textarea { min-height: 120px; }
+.exam-card { display: flex; justify-content: space-between; gap: 14px; align-items: center; flex-wrap: wrap; background: var(--gold-t); border: 2px solid var(--gold); }

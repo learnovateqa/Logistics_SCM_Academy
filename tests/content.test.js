@@ -39,9 +39,19 @@ levels.filter(l => l.content).forEach(l => {
     });
     if (s.type === 'Teaching') {
       check(c.terms && c.terms.length >= 10, `${tag}: at least 10 key terms`);
-      check(c.workbook && c.workbook.questions.length >= 4, `${tag}: workbook`);
+      const W = c.workbook || {};
+      if (W.tasks) {
+        check(W.tasks.length >= 4, `${tag}: workbook has at least 4 tasks`);
+        W.tasks.forEach(t => {
+          check(['pick', 'match', 'order', 'calc'].includes(t.type) && t.title && t.items.length >= 3, `${tag} ${t.id}: task shape`);
+          if (t.type === 'pick') t.items.forEach((it, i) => check(t.options.includes(it.answer), `${tag} ${t.id}.${i + 1}: answer is an option`));
+          if (t.type === 'match') check(new Set(t.items.map(it => it.answer)).size === t.items.length, `${tag} ${t.id}: match answers unique`);
+          if (t.type === 'calc') t.items.forEach((it, i) => check(typeof it.answer === 'number', `${tag} ${t.id}.${i + 1}: numeric answer`));
+        });
+        check((W.written || []).every(w => w.id && w.prompt), `${tag}: written tasks`);
+      } else check(W.questions && W.questions.length >= 4, `${tag}: workbook`);
       check(c.exit && c.exit.questions.length >= 2, `${tag}: exit ticket`);
-      const ids = c.workbook.questions.map(q => q.id);
+      const ids = (W.tasks || W.questions).map(q => q.id).concat((W.written || []).map(w => w.id));
       check(new Set(ids).size === ids.length, `${tag}: workbook ids unique`);
       const terms = c.terms.map(t => t.term.toLowerCase());
       check(new Set(terms).size === terms.length, `${tag}: key terms unique`);

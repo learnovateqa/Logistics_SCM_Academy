@@ -11,7 +11,7 @@
  *   3. Deploy > New deployment > Web app (Execute as: Me, Who has access: Anyone).
  */
 
-var VERSION = '1.2.0';
+var VERSION = '1.3.0';
 
 // ---------------------------------------------------------------- tabs ----
 
@@ -22,13 +22,16 @@ var TABS = {
   Sessions:      ['Level', 'Session', 'Title', 'Stage', 'Type', 'Status', 'Canva link', 'Handout link', 'Opened on'],
   Announcements: ['ID', 'Level', 'Date', 'Text', 'Show'],
   Quiz_Scores:   ['Timestamp', 'Code', 'Name', 'Level', 'Session', 'Score', 'Total', 'Percent', 'Attempt'],
-  Workbook:      ['ID', 'Timestamp', 'Code', 'Name', 'Level', 'Session', 'Answers', 'Mark', 'Comment', 'Marked on'],
+  Workbook:      ['ID', 'Timestamp', 'Code', 'Name', 'Level', 'Session', 'Answers', 'Mark', 'Comment', 'Marked on', 'Score', 'Total'],
   Exit_Tickets:  ['ID', 'Timestamp', 'Code', 'Name', 'Level', 'Session', 'Answers', 'Mark', 'Comment', 'Marked on'],
   Lab:           ['ID', 'Timestamp', 'Code', 'Name', 'Level', 'Step', 'Data', 'Mark', 'Comment', 'Marked on'],
   Progress:      ['Code', 'Name', 'Level', 'Sessions done', 'Lab steps', 'Cards known', 'Quizzes taken', 'Last visit', 'Data'],
   Attendance:    ['ID', 'Level', 'Session', 'Date', 'Code', 'Name', 'Status', 'Note'],
-  Grades:        ['Code', 'Name', 'Level', 'Midterm', 'Final', 'Participation', 'Updated']
+  Grades:        ['Code', 'Name', 'Level', 'Midterm', 'Final', 'Participation', 'Updated'],
+  Exams:         ['ID', 'Timestamp', 'Code', 'Name', 'Level', 'Exam', 'Score', 'Total', 'Percent', 'Attempt', 'Counted']
 };
+
+var EXAMS = { midterm: { label: 'Midterm exam', session: 6, col: 'Midterm' }, final: { label: 'Final exam', session: 12, col: 'Final' } };
 
 var STAGES = ['Plan', 'Source', 'Make', 'Deliver', 'Return'];
 var ATT_STATUS = ['Present', 'Late', 'Absent', 'Excused'];
@@ -98,6 +101,10 @@ function setup() {
   ensureSetting_('W_WORKBOOKS', 20, 'Weight of the average e-workbook mark (%).');
   ensureSetting_('W_ATTENDANCE', 10, 'Weight of attendance (%).');
   ensureSetting_('W_PARTICIPATION', 0, 'Weight of participation (%). All weights should add up to 100.');
+  ensureSetting_('MIDTERM_LINK', '', 'Link to your midterm exam page (https://…). Set it in the teacher portal: Grades → Exams.');
+  ensureSetting_('MIDTERM_OPEN', 'No', 'Yes = learners see the midterm button.');
+  ensureSetting_('FINAL_LINK', '', 'Link to your final exam page (https://…).');
+  ensureSetting_('FINAL_OPEN', 'No', 'Yes = learners see the final exam button.');
 
   // Level 6 sessions
   var hasL6 = rows_('Sessions').some(function (r) { return String(r.Level) === '6'; });
@@ -204,6 +211,28 @@ var ACTIONS = {
   },
 
   submitWorkbook: function (req) { return submitWork_('Workbook', req); },
+
+  // Score from Ms. Maria's own midterm / final page. Only the first attempt goes into Grades;
+  // later attempts are kept in the Exams tab. The exam must be open (teacher portal → Grades → Exams).
+  submitExam: function (req) {
+    var st = learner_(req.code), key = String(req.exam || '').toLowerCase(), ex = EXAMS[key];
+    if (!ex) throw new Error('Unknown exam. Use "midterm" or "final".');
+    if (!yes_(setting_(key.toUpperCase() + '_OPEN'))) throw new Error('This exam is not open.');
+    var score = Number(req.score), total = Number(req.total);
+    if (!isFinite(score) || !isFinite(total) || total <= 0 || total > 1000 || score < 0 || score > total) throw new Error('The score is not valid.');
+    var pct = Math.round(score / total * 1000) / 10;
+    return withLock_(function () {
+      var prev = rows_('Exams').filter(function (r) { return sameCode_(r.Code, st.code) && String(r.Exam) === key; });
+      var first = !prev.length;
+      appendObj_('Exams', { ID: newId_(), Timestamp: new Date(), Code: st.code, Name: st.name, Level: st.level, Exam: key,
+        Score: score, Total: total, Percent: pct, Attempt: prev.length + 1, Counted: first ? 'Yes' : 'No' });
+      if (first) {
+        var patch = { Code: st.code, Name: st.name, Level: st.level, Updated: new Date() }; patch[ex.col] = pct;
+        upsert_('Grades', function (r) { return sameCode_(r.Code, st.code); }, patch, true);
+      }
+      return { percent: pct, counted: first, attempt: prev.length + 1 };
+    });
+  },
   submitExit:     function (req) { return submitWork_('Exit_Tickets', req); },
 
   submitLab: function (req) {
@@ -455,6 +484,28 @@ var ACTIONS = {
     });
   },
 
+  tExams: function (req) {
+    teacher_(req);
+    if (req.set) {
+      withLock_(function () {
+        Object.keys(EXAMS).forEach(function (k) {
+          var e = req.set[k]; if (!e) return;
+          if (e.url !== undefined) {
+            var u = String(e.url).trim();
+            if (u && !/^https:\/\/[^\s"'<>]+$/.test(u)) throw new Error('The ' + EXAMS[k].label.toLowerCase() + ' link must start with https://');
+            setSetting_(k.toUpperCase() + '_LINK', u);
+          }
+          if (e.open !== undefined) setSetting_(k.toUpperCase() + '_OPEN', e.open ? 'Yes' : 'No');
+        });
+      });
+    }
+    var level = req.level ? levelArg_(req.level) : null;
+    var log = rows_('Exams').filter(function (r) { return !level || String(r.Level) === String(level); }).map(function (r) {
+      return { id: String(r.ID), when: iso_(r.Timestamp), code: String(r.Code), name: String(r.Name), exam: String(r.Exam), score: num_(r.Score), total: num_(r.Total), percent: num_(r.Percent), attempt: num_(r.Attempt), counted: String(r.Counted) };
+    }).reverse();
+    return { exams: examsFor_(), log: log };
+  },
+
   tSetLevel: function (req) {
     teacher_(req);
     var level = levelArg_(req.level);
@@ -494,6 +545,7 @@ function learnerState_(st) {
     var out = {};
     rows_(tab).filter(mine).forEach(function (r) {
       out[String(r[key])] = { sent: iso_(r.Timestamp), mark: r.Mark === null ? '' : String(r.Mark), comment: String(r.Comment || '') };
+      if (r.Total !== undefined && r.Total !== '' && r.Total !== null) { out[String(r[key])].score = num_(r.Score); out[String(r[key])].total = num_(r.Total); }
     });
     return out;
   }
@@ -509,7 +561,8 @@ function learnerState_(st) {
     results: { quiz: quiz, workbook: marks('Workbook', 'Session'), exit: marks('Exit_Tickets', 'Session'), lab: marks('Lab', 'Step'),
       attendance: attendanceByCode_(st.level)[st.code] || { pct: null, sessions: [] },
       grades: yes_(setting_('SHOW_GRADES') || 'Yes') ? gradesFor_(st.level)[st.code] || null : null },
-    progress: progData
+    progress: progData,
+    exams: examsFor_().filter(function (e) { return e.open && e.url; })
   };
 }
 
@@ -518,8 +571,13 @@ function submitWork_(tab, req) {
   var s = openSession_(st.level, req.session);
   var answers = clip_(JSON.stringify(req.answers || {}));
   return withLock_(function () {
-    var id = upsert_(tab, function (r) { return sameCode_(r.Code, st.code) && String(r.Session) === String(s.session); },
-      { Timestamp: new Date(), Code: st.code, Name: st.name, Level: st.level, Session: s.session, Answers: answers });
+    var row = { Timestamp: new Date(), Code: st.code, Name: st.name, Level: st.level, Session: s.session, Answers: answers };
+    if (tab === 'Workbook' && req.total !== undefined) {
+      var sc = Number(req.score), tt = Number(req.total);
+      if (!isFinite(sc) || !isFinite(tt) || tt <= 0 || tt > 500 || sc < 0 || sc > tt) throw new Error('The workbook score is not valid.');
+      row.Score = sc; row.Total = tt;
+    }
+    var id = upsert_(tab, function (r) { return sameCode_(r.Code, st.code) && String(r.Session) === String(s.session); }, row);
     return { id: id };
   });
 }
@@ -656,6 +714,22 @@ function markPct_(m) {
   return null;
 }
 
+// One workbook's percent: auto-scored tasks plus the teacher's mark for the written part.
+// "8/10" adds points (score + 8) / (total + 10); a percent mark is averaged with the auto score.
+function workbookPct_(r) {
+  var tot = num_(r.Total), auto = tot > 0 ? num_(r.Score) / tot * 100 : null, m = String(r.Mark == null ? '' : r.Mark).trim(), x;
+  if (tot > 0 && (x = m.match(/^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/)) && Number(x[2]) > 0) return (num_(r.Score) + Number(x[1])) / (tot + Number(x[2])) * 100;
+  var mp = markPct_(m);
+  if (auto != null && mp != null) return (auto + mp) / 2;
+  return auto != null ? auto : mp;
+}
+
+function examsFor_() {
+  return Object.keys(EXAMS).map(function (k) {
+    return { key: k, label: EXAMS[k].label, session: EXAMS[k].session, url: setting_(k.toUpperCase() + '_LINK'), open: yes_(setting_(k.toUpperCase() + '_OPEN')) };
+  });
+}
+
 function weights_() {
   var w = {};
   GRADE_PARTS.forEach(function (k) { var v = Number(setting_('W_' + k)); w[k.toLowerCase()] = isFinite(v) && setting_('W_' + k) !== '' ? v : { MIDTERM: 30, FINAL: 40, WORKBOOKS: 20, ATTENDANCE: 10, PARTICIPATION: 0 }[k]; });
@@ -669,7 +743,7 @@ function gradesFor_(level) {
   rows_('Students').filter(byLevel_(level)).forEach(function (st) {
     var k = String(st.Code).toUpperCase();
     var g = gradeRows.filter(function (r) { return sameCode_(r.Code, k); })[0] || {};
-    var marks = wb.filter(function (r) { return sameCode_(r.Code, k); }).map(function (r) { return markPct_(r.Mark); }).filter(function (v) { return v != null; });
+    var marks = wb.filter(function (r) { return sameCode_(r.Code, k); }).map(workbookPct_).filter(function (v) { return v != null; });
     var parts = {
       midterm: g.Midterm === '' || g.Midterm == null ? null : Number(g.Midterm),
       final: g.Final === '' || g.Final == null ? null : Number(g.Final),
