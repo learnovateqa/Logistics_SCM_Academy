@@ -383,6 +383,7 @@
       '<label class="check"><input type="checkbox" id="mkNew"' + (MK.onlyNew ? ' checked' : '') + '> Only not marked</label></div>' +
       '<div class="t-mark sec"><div class="card t-mlist">' + (list.length ? list.map(function (r) {
         return '<button class="t-mitem' + (r.ID === T.sel ? ' on' : '') + '" data-sub="' + esc(r.ID) + '"><b>' + esc(r.Name) + '</b><small>' + (MK.tab === 'Lab' ? 'Step ' + r.Step : 'Session ' + r.Session) + ' · ' + fmtDate(r.Timestamp, true) + '</small>' +
+          (r.Total !== '' && r.Total != null ? '<span class="chip">' + r.Score + '/' + r.Total + '</span>' : '') +
           (r.Mark !== '' && r.Mark != null ? '<span class="chip gold">' + esc(r.Mark) + '</span>' : '<span class="chip">New</span>') + '</button>';
       }).join('') : '<div class="empty">' + ART.empty() + '<p>Nothing to show.' + (MK.onlyNew ? ' Untick “Only not marked” to see marked work.' : '') + '</p></div>') + '</div>' +
       '<div class="card pad t-detail">' + (sel ? detail(sel) : '<p class="muted">Choose a submission.</p>') + '</div></div>';
@@ -399,14 +400,16 @@
     var c = MK.tab !== 'Lab' && T.content[+r.Session];
     if (c) qs = (MK.tab === 'Workbook' ? c.workbook : c.exit || {}).questions || [];
     var html = '<div class="eyebrow muted">' + (MK.tab === 'Lab' ? 'Lab step ' + r.Step : TAB_NAME[MK.tab].replace(/s$/, '') + ' · Session ' + r.Session) + '</div><h2 class="h3" style="margin:4px 0 2px">' + esc(r.Name) + '</h2>' +
-      '<p class="small muted" style="margin:0 0 12px">' + esc(r.Code) + ' · sent ' + fmtDate(r.Timestamp, true) + '</p><div class="t-answers">';
+      '<p class="small muted" style="margin:0 0 12px">' + esc(r.Code) + ' · sent ' + fmtDate(r.Timestamp, true) + '</p>' +
+      (r.Total !== '' && r.Total != null ? '<p class="note ok" style="margin:0 0 12px"><b>Auto score: ' + r.Score + ' / ' + r.Total + '</b> (tap-and-check tasks, first try). Mark the written part below, e.g. 8/10: it is added to the auto score in Grades.</p>' : '') +
+      '<div class="t-answers">';
     var keys = qs.length ? qs.map(function (q) { return q.id; }) : Object.keys(ans);
     Object.keys(ans).forEach(function (k) { if (keys.indexOf(k) === -1) keys.push(k); });
     keys.forEach(function (k, i) {
       var q = qs.filter(function (x) { return x.id === k; })[0];
       html += '<div class="t-ans"><b>' + (q ? (i + 1) + '. ' + esc(q.prompt.replace(/\*\*/g, '')) : esc(k)) + '</b><p>' + (ans[k] != null && String(ans[k]).trim() ? esc(typeof ans[k] === 'object' ? JSON.stringify(ans[k]) : ans[k]).replace(/\n/g, '<br>') : '<span class="muted">No answer</span>') + '</p></div>';
     });
-    html += '</div><form id="markForm" class="t-markform"><label class="field"><span>Mark</span><input class="input" id="mkMark" maxlength="20" value="' + esc(r.Mark == null ? '' : r.Mark) + '" placeholder="e.g. 8/10 or Good"></label>' +
+    html += '</div><form id="markForm" class="t-markform"><label class="field"><span>Mark</span><input class="input" id="mkMark" maxlength="20" value="' + esc(r.Mark == null ? '' : r.Mark) + '" placeholder="' + (r.Total !== '' && r.Total != null ? 'Written part, e.g. 8/10' : 'e.g. 8/10 or Good') + '"></label>' +
       '<label class="field"><span>Comment for the learner</span><textarea class="input" id="mkComment" maxlength="2000" placeholder="One thing done well, one thing to improve.">' + esc(r.Comment || '') + '</textarea></label>' +
       '<div class="btns"><button class="btn" type="submit">Save feedback</button><button class="btn ghost" type="button" id="mkNext">Save and next</button></div>' +
       (r['Marked on'] ? '<p class="small muted">Last marked ' + fmtDate(r['Marked on'], true) + '</p>' : '') + '</form>';
@@ -498,6 +501,7 @@
   function pct(v) { return v == null ? '–' : (Math.round(v * 10) / 10) + '%'; }
   VIEWS.grades = function () {
     if (!lazy('grades', function () { return api({ action: 'tGrades', level: T.level }); })) return head('Grades', '') + LOADING;
+    lazy('exams', function () { return api({ action: 'tExams', level: T.level }); });
     var g = T.grades, w = g.weights, total = 0;
     Object.keys(w).forEach(function (k) { total += w[k]; });
     var dirty = Object.keys(GR.draft).length;
@@ -521,10 +525,37 @@
         '</div><p class="small" id="wTotal">Total: <b>' + total + '%</b></p><button class="btn ghost" type="submit">Save weights</button></form>' +
       '<div class="card pad"><h2 class="h3">What learners see</h2><p class="small muted">Learners always see their own attendance. Turn this off to hide grades while you are still marking.</p>' +
         '<button class="switch' + (g.showGrades ? ' on' : '') + '" role="switch" aria-checked="' + g.showGrades + '" id="showGr"><span class="knob"></span><span class="lbl">' + (g.showGrades ? 'Learners can see their grades' : 'Grades hidden from learners') + '</span></button>' +
-        '<p class="small muted" style="margin-top:12px">“So far” means some parts are still missing (for example the final exam). The grade uses only the parts that have a score.</p></div></div>';
+        '<p class="small muted" style="margin-top:12px">“So far” means some parts are still missing (for example the final exam). The grade uses only the parts that have a score.</p></div></div>' +
+      examsPanel();
   };
+  function examsPanel() {
+    var E = T.exams;
+    if (!E) return '<div class="card pad sec">' + LOADING + '</div>';
+    return '<div class="card pad sec" id="exams"><h2 class="h3">Exams</h2><p class="small muted">Paste the link to your own midterm and final pages. When an exam is open, learners see a button on Home and on Session 6 / 12. ' +
+        'The first score each learner sends goes into Grades. Later attempts are listed below but do not change the grade.</p><div class="grid g2">' +
+      E.exams.map(function (e) {
+        return '<form class="ex-form" data-ex="' + e.key + '"><h3 class="h3" style="font-size:1rem">' + esc(e.label) + ' <small class="muted">· Session ' + e.session + '</small></h3>' +
+          '<label class="field"><span>Link (https://…)</span><input class="input" name="url" value="' + esc(e.url) + '" placeholder="https://…/' + e.key + '.html"></label>' +
+          '<div class="btns"><button class="switch' + (e.open ? ' on' : '') + '" type="button" role="switch" aria-checked="' + e.open + '" data-open="' + e.key + '"><span class="knob"></span><span class="lbl">' + (e.open ? 'Open: learners can see it' : 'Hidden from learners') + '</span></button>' +
+          '<button class="btn ghost" type="submit">Save link</button></div></form>';
+      }).join('') + '</div>' +
+      '<h3 class="h3" style="font-size:1rem;margin-top:16px">Scores received</h3>' +
+      (E.log.length ? '<div class="t-table"><table><thead><tr><th>Learner</th><th>Exam</th><th>Score</th><th>Attempt</th><th>In Grades</th><th>Sent</th></tr></thead><tbody>' + E.log.map(function (x) {
+        return '<tr><th scope="row">' + esc(x.name) + '</th><td>' + (x.exam === 'final' ? 'Final' : 'Midterm') + '</td><td>' + x.score + '/' + x.total + ' (' + x.percent + '%)</td><td>' + x.attempt + '</td><td>' + (x.counted === 'Yes' ? '✓' : '–') + '</td><td>' + fmtDate(x.when, true) + '</td></tr>';
+      }).join('') + '</tbody></table></div>' : '<p class="small muted">No exam scores yet.</p>') + '</div>';
+  }
   WIRE.grades = function () {
     if (!T.grades) return;
+    $$('[data-ex]').forEach(function (f) {
+      var key = f.getAttribute('data-ex');
+      function send(patch, msg) { var set = {}; set[key] = patch; return api({ action: 'tExams', level: T.level, set: set }).then(function (r) { T.exams = r; toast(msg); render(); }, function (e) { toast(e.message); }); }
+      f.onsubmit = function (e) { e.preventDefault(); send({ url: f.url.value.trim() }, 'Exam link saved.'); };
+      $('[data-open]', f).onclick = function () {
+        var ex = T.exams.exams.filter(function (x) { return x.key === key; })[0];
+        if (!ex.open && !f.url.value.trim()) { toast('Paste the exam link first.'); return; }
+        send({ url: f.url.value.trim(), open: !ex.open }, ex.open ? 'Exam hidden.' : 'Exam open. Learners can see it now.');
+      };
+    });
     $$('.gr-in').forEach(function (inp) {
       inp.addEventListener('change', function () {
         var c = inp.getAttribute('data-gr'), k = inp.getAttribute('data-k');

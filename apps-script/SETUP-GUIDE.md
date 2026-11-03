@@ -74,13 +74,15 @@ You will mostly use the **teacher portal**: https://learnovateqa.github.io/Logis
 | Read workbooks | **Workbook** tab (one row per learner per session) |
 | Attendance and grades | **Attendance** and **Grades** tabs (easier in the portal: Attendance and Grades pages) |
 | Grade weights, show/hide grades | **Settings** tab: W_MIDTERM, W_FINAL, W_WORKBOOKS, W_ATTENDANCE, W_PARTICIPATION (add up to 100), SHOW_GRADES Yes/No |
+| E-workbook scores | **Workbook** tab: **Score** / **Total** = auto-scored tasks; **Mark** = your mark for the written part (e.g. 8/10) |
+| Midterm and final links | Teacher portal → **Grades → Exams** (see `EXAM-SCORES.md`). Scores arrive in the **Exams** tab |
 | Start Level 4 or 5 later | **Levels** tab → Status → **Live**, then add its sessions and learners |
 
 **Never delete or rename the tabs or the header row.** The script finds everything by those names.
 
 ## Updating the script to a new version
 
-When Claude gives you a new version of the script (version 1.1 added learners’ email and phone; version 1.2 adds attendance and grades):
+When Claude gives you a new version of the script (version 1.1 added learners’ email and phone; version 1.2 added attendance and grades; version 1.3 adds e-workbook scores and exam links):
 
 1. Open your Sheet → **Extensions → Apps Script**.
 2. Open **github.com/learnovateqa/Logistics_SCM_Academy/blob/main/apps-script/Code.gs**, click **Copy raw file**.

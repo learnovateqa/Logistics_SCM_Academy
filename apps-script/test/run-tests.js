@@ -83,10 +83,10 @@ const settingsVal = key => ss.sheets.Settings.data.find(r => r[0] === key)[1];
 
 // ---------- tests ----------
 console.log('Setup');
-test('setup creates the 12 tabs with headers', () => {
+test('setup creates the 13 tabs with headers', () => {
   assert.strictEqual(ctx.setup(), 'Setup complete');
   const tabs = Object.keys(ss.sheets);
-  assert.strictEqual(tabs.length, 12);
+  assert.strictEqual(tabs.length, 13);
   assert.deepStrictEqual(ss.sheets.Students.data[0], ['Code', 'Name', 'Level', 'Batch', 'Active', 'Created', 'Email', 'Phone', 'WhatsApp', 'Details updated']);
   assert.strictEqual(ss.sheets.Students.frozen, 1);
 });
@@ -103,7 +103,7 @@ test('setup makes a random teacher code', () => assert(/^MARIA-[A-Z0-9]{6}$/.tes
 test('running setup again does not duplicate anything', () => {
   ctx.setup();
   assert.strictEqual(ss.sheets.Sessions.data.length, 13);
-  assert.strictEqual(ss.sheets.Settings.data.length, 10);
+  assert.strictEqual(ss.sheets.Settings.data.length, 14);
   assert.strictEqual(ss.sheets.Students.data.length, 2);
 });
 
@@ -310,6 +310,39 @@ test('teacher can hide grades from learners; attendance stays visible', () => {
   assert.strictEqual(st.results.grades, null); assert.strictEqual(st.results.attendance.pct, 100);
   post({ action: 'tGradeSettings', teacherCode: T, showGrades: true });
   assert(post({ action: 'state', code: g1 }).results.grades);
+});
+
+test('workbook auto score is stored, shown to the learner and added to the teacher mark', () => {
+  post({ action: 'tSetSession', teacherCode: T, level: 6, session: 3, status: 'Open' });
+  assert(/not valid/.test(post({ action: 'submitWorkbook', code: g1, session: 3, answers: {}, score: 9, total: 5 }).error));
+  assert(post({ action: 'submitWorkbook', code: g1, session: 3, answers: { W1: 'x' }, score: 18, total: 20 }).ok);
+  const wb = post({ action: 'state', code: g1 }).results.workbook['3'];
+  assert.strictEqual(wb.score, 18); assert.strictEqual(wb.total, 20);
+  const row = post({ action: 'tList', teacherCode: T, level: 6, tab: 'Workbook' }).rows.find(r => r.Code === g1 && String(r.Session) === '3');
+  assert.strictEqual(row.Score, 18);
+  // auto 18/20 + written 8/10 = 26/30
+  assert.strictEqual(Math.round(ctx.workbookPct_({ Score: 18, Total: 20, Mark: '8/10' }) * 10) / 10, 86.7);
+  assert.strictEqual(ctx.workbookPct_({ Score: 18, Total: 20, Mark: '' }), 90);
+  assert.strictEqual(ctx.workbookPct_({ Score: 18, Total: 20, Mark: '70%' }), 80);
+  assert.strictEqual(ctx.workbookPct_({ Score: '', Total: '', Mark: '6/10' }), 60);
+});
+test('exams: hidden until open, link checked, first attempt goes to Grades', () => {
+  assert(/not open/.test(post({ action: 'submitExam', code: g1, exam: 'midterm', score: 40, total: 50 }).error));
+  assert.deepStrictEqual(post({ action: 'state', code: g1 }).exams, []);
+  assert(/https/.test(post({ action: 'tExams', teacherCode: T, set: { midterm: { url: 'javascript:alert(1)' } } }).error));
+  const r = post({ action: 'tExams', teacherCode: T, set: { midterm: { url: 'https://example.org/midterm.html', open: true } } });
+  assert(r.ok, r.error); assert.strictEqual(r.exams[0].open, true);
+  const ex = post({ action: 'state', code: g1 }).exams;
+  assert.strictEqual(ex.length, 1); assert.strictEqual(ex[0].session, 6);
+  assert(/not valid/.test(post({ action: 'submitExam', code: g1, exam: 'midterm', score: 60, total: 50 }).error));
+  let s1 = post({ action: 'submitExam', code: g1, exam: 'midterm', score: 41, total: 50 });
+  assert(s1.ok && s1.counted && s1.percent === 82, JSON.stringify(s1));
+  let s2 = post({ action: 'submitExam', code: g1, exam: 'midterm', score: 50, total: 50 });
+  assert(s2.ok && !s2.counted && s2.attempt === 2);
+  const g = post({ action: 'tGrades', teacherCode: T, level: 6 }).rows.find(x => x.code === g1);
+  assert.strictEqual(g.midterm, 82);
+  assert.strictEqual(post({ action: 'tExams', teacherCode: T, level: 6 }).log.length, 2);
+  assert(/Unknown exam/.test(post({ action: 'submitExam', code: g1, exam: 'quiz', score: 1, total: 2 }).error));
 });
 
 console.log(`\n${passed} tests passed` + (process.exitCode ? ' — SOME FAILED' : ''));
