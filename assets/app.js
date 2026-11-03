@@ -82,6 +82,7 @@
   };
   function loadLocal() {
     S.p = store.get('p:' + (S.code || 'guest'), null) || { done: [], known: {}, quiz: {}, drafts: {}, quizzes: 0 };
+    if (!S.p.lab) S.p.lab = { company: null, name: '', steps: {}, sims: {} };
   }
   function saveLocal() { store.set('p:' + (S.code || 'guest'), S.p); queueSync(); }
   loadLocal();
@@ -94,16 +95,21 @@
       .then(function (j) { if (!j.ok) throw new Error(j.error || 'Something went wrong.'); return j; });
   }
   var syncTimer = null;
+  function syncNow() {
+    clearTimeout(syncTimer); syncTimer = null;
+    if (!S.code) return;
+    api({ action: 'saveProgress', code: S.code, data: {
+      sessionsDone: S.p.done, cardsKnown: Object.keys(S.p.known).length, quizzesTaken: S.p.quizzes || 0,
+      labSteps: Object.keys(S.p.lab.steps).length, best: S.p.quiz, lab: S.p.lab
+    } }).catch(function () { /* offline: will sync next time */ });
+  }
   function queueSync() {
     if (!S.code) return;
     clearTimeout(syncTimer);
-    syncTimer = setTimeout(function () {
-      api({ action: 'saveProgress', code: S.code, data: {
-        sessionsDone: S.p.done, cardsKnown: Object.keys(S.p.known).length, quizzesTaken: S.p.quizzes || 0,
-        labSteps: 0, best: S.p.quiz
-      } }).catch(function () { /* offline: will sync next time */ });
-    }, 1500);
+    syncTimer = setTimeout(syncNow, 1500);
   }
+  // send anything still waiting when the learner leaves or hides the page
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden' && syncTimer) syncNow(); });
   function refreshState() {
     if (!S.code) return Promise.resolve();
     return api({ action: 'state', code: S.code }).then(function (st) {
@@ -116,6 +122,7 @@
     if (Array.isArray(d.sessionsDone)) d.sessionsDone.forEach(function (n) { if (S.p.done.indexOf(n) === -1) S.p.done.push(n); });
     if (d.best) Object.keys(d.best).forEach(function (k) { if (S.p.quiz[k] == null || d.best[k] > S.p.quiz[k]) S.p.quiz[k] = d.best[k]; });
     if (d.quizzesTaken > (S.p.quizzes || 0)) S.p.quizzes = d.quizzesTaken;
+    if (d.lab && d.lab.company && !S.p.lab.company) S.p.lab = d.lab;
     store.set('p:' + S.code, S.p);
   }
 
@@ -249,7 +256,7 @@
       main.innerHTML = '<div class="empty">Loading…</div>';
       out.then(function (html) { main.innerHTML = html; afterRender(r); }, function () { main.innerHTML = '<div class="card pad note err">This page could not be loaded. Check your internet connection and try again.</div>'; });
     } else { main.innerHTML = out; afterRender(r); }
-    if (!r.b || r.view === 'tools') window.scrollTo(0, 0);
+    if (!r.b || r.view === 'tools' || r.view === 'lab') window.scrollTo(0, 0);
   }
   function afterRender(r) {
     var w = WIRE[r.view]; if (w) w(r);
@@ -692,11 +699,25 @@
   };
 
   // ------------------------------------------------------- lab & tools --
-  function viewLab() {
-    return '<h1 class="h2">My Supply Chain</h1><p class="sub">Run your own Qatar company through the whole course.</p>' +
-      '<div class="card pad st-Make labsoon" style="border-left:8px solid var(--c)">' + ART.stage('Deliver', 'head-art') + '<h2 class="h2" style="font-size:1.15rem">Coming soon</h2><p>Here you will choose a company (a food importer, a pharmacy distributor, an online shop or a building-materials supplier) and apply each session’s tools to it.</p>' +
-      '<ul class="goals"><li>A supply chain map that grows each session</li><li>One lab step per teaching session</li><li>Your Control Tower: live figures for your company</li><li>Simulations: Multi-Tier Flow (bullwhip), Supplier Risk Matrix, Working Capital Balancer, Disruption Shock Test</li></ul></div>' + foot();
-  }
+  function viewLab() { return '<div id="labMount"></div>' + foot(); }
+  WIRE.lab = function (r) {
+    var el = $('#labMount'); if (!el || !window.LSCM_LAB) return;
+    window.LSCM_LAB.mount(el, {
+      lab: function () { return S.p.lab; },
+      persist: function () { saveLocal(); syncNow(); },
+      isOpen: isOpen,
+      toast: toast,
+      studentName: function () { return S.state.student.name; },
+      saveStep: function (n, values, summary) {
+        S.p.lab.steps[n] = { values: values, summary: summary, sent: new Date().toISOString() }; saveLocal(); syncNow();
+        api({ action: 'submitLab', code: S.code, step: n, data: { company: S.p.lab.name, type: S.p.lab.company, summary: summary, values: values } })
+          .then(function () { toast('Saved and sent to Ms. Maria.'); }, function () { toast('Saved on this device. It will reach Ms. Maria when you are online.'); });
+        go('#/lab');
+      },
+      saveSim: function (id, data) { data.saved = new Date().toISOString().slice(0, 10); S.p.lab.sims[id] = data; saveLocal(); syncNow(); toast('Saved to your Control Tower.'); },
+      resetLab: function () { S.p.lab = { company: null, name: '', steps: {}, sims: {} }; saveLocal(); syncNow(); }
+    }, r.a, r.b);
+  };
   function toolList() { return (window.LSCM_TOOLS && window.LSCM_TOOLS.list) || []; }
   function loadCases() {
     if (S.cases) return Promise.resolve(S.cases);
@@ -725,7 +746,10 @@
           return '<a class="card pad toolcard st-' + c.stage + '" href="#/tools/case/' + c.id + '"><span class="chip st-' + c.stage + '"><span class="d"></span>' + (c.real ? 'Real event · ' : 'Workplace case · ') + esc(c.place) + '</span>' +
             '<b style="margin-top:8px">' + esc(c.title) + '</b><small>' + esc(c.summary) + '</small></a>';
         }).join('') + '</div></div>' +
-        '<div class="sec"><h2>Simulations</h2><p class="sub">Coming soon in My Supply Chain: Multi-Tier Flow (bullwhip), Supplier Risk Matrix, Working Capital Balancer and Disruption Shock Test.</p></div>' + foot();
+        '<div class="sec"><h2>Simulations</h2><p class="sub">Practise with your own company in My Supply Chain.</p><div class="grid g2">' +
+        ((window.LSCM_SIMS && window.LSCM_SIMS.SIMS) || []).map(function (x) {
+          return '<a class="card pad toolcard st-' + x.stage + '" href="#/lab/sim/' + x.id + '"><span class="ti">' + ico('lab', 20) + '</span><b>' + esc(x.name) + '</b><small>' + esc(x.intro) + '</small></a>';
+        }).join('') + '</div></div>' + foot();
     });
   }
   function viewCase(id) {
@@ -760,6 +784,7 @@
           c.handout.sections.forEach(function (h) { if (has(h.h) || has(JSON.stringify(h.blocks))) hits.push({ href: '#/session/' + s.n + '/handout', title: h.h, sub: 'Handout · ' + s.title, kind: 'Handout · Session ' + s.n }); });
         }
       });
+      ((window.LSCM_SIMS && window.LSCM_SIMS.SIMS) || []).forEach(function (x) { if (has(x.name) || has(x.intro)) hits.push({ href: '#/lab/sim/' + x.id, title: x.name, sub: x.intro, kind: 'Simulation' }); });
       toolList().forEach(function (t) { if (has(t.name) || has(t.intro)) hits.push({ href: '#/tools/' + t.id, title: t.name, sub: t.intro, kind: 'Tool' }); });
       (S.cases || []).forEach(function (c) { if (has(c.title) || has(c.summary) || has(c.place) || has(JSON.stringify(c.sections))) hits.push({ href: '#/tools/case/' + c.id, title: c.title, sub: c.summary, kind: 'Case study' }); });
       function hl(s) { var e = esc(s), i = e.toLowerCase().indexOf(esc(q)); return i === -1 ? e : e.slice(0, i) + '<mark>' + e.slice(i, i + esc(q).length) + '</mark>' + e.slice(i + esc(q).length); }
@@ -787,7 +812,7 @@
 
   // --------------------------------------------------------------- boot --
   applySize();
-  window.addEventListener('hashchange', render);
+  window.addEventListener('hashchange', function () { if (window.LSCM_LAB) window.LSCM_LAB.stop(); render(); });
   getJSON('levels/levels.json').then(function (l) { S.levels = l; }, function () { S.levels = { levels: [] }; }).then(function () {
     if (!S.code) return;
     return loadCourse().catch(function () {});
