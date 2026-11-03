@@ -445,3 +445,45 @@ li.on .pin { background: var(--t); }
 .att-chip.att-Late { border-color: var(--gold); background: var(--gold-t); }
 .att-chip.att-Absent { border-color: var(--source); background: var(--source-t); }
 .att-chip.att-Excused { border-color: var(--deliver); background: var(--deliver-t); }
+
+/* ======================================================= My Supply Chain */
+.lab-head { display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; border-left: 10px solid var(--make); }
+.map-wrap { overflow-x: auto; }
+.lab-map { min-width: 640px; width: 100%; height: auto; }
+.co-pick { text-align: left; cursor: pointer; font: inherit; color: inherit; }
+.locked-card { opacity: .6; }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; }
+.lab-form { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; align-content: start; }
+.lab-form .field { grid-column: 1 / -1; }
+.lab-form .field.half { grid-column: auto; }
+@media (max-width: 560px) { .lab-form .field.half { grid-column: 1 / -1; } }
+.lab-form fieldset { border: 0; padding: 0; margin: 0 0 12px; }
+.lab-form legend { font-weight: 600; margin-bottom: 6px; }
+.checks { display: grid; gap: 2px; }
+.tower-head { background: radial-gradient(120% 140% at 100% 0%, var(--navy-2) 0%, var(--navy) 60%); color: #fff; border-radius: var(--radius); padding: 22px; position: relative; overflow: hidden; }
+.tower-head::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: var(--band); }
+.tower-grid { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.tower-tile { display: flex; flex-direction: column; gap: 2px; padding: 16px 18px; text-decoration: none; border-top: 6px solid var(--c); position: relative; }
+.tower-tile small { font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--muted); }
+.tower-tile b { font-size: 1.35rem; line-height: 1.25; }
+.tower-tile span { font-size: .84rem; color: var(--muted); }
+.tower-tile::after { content: ""; position: absolute; top: 14px; right: 14px; width: 14px; height: 14px; border-radius: 50%; background: var(--line); }
+.tower-tile.t-good::after { background: var(--return); }
+.tower-tile.t-warn::after { background: var(--gold); }
+.tower-tile.t-bad::after { background: var(--source); }
+/* simulations */
+.sim-top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: center; }
+.sim-flow { display: flex; align-items: stretch; gap: 8px; margin: 14px 0; overflow-x: auto; padding-bottom: 4px; }
+.sim-node { flex: 1 0 130px; border-radius: 14px; background: var(--t); border-top: 6px solid var(--c); padding: 10px 12px; display: flex; flex-direction: column; font-size: .85rem; }
+.sim-node b { font-size: .9rem; }
+.sim-arrow { align-self: center; font-weight: 700; color: var(--muted); }
+.sim-play { display: grid; gap: 10px; }
+.sim-play .input { max-width: 220px; }
+.shock-h { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.timer { background: var(--gold); color: var(--navy); font-weight: 700; border-radius: 999px; padding: 6px 14px; min-width: 64px; text-align: center; }
+.shock-acts { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); margin-top: 10px; }
+.shock-act { text-align: left; border: 2px solid var(--line); background: #fff; border-radius: 14px; padding: 12px 14px; cursor: pointer; font: inherit; color: inherit; display: flex; flex-direction: column; gap: 4px; }
+.shock-act:hover { border-color: var(--navy); }
+.shock-act small { color: var(--muted); font-size: .8rem; }
+.shock-act[disabled] { opacity: .45; cursor: not-allowed; }
+input[type=range] { width: 100%; accent-color: var(--navy); }

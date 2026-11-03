@@ -390,6 +390,12 @@
   function parse(s) { try { return JSON.parse(s || '{}'); } catch (e) { return { answer: String(s) }; } }
   function detail(r) {
     var ans = parse(MK.tab === 'Lab' ? r.Data : r.Answers), qs = [];
+    if (MK.tab === 'Lab' && ans.values) {
+      var flat = { Company: ans.company + (ans.type ? ' (' + ans.type + ')' : '') };
+      Object.keys(ans.summary || {}).forEach(function (k) { flat['Result · ' + k] = ans.summary[k]; });
+      Object.keys(ans.values).forEach(function (k) { var v = ans.values[k]; flat['Answer · ' + k] = Array.isArray(v) ? v.join(', ') : v; });
+      ans = flat;
+    }
     var c = MK.tab !== 'Lab' && T.content[+r.Session];
     if (c) qs = (MK.tab === 'Workbook' ? c.workbook : c.exit || {}).questions || [];
     var html = '<div class="eyebrow muted">' + (MK.tab === 'Lab' ? 'Lab step ' + r.Step : TAB_NAME[MK.tab].replace(/s$/, '') + ' · Session ' + r.Session) + '</div><h2 class="h3" style="margin:4px 0 2px">' + esc(r.Name) + '</h2>' +
