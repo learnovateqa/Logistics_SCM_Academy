@@ -450,7 +450,7 @@
   ];
   function tileState(n, id) {
     var r = (S.state && S.state.results) || {}, sheet = sheetSession(n) || {};
-    if (id === 'slides') return sheet.canva ? 'Open in Canva' : 'Link coming';
+    if (id === 'slides') return sheet.canva ? 'View slides' : 'Link coming';
     if (id === 'quiz') { var b = S.p.quiz[n]; return b != null ? 'Best ' + b + '%' : 'Open'; }
     if (id === 'workbook') { var w = r.workbook && r.workbook[n]; return w ? (w.total ? 'Score ' + w.score + '/' + w.total + (w.mark ? ' · ' + w.mark : '') : w.mark ? 'Marked ' + w.mark : 'Sent') : 'Open'; }
     if (id === 'exit') { var x = r.exit && r.exit[n]; return x ? 'Sent' : 'Open'; }
@@ -463,9 +463,7 @@
     var labels = (c && c.labels) || (meta.type === 'Exam' ? EXAM_TILES.labels : {});
     var TC = ['Plan', 'Source', 'Make', 'Deliver', 'Return', 'Gold'];
     return '<div class="tiles' + (light ? ' light' : '') + '">' + TILE_DEFS.filter(function (t) { return !only || only.indexOf(t.id) !== -1; }).map(function (t, ti) {
-      var href = t.id === 'slides' ? (sheet.canva || '') : '#/session/' + n + '/' + t.id;
-      var ext = t.id === 'slides' && sheet.canva;
-      if (t.id === 'slides' && !sheet.canva) href = '#/session/' + n + '/slides';
+      var href = '#/session/' + n + '/' + t.id, ext = false;
       return '<a class="tile st-' + TC[ti] + (active === t.id ? ' on' : '') + '" href="' + esc(href) + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' +
         '<span class="ti">' + ico(t.icon, 18) + '</span><b>' + (labels[t.id] || t.label) + (ext ? ' ' + '<span style="display:inline-block;vertical-align:-2px">' + ico('ext', 13) + '</span>' : '') + '</b><small>' + esc(tileState(n, t.id)) + '</small></a>';
     }).join('') + '</div>';
@@ -507,7 +505,14 @@
   }
   var PANELS = {
     slides: function (n) {
-      return '<div class="card pad"><h2 class="h2" style="font-size:1.1rem">Slides</h2><p class="muted">Ms. Maria will add the link to the slides for this session. Check again after class.</p></div>';
+      var link = (sheetSession(n) || {}).canva || '', src = embedUrl(link);
+      if (!link) return '<div class="card pad"><h2 class="h2" style="font-size:1.1rem">Slides</h2><p class="muted">Ms. Maria will add the slides for this session. Check again after class.</p></div>';
+      return '<div class="card pad slides-card"><div class="panel-h"><h2 class="h2" style="font-size:1.1rem;margin:0">Slides</h2>' +
+        '<div class="btns" style="margin:0">' + (src ? '<button class="btn ghost sm" type="button" id="slidesFull">' + ico('ext', 16) + ' Full screen</button>' : '') +
+        '<a class="btn ghost sm" href="' + esc(link) + '" target="_blank" rel="noopener">Open in a new tab</a></div></div>' +
+        (src ? '<div class="slide-frame"><iframe id="slidesFrame" src="' + esc(src) + '" title="Session ' + n + ' slides" loading="lazy" allowfullscreen allow="fullscreen"></iframe></div>' +
+          '<p class="small muted" style="margin:10px 0 0">Use the arrows under the slides, or swipe on a phone. Turn your phone sideways for bigger slides.</p>'
+          : '<p class="muted">These slides open in a new tab.</p>') + '</div>';
     },
     handout: function (n, c, meta) {
       return '<div class="card handout"><div class="pad panel-h" style="padding-bottom:0"><div><div class="eyebrow muted">' + (meta.type === 'Exam' ? 'Revision guide' : 'Handout') + ' · Session ' + n + '</div><h2 class="h2" style="font-size:1.2rem;margin-top:4px">' + esc(meta.title) + '</h2></div>' +
@@ -575,6 +580,16 @@
       '<p class="small" style="margin:0">Opens in a new tab. Your score goes to Ms. Maria when you finish. Only your first attempt counts.</p></div>' +
       '<a class="btn" href="' + esc(examUrl(e)) + '" target="_blank" rel="noopener">Start the ' + esc(e.label.toLowerCase()) + '</a></div>';
   }
+  // Canva and Google Slides share links → embeddable viewer links
+  function embedUrl(u) {
+    var m;
+    if (!/^https:\/\//.test(u || '')) return '';
+    if ((m = u.match(/^https:\/\/(?:www\.)?canva\.com\/design\/([A-Za-z0-9_-]+)(?:\/([A-Za-z0-9_-]+))?/))) {
+      return 'https://www.canva.com/design/' + m[1] + (m[2] && m[2] !== 'view' && m[2] !== 'edit' ? '/' + m[2] : '') + '/view?embed';
+    }
+    if ((m = u.match(/^https:\/\/docs\.google\.com\/presentation\/d\/([A-Za-z0-9_-]+)/))) return 'https://docs.google.com/presentation/d/' + m[1] + '/embed?start=false&loop=false';
+    return '';
+  }
   function formPanel(n, kind, title, intro, qs) {
     var res = (S.state.results && S.state.results[kind === 'exit' ? 'exit' : 'workbook'] || {})[n];
     var draft = S.p.drafts[kind + n] || {};
@@ -595,6 +610,7 @@
   }
   WIRE.session = function (r) {
     var n = Number(r.a);
+    var fs = $('#slidesFull'); if (fs) fs.onclick = function () { var f = $('#slidesFrame'); if (f && f.requestFullscreen) f.requestFullscreen(); else if (f && f.webkitRequestFullscreen) f.webkitRequestFullscreen(); else window.open(f.src, '_blank'); };
     var wm = $('#wbMount'); if (wm && S.content[n]) window.LSCM_WB.wire(wm, n, S.content[n], wbCtx(n, S.content[n]));
     $$('[data-done]').forEach(function (b) { b.onclick = function () { if (!isDone(n)) S.p.done.push(n); saveLocal(); toast('Great work! Your shipment moved one stop.'); render(); }; });
     $$('[data-undone]').forEach(function (b) { b.onclick = function () { S.p.done = S.p.done.filter(function (x) { return x !== n; }); saveLocal(); render(); }; });
@@ -657,14 +673,50 @@
         '<h3 style="margin:2px 0 0">' + esc(s.title) + '</h3></div></li>';
     }).join('') + '</ol>';
     var att = res.attendance || {}, gr = res.grades;
-    return '<h1 class="h2">Progress</h1><p class="sub">Your shipment moves one stop each time you finish a session.</p>' +
-      '<div class="grid g4" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">' +
-        stat('Stops reached', done + ' / ' + total, done === total ? 'Delivered!' : 'Keep going.') +
+    return progressHero(done, total, res) + marksCard(gr) +
+      '<div class="grid g4 sec" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">' +
         stat('Attendance', att.pct == null ? '–' : att.pct + '%', att.pct == null ? 'Not recorded yet.' : 'Present or late.') +
         stat('Average quiz', avgQuiz(), 'Best score per session.') +
         stat('Workbooks sent', Object.keys(res.workbook || {}).length, 'Sent to Ms. Maria.') +
-        (gr ? stat(gr.complete ? 'Final grade' : 'Grade so far', gr.grade == null ? '–' : gr.grade + '%', gr.complete ? 'All parts marked.' : 'Some parts not marked yet.') : '') +
       '</div>' + gradeCards(att, gr) + '<div class="sec">' + (done ? '' : '<p class="note" style="margin-bottom:14px">Your shipment is waiting at the start. Finish Session 1 to move it.</p>') + list + '</div>' + foot();
+  }
+  function greeting() {
+    var h = new Date().getHours();
+    return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  }
+  function ring(pct, color) {
+    var r = 52, c = 2 * Math.PI * r, off = c * (1 - Math.max(0, Math.min(100, pct)) / 100);
+    return '<svg viewBox="0 0 128 128" class="ring" aria-hidden="true"><circle cx="64" cy="64" r="' + r + '" fill="none" stroke="var(--line-2)" stroke-width="12"/>' +
+      '<circle cx="64" cy="64" r="' + r + '" fill="none" stroke="' + color + '" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + off.toFixed(1) + '" transform="rotate(-90 64 64)"/></svg>';
+  }
+  function progressHero(done, total, res) {
+    var st = S.state.student, first = esc(st.name.split(' ')[0]), pct = Math.round(done / total * 100);
+    var nq = Object.keys(S.p.quiz).length, nw = Object.keys(res.workbook || {}).length;
+    var msg = done === 0 ? 'Your shipment is ready at the start. Finish Session 1 to move it.' : done === total ? 'Delivered! You finished every session.' : 'Keep going: your shipment is on its way.';
+    return '<section class="card ph-hero"><div class="ph-left"><div class="eyebrow">My progress</div>' +
+      '<h1>' + greeting() + ', ' + first + '</h1>' +
+      '<p class="ph-sub">' + (st.batch ? esc(st.batch) + ' · ' : '') + 'Level ' + esc(st.level) + ' · signed in with your learner code</p>' +
+      '<p class="ph-msg">' + msg + '</p></div>' +
+      '<div class="card ph-ring"><div class="ring-wrap">' + ring(pct, 'var(--plan)') + '<div class="ring-in"><small>Course</small><b>' + pct + '%</b></div></div>' +
+      '<ul class="ph-facts"><li><b>' + done + '</b> of ' + total + ' sessions done</li>' +
+      '<li>' + (nq ? 'Average quiz <b>' + avgQuiz() + '</b>' : 'No quiz yet') + '</li>' +
+      '<li>' + (nw ? '<b>' + nw + '</b> workbook' + (nw > 1 ? 's' : '') + ' sent' : 'No workbook sent yet') + '</li></ul></div></section>';
+  }
+  function marksCard(gr) {
+    var w = (gr && gr.weights) || {};
+    var parts = [['midterm', 'Midterm exam', 'Session 6'], ['final', 'Final exam', 'Session 12'], ['workbooks', 'E-workbooks', 'every teaching session'], ['attendance', 'Attendance', 'present or late'], ['participation', 'Participation', 'in class']];
+    parts = parts.filter(function (p) { return !gr || !gr.weights || w[p[0]] > 0 || gr[p[0]] != null; });
+    var any = gr && parts.some(function (p) { return gr[p[0]] != null; });
+    var STC = ['var(--make)', 'var(--return)', 'var(--source)', 'var(--plan)', 'var(--deliver)'];
+    return '<section class="card pad marks sec"><div class="marks-h"><div><h2 class="h3" style="margin:0"><span aria-hidden="true">🎓</span> Marks from Ms. Maria</h2>' +
+      '<p class="small muted" style="margin:4px 0 0">' + (!gr ? 'Ms. Maria will share your marks here soon.' : any ? 'Each bar shows your score for that part.' : 'No marks yet.') + '</p></div>' +
+      (gr && gr.grade != null ? '<div class="marks-total"><small>' + (gr.complete ? 'Final grade' : 'Grade so far') + '</small><b>' + gr.grade + '%</b></div>' : '') + '</div>' +
+      parts.map(function (p, i) {
+        var v = gr ? gr[p[0]] : null;
+        return '<div class="mrow"><span class="ml">' + p[1] + ' <small>· ' + p[2] + (w[p[0]] != null ? ' · ' + w[p[0]] + '%' : '') + '</small></span>' +
+          '<span class="mbar"><i style="width:' + (v == null ? 0 : Math.max(2, Math.min(100, v))) + '%;background:' + STC[i % 5] + '"></i></span>' +
+          '<b class="mv">' + (v == null ? '–' : (Math.round(v * 10) / 10) + '%') + '</b></div>';
+      }).join('') + '</section>';
   }
   function gradeCards(att, gr) {
     var ST = { Present: 'Present', Late: 'Late', Absent: 'Absent', Excused: 'Excused' };
@@ -673,7 +725,7 @@
       ? '<div class="att-list">' + sessions.map(function (x) { return '<span class="att-chip att-' + esc(x.status) + '"><b>S' + x.session + '</b> ' + esc(ST[x.status] || x.status) + '</span>'; }).join('') + '</div>' +
         '<p class="small muted" style="margin:10px 0 0">' + (att.present || 0) + ' present · ' + (att.late || 0) + ' late · ' + (att.absent || 0) + ' absent' + (att.excused ? ' · ' + att.excused + ' excused' : '') + '</p>'
       : '<p class="muted small">Ms. Maria has not recorded attendance yet.</p>') + '</div>';
-    if (!gr) return '<div class="grid g2 sec">' + attCard + '</div>';
+    return '<div class="sec">' + attCard + '</div>';
     var rows = [['Midterm', gr.midterm], ['Final exam', gr.final], ['E-workbooks (average)', gr.workbooks], ['Attendance', gr.attendance], ['Participation', gr.participation]];
     var grCard = '<div class="card pad"><h2 class="h3">My grades</h2><div class="results">' + rows.map(function (r) {
       return '<div class="res-row"><span>' + r[0] + '</span><b>' + (r[1] == null ? '<span class="muted">not yet</span>' : r[1] + '%') + '</b></div>';

@@ -11,7 +11,7 @@
  *   3. Deploy > New deployment > Web app (Execute as: Me, Who has access: Anyone).
  */
 
-var VERSION = '1.3.0';
+var VERSION = '1.4.0';
 
 // ---------------------------------------------------------------- tabs ----
 
@@ -560,7 +560,7 @@ function learnerState_(st) {
       .filter(function (r) { return yes_(r.Show); }).map(announcementOut_).reverse(),
     results: { quiz: quiz, workbook: marks('Workbook', 'Session'), exit: marks('Exit_Tickets', 'Session'), lab: marks('Lab', 'Step'),
       attendance: attendanceByCode_(st.level)[st.code] || { pct: null, sessions: [] },
-      grades: yes_(setting_('SHOW_GRADES') || 'Yes') ? gradesFor_(st.level)[st.code] || null : null },
+      grades: yes_(setting_('SHOW_GRADES') || 'Yes') ? withWeights_(gradesFor_(st.level)[st.code] || null) : null },
     progress: progData,
     exams: examsFor_().filter(function (e) { return e.open && e.url; })
   };
@@ -722,6 +722,12 @@ function workbookPct_(r) {
   var mp = markPct_(m);
   if (auto != null && mp != null) return (auto + mp) / 2;
   return auto != null ? auto : mp;
+}
+
+function withWeights_(g) {
+  if (!g) return null;
+  g.weights = weights_();
+  return g;
 }
 
 function examsFor_() {

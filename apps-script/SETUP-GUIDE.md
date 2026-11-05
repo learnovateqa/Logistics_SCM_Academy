@@ -82,7 +82,7 @@ You will mostly use the **teacher portal**: https://learnovateqa.github.io/Logis
 
 ## Updating the script to a new version
 
-When Claude gives you a new version of the script (version 1.1 added learners’ email and phone; version 1.2 added attendance and grades; version 1.3 adds e-workbook scores and exam links):
+When Claude gives you a new version of the script (version 1.1 added learners’ email and phone; version 1.2 added attendance and grades; version 1.3 added e-workbook scores and exam links; version 1.4 shows the grade weights on learners’ Progress page):
 
 1. Open your Sheet → **Extensions → Apps Script**.
 2. Open **github.com/learnovateqa/Logistics_SCM_Academy/blob/main/apps-script/Code.gs**, click **Copy raw file**.
