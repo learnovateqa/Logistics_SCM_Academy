@@ -449,7 +449,7 @@
    {
     "id": "T1",
     "type": "pick",
-    "slide": 6,
+    "slide": 14,
     "stage": "Plan",
     "title": "Logistics or SCM?",
     "intro": "Is each activity mainly **logistics** (moving and storing goods) or **supply chain management** (the whole network)?",
@@ -487,7 +487,7 @@
    {
     "id": "T2",
     "type": "pick",
-    "slide": 8,
+    "slide": 16,
     "stage": "Source",
     "title": "Which flow?",
     "intro": "Which of the four flows is each example?",
@@ -527,7 +527,7 @@
    {
     "id": "T3",
     "type": "pick",
-    "slide": 10,
+    "slide": 18,
     "stage": "Make",
     "title": "Sort into SCOR stages",
     "intro": "A juice company in Doha. Which SCOR stage is each activity?",
@@ -572,7 +572,7 @@
    {
     "id": "T4",
     "type": "pick",
-    "slide": 13,
+    "slide": 21,
     "stage": "Deliver",
     "title": "Spot the broken right",
     "intro": "Which of the Six Rights was broken?",
@@ -610,7 +610,7 @@
    {
     "id": "T5",
     "type": "order",
-    "slide": 17,
+    "slide": 25,
     "stage": "Return",
     "title": "Put the four steps in order",
     "intro": "Customers complain about late deliveries. Tap the steps in the right order: Frame, Evaluate, Act, Review.",
@@ -632,7 +632,7 @@
    {
     "id": "T6",
     "type": "match",
-    "slide": 19,
+    "slide": 27,
     "stage": "Plan",
     "title": "Match the digital tool",
     "intro": "Choose what each tool records.",
@@ -662,7 +662,7 @@
    {
     "id": "T7",
     "type": "match",
-    "slide": 21,
+    "slide": 29,
     "stage": "Source",
     "title": "Match the key terms",
     "intro": "Choose the meaning of each term.",
@@ -697,21 +697,21 @@
   "written": [
    {
     "id": "A",
-    "slide": 14,
+    "slide": 22,
     "title": "Your trade-off",
     "prompt": "Describe one trade-off in a supply chain you know. What is gained, and what is lost? (40–60 words)",
     "frame": "“In ___, the company chose to ___. It gained ___, but it lost ___ because ___.”"
    },
    {
     "id": "B",
-    "slide": 9,
+    "slide": 17,
     "title": "Your supply chain on SCOR",
     "prompt": "Choose a product you know well. Write its supply chain in five steps, one for each SCOR stage.",
     "frame": "“Plan: ___ / Source: ___ / Make: ___ / Deliver: ___ / Return: ___”"
    },
    {
     "id": "C",
-    "slide": 18,
+    "slide": 26,
     "title": "Frame, Evaluate, Act, Review",
     "prompt": "Customers of a Doha pharmacy chain complain that medicines are often out of stock. Write one sentence for each step.",
     "frame": "“Frame: The real problem may be ___. Evaluate: I would compare ___. Act: I would ___. Review: I would check ___.”"
