@@ -202,7 +202,7 @@
 
   // sessions -------------------------------------------------------------
   VIEWS.sessions = function () {
-    return head('Sessions', 'Learners only see open sessions. Paste the Canva share link so the Slides button works.') +
+    return head('Sessions', 'Learners only see open sessions. Paste the Canva share link (Share → anyone with the link can view). Learners see the slides inside the session page.') +
       '<div class="t-list">' + sessions().map(function (s) {
         var open = s.status === 'Open';
         return '<div class="card t-sess st-' + s.stage + '"><div class="t-sess-main"><div class="t-sess-h"><span class="chip st-' + s.stage + '"><span class="d"></span>' + esc(STAGE_LABEL[s.stage] || s.stage) + '</span>' +
