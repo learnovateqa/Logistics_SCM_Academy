@@ -488,7 +488,8 @@
       if (!content) body = '<div class="card pad empty">' + ART.empty() + '<p>The materials for this session are being prepared.</p></div>';
       else if (!tab) body = overview(n, content);
       else body = (PANELS[tab] && (tab === 'slides' || tab === 'handout' || content[tab === 'terms' ? 'terms' : tab]) ? PANELS[tab] : overview)(n, content, meta);
-      return head + (examFor(n) ? '<div class="sec">' + examCard(examFor(n)) + '</div>' : '') + '<div class="sec">' + tiles(n, true, tab) + '</div><div class="panel st-' + meta.stage + '" id="panel">' + body + '</div>' + foot();
+      var viewer = (!tab || tab === 'slides') ? slideViewer(n) : '';
+      return head + (examFor(n) ? '<div class="sec">' + examCard(examFor(n)) + '</div>' : '') + (viewer ? '<div class="sec" id="slides">' + viewer + '</div>' : '') + '<div class="sec">' + tiles(n, true, tab) + '</div><div class="panel st-' + meta.stage + '" id="panel">' + body + '</div>' + foot();
     });
   }
   function doneButton(n) {
@@ -504,15 +505,9 @@
         '<div class="btns"><a class="btn" href="#/session/' + n + '/handout">Open the revision guide</a><a class="btn ghost" href="#/session/' + n + '/quiz">Practice questions</a>' + doneButton(n) + '</div></div>');
   }
   var PANELS = {
-    slides: function (n) {
-      var link = (sheetSession(n) || {}).canva || '', src = embedUrl(link);
-      if (!link) return '<div class="card pad"><h2 class="h2" style="font-size:1.1rem">Slides</h2><p class="muted">Ms. Maria will add the slides for this session. Check again after class.</p></div>';
-      return '<div class="card pad slides-card"><div class="panel-h"><h2 class="h2" style="font-size:1.1rem;margin:0">Slides</h2>' +
-        '<div class="btns" style="margin:0">' + (src ? '<button class="btn ghost sm" type="button" id="slidesFull">' + ico('ext', 16) + ' Full screen</button>' : '') +
-        '<a class="btn ghost sm" href="' + esc(link) + '" target="_blank" rel="noopener">Open in a new tab</a></div></div>' +
-        (src ? '<div class="slide-frame"><iframe id="slidesFrame" src="' + esc(src) + '" title="Session ' + n + ' slides" loading="lazy" allowfullscreen allow="fullscreen"></iframe></div>' +
-          '<p class="small muted" style="margin:10px 0 0">Use the arrows under the slides, or swipe on a phone. Turn your phone sideways for bigger slides.</p>'
-          : '<p class="muted">These slides open in a new tab.</p>') + '</div>';
+    slides: function (n, c) {
+      if (!(sheetSession(n) || {}).canva) return '<div class="card pad"><h2 class="h2" style="font-size:1.1rem">Slides</h2><p class="muted">Ms. Maria will add the slides for this session. Check again after class.</p></div>';
+      return overview(n, c);
     },
     handout: function (n, c, meta) {
       return '<div class="card handout"><div class="pad panel-h" style="padding-bottom:0"><div><div class="eyebrow muted">' + (meta.type === 'Exam' ? 'Revision guide' : 'Handout') + ' · Session ' + n + '</div><h2 class="h2" style="font-size:1.2rem;margin-top:4px">' + esc(meta.title) + '</h2></div>' +
@@ -579,6 +574,16 @@
     return '<div class="card pad exam-card"><div><div class="eyebrow">' + ico('flag', 14) + ' Exam open</div><h3 class="h3" style="margin:4px 0">' + esc(e.label) + '</h3>' +
       '<p class="small" style="margin:0">Opens in a new tab. Your score goes to Ms. Maria when you finish. Only your first attempt counts.</p></div>' +
       '<a class="btn" href="' + esc(examUrl(e)) + '" target="_blank" rel="noopener">Start the ' + esc(e.label.toLowerCase()) + '</a></div>';
+  }
+  function slideViewer(n) {
+      var link = (sheetSession(n) || {}).canva || '', src = embedUrl(link);
+      if (!link) return '';
+      return '<div class="card pad slides-card"><div class="panel-h"><h2 class="h2" style="font-size:1.1rem;margin:0">Slides</h2>' +
+        '<div class="btns" style="margin:0">' + (src ? '<button class="btn ghost sm" type="button" id="slidesFull">' + ico('ext', 16) + ' Full screen</button>' : '') +
+        '<a class="btn ghost sm" href="' + esc(link) + '" target="_blank" rel="noopener">Open in a new tab</a></div></div>' +
+        (src ? '<div class="slide-frame"><iframe id="slidesFrame" src="' + esc(src) + '" title="Session ' + n + ' slides" loading="lazy" allowfullscreen allow="fullscreen"></iframe></div>' +
+          '<p class="small muted" style="margin:10px 0 0">Use the arrows under the slides, or swipe on a phone. Turn your phone sideways for bigger slides.</p>'
+          : '<p class="muted">These slides open in a new tab.</p>') + '</div>';
   }
   // Canva and Google Slides share links → embeddable viewer links
   function embedUrl(u) {
