@@ -103,7 +103,7 @@ test('setup makes a random teacher code', () => assert(/^MARIA-[A-Z0-9]{6}$/.tes
 test('running setup again does not duplicate anything', () => {
   ctx.setup();
   assert.strictEqual(ss.sheets.Sessions.data.length, 13);
-  assert.strictEqual(ss.sheets.Settings.data.length, 14);
+  assert.strictEqual(ss.sheets.Settings.data.length, 15);
   assert.strictEqual(ss.sheets.Students.data.length, 2);
 });
 
@@ -343,6 +343,25 @@ test('exams: hidden until open, link checked, first attempt goes to Grades', () 
   assert.strictEqual(g.midterm, 82);
   assert.strictEqual(post({ action: 'tExams', teacherCode: T, level: 6 }).log.length, 2);
   assert(/Unknown exam/.test(post({ action: 'submitExam', code: g1, exam: 'quiz', score: 1, total: 2 }).error));
+});
+
+test('practice quizzes: best score per session, averaged, counts only with a weight', () => {
+  const q = 'L6-QZ' + Date.now().toString().slice(-4);
+  const code = post({ action: 'tAddStudent', teacherCode: T, level: 6, name: 'Quiz Learner', batch: 'B' }).student.code;
+  post({ action: 'tSetSession', teacherCode: T, level: 6, session: 4, status: 'Open' });
+  post({ action: 'submitQuiz', code, session: 4, score: 6, total: 10 });
+  post({ action: 'submitQuiz', code, session: 4, score: 9, total: 10 });
+  post({ action: 'submitQuiz', code, session: 3, score: 7, total: 10 });
+  let g = post({ action: 'tGrades', teacherCode: T, level: 6 }).rows.find(r => r.code === code);
+  assert.strictEqual(g.quizzes, 80); // best 90 (S4) and 70 (S3) → 80
+  assert.strictEqual(g.grade, null); // quizzes weight is 0 by default, nothing else marked
+  const r = post({ action: 'tGradeSettings', teacherCode: T, weights: { midterm: 30, final: 30, workbooks: 20, quizzes: 10, attendance: 10, participation: 0 } });
+  assert(r.ok, r.error); assert.strictEqual(r.weights.quizzes, 10);
+  g = post({ action: 'tGrades', teacherCode: T, level: 6 }).rows.find(r => r.code === code);
+  assert.strictEqual(g.grade, 80);
+  // an older portal that does not send quizzes keeps the quiz weight
+  const old = post({ action: 'tGradeSettings', teacherCode: T, weights: { midterm: 30, final: 30, workbooks: 20, attendance: 10, participation: 0 } });
+  assert(old.ok, old.error); assert.strictEqual(old.weights.quizzes, 10);
 });
 
 console.log(`\n${passed} tests passed` + (process.exitCode ? ' — SOME FAILED' : ''));
