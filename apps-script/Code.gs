@@ -11,7 +11,7 @@
  *   3. Deploy > New deployment > Web app (Execute as: Me, Who has access: Anyone).
  */
 
-var VERSION = '1.4.0';
+var VERSION = '1.5.0';
 
 // ---------------------------------------------------------------- tabs ----
 
@@ -35,7 +35,7 @@ var EXAMS = { midterm: { label: 'Midterm exam', session: 6, col: 'Midterm' }, fi
 
 var STAGES = ['Plan', 'Source', 'Make', 'Deliver', 'Return'];
 var ATT_STATUS = ['Present', 'Late', 'Absent', 'Excused'];
-var GRADE_PARTS = ['MIDTERM', 'FINAL', 'WORKBOOKS', 'ATTENDANCE', 'PARTICIPATION'];
+var GRADE_PARTS = ['MIDTERM', 'FINAL', 'WORKBOOKS', 'QUIZZES', 'ATTENDANCE', 'PARTICIPATION'];
 
 // Level 6 sessions (10 teaching sessions + midterm in S6 + final in S12).
 var LEVEL6_SESSIONS = [
@@ -101,6 +101,7 @@ function setup() {
   ensureSetting_('W_WORKBOOKS', 20, 'Weight of the average e-workbook mark (%).');
   ensureSetting_('W_ATTENDANCE', 10, 'Weight of attendance (%).');
   ensureSetting_('W_PARTICIPATION', 0, 'Weight of participation (%). All weights should add up to 100.');
+  ensureSetting_('W_QUIZZES', 0, 'Weight of the practice quizzes (%): average of each learner’s best score per session.');
   ensureSetting_('MIDTERM_LINK', '', 'Link to your midterm exam page (https://…). Set it in the teacher portal: Grades → Exams.');
   ensureSetting_('MIDTERM_OPEN', 'No', 'Yes = learners see the midterm button.');
   ensureSetting_('FINAL_LINK', '', 'Link to your final exam page (https://…).');
@@ -471,14 +472,15 @@ var ACTIONS = {
     return withLock_(function () {
       if (req.showGrades !== undefined) setSetting_('SHOW_GRADES', req.showGrades ? 'Yes' : 'No');
       if (req.weights) {
-        var total = 0;
+        var total = 0, cur = weights_(), nw = {};
         GRADE_PARTS.forEach(function (k) {
-          var n = Number(req.weights[k.toLowerCase()]);
+          var key = k.toLowerCase(), v = req.weights[key];
+          var n = v === undefined || v === null || v === '' ? cur[key] : Number(v); // a part the form did not send keeps its weight
           if (!isFinite(n) || n < 0 || n > 100) throw new Error('Each weight must be from 0 to 100.');
-          total += n;
+          nw[key] = n; total += n;
         });
         if (Math.abs(total - 100) > 0.01) throw new Error('The weights must add up to 100. Now they add up to ' + total + '.');
-        GRADE_PARTS.forEach(function (k) { setSetting_('W_' + k, Number(req.weights[k.toLowerCase()])); });
+        GRADE_PARTS.forEach(function (k) { setSetting_('W_' + k, nw[k.toLowerCase()]); });
       }
       return { weights: weights_(), showGrades: yes_(setting_('SHOW_GRADES') || 'Yes') };
     });
@@ -730,6 +732,14 @@ function withWeights_(g) {
   return g;
 }
 
+// Practice quizzes: the best percent per session, averaged over the sessions tried.
+function quizAvg_(rows) {
+  var best = {};
+  rows.forEach(function (r) { var s = String(r.Session), p = num_(r.Percent); if (best[s] == null || p > best[s]) best[s] = p; });
+  var v = Object.keys(best).map(function (s) { return best[s]; });
+  return v.length ? Math.round(v.reduce(function (a, b) { return a + b; }, 0) / v.length * 10) / 10 : null;
+}
+
 function examsFor_() {
   return Object.keys(EXAMS).map(function (k) {
     return { key: k, label: EXAMS[k].label, session: EXAMS[k].session, url: setting_(k.toUpperCase() + '_LINK'), open: yes_(setting_(k.toUpperCase() + '_OPEN')) };
@@ -738,14 +748,14 @@ function examsFor_() {
 
 function weights_() {
   var w = {};
-  GRADE_PARTS.forEach(function (k) { var v = Number(setting_('W_' + k)); w[k.toLowerCase()] = isFinite(v) && setting_('W_' + k) !== '' ? v : { MIDTERM: 30, FINAL: 40, WORKBOOKS: 20, ATTENDANCE: 10, PARTICIPATION: 0 }[k]; });
+  GRADE_PARTS.forEach(function (k) { var v = Number(setting_('W_' + k)); w[k.toLowerCase()] = isFinite(v) && setting_('W_' + k) !== '' ? v : { MIDTERM: 30, FINAL: 40, WORKBOOKS: 20, QUIZZES: 0, ATTENDANCE: 10, PARTICIPATION: 0 }[k]; });
   return w;
 }
 
 /** Each learner's grade parts and the weighted grade so far (using only the parts that have a value). */
 function gradesFor_(level) {
   var w = weights_(), att = attendanceByCode_(level), out = {};
-  var gradeRows = rows_('Grades').filter(byLevel_(level)), wb = rows_('Workbook').filter(byLevel_(level));
+  var gradeRows = rows_('Grades').filter(byLevel_(level)), wb = rows_('Workbook').filter(byLevel_(level)), qz = rows_('Quiz_Scores').filter(byLevel_(level));
   rows_('Students').filter(byLevel_(level)).forEach(function (st) {
     var k = String(st.Code).toUpperCase();
     var g = gradeRows.filter(function (r) { return sameCode_(r.Code, k); })[0] || {};
@@ -755,7 +765,8 @@ function gradesFor_(level) {
       final: g.Final === '' || g.Final == null ? null : Number(g.Final),
       participation: g.Participation === '' || g.Participation == null ? null : Number(g.Participation),
       workbooks: marks.length ? Math.round(marks.reduce(function (a, b) { return a + b; }, 0) / marks.length * 10) / 10 : null,
-      attendance: att[k] && att[k].pct != null ? att[k].pct : null
+      attendance: att[k] && att[k].pct != null ? att[k].pct : null,
+      quizzes: quizAvg_(qz.filter(function (r) { return sameCode_(r.Code, k); }))
     };
     var sumW = 0, sum = 0, all = true;
     Object.keys(parts).forEach(function (p) {

@@ -113,9 +113,33 @@
   function refreshState() {
     if (!S.code) return Promise.resolve();
     return api({ action: 'state', code: S.code }).then(function (st) {
-      S.state = st; store.set('state', st); mergeRemote(st);
+      S.state = st; store.set('state', st); mergeRemote(st); flushQuizzes();
     });
   }
+  // Practice-quiz scores: every attempt is sent to the Sheet. If the learner is offline, it waits on this device and is sent later.
+  function sendQuiz(q) {
+    return api({ action: 'submitQuiz', code: S.code, session: q.session, score: q.score, total: q.total }).catch(function () {
+      var p = store.get('pendingQuiz:' + S.code, []) || []; p.push(q); store.set('pendingQuiz:' + S.code, p);
+      toast('No connection. Your score is saved on this device and will be sent automatically.');
+    });
+  }
+  var flushing = false;
+  function flushQuizzes() {
+    if (flushing || !S.code) return;
+    var p = store.get('pendingQuiz:' + S.code, []) || [];
+    if (!p.length) return;
+    flushing = true;
+    var q = p[0];
+    api({ action: 'submitQuiz', code: S.code, session: q.session, score: q.score, total: q.total }).then(function () {
+      var rest = (store.get('pendingQuiz:' + S.code, []) || []).slice(1); store.set('pendingQuiz:' + S.code, rest); flushing = false;
+      if (rest.length) flushQuizzes(); else toast('Your saved quiz scores were sent to Ms. Maria.');
+    }, function (err) {
+      flushing = false;
+      // a score the Sheet refuses (for example a closed session) is dropped so it does not block the others
+      if (err && err.message && !/Failed to fetch|NetworkError|Load failed/i.test(err.message)) { store.set('pendingQuiz:' + S.code, (store.get('pendingQuiz:' + S.code, []) || []).slice(1)); flushQuizzes(); }
+    });
+  }
+  window.addEventListener('online', function () { flushQuizzes(); });
   // bring in what this learner saved on another device (sessions done, best quiz scores)
   function mergeRemote(st) {
     var d = st && st.progress; if (!d) return;
@@ -641,7 +665,7 @@
         (pct >= 80 ? 'Excellent!' : pct >= 60 ? 'Good. Read the explanations and try again.' : 'Read the handout again, then try once more.') + '</span></div></div>' +
         '<div class="btns" style="margin-top:12px"><button class="btn ghost" type="button" id="again">Try again</button><a class="btn ghost" href="#/session/' + n + '/handout">Back to the handout</a></div>';
       $('#again').onclick = function () { render(); };
-      api({ action: 'submitQuiz', code: S.code, session: n, score: right, total: c.quiz.length }).catch(function () { toast('Saved on this device. It will not reach the Sheet while offline.'); });
+      sendQuiz({ session: n, score: right, total: c.quiz.length });
       $('#quizEnd').scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
     var wf = $('#workForm');
@@ -709,7 +733,7 @@
   }
   function marksCard(gr) {
     var w = (gr && gr.weights) || {};
-    var parts = [['midterm', 'Midterm exam', 'Session 6'], ['final', 'Final exam', 'Session 12'], ['workbooks', 'E-workbooks', 'every teaching session'], ['attendance', 'Attendance', 'present or late'], ['participation', 'Participation', 'in class']];
+    var parts = [['midterm', 'Midterm exam', 'Session 6'], ['final', 'Final exam', 'Session 12'], ['workbooks', 'E-workbooks', 'every teaching session'], ['quizzes', 'Practice quizzes', 'best score per session'], ['attendance', 'Attendance', 'present or late'], ['participation', 'Participation', 'in class']];
     parts = parts.filter(function (p) { return !gr || !gr.weights || w[p[0]] > 0 || gr[p[0]] != null; });
     var any = gr && parts.some(function (p) { return gr[p[0]] != null; });
     var STC = ['var(--make)', 'var(--return)', 'var(--source)', 'var(--plan)', 'var(--deliver)'];

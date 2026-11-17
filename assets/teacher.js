@@ -497,7 +497,7 @@
 
   // grades ------------------------------------------------------------------
   var GR = { draft: {} };
-  var PART_LABEL = { midterm: 'Midterm', final: 'Final', workbooks: 'Workbooks', attendance: 'Attendance', participation: 'Participation' };
+  var PART_LABEL = { midterm: 'Midterm', final: 'Final', workbooks: 'Workbooks', quizzes: 'Quizzes', attendance: 'Attendance', participation: 'Participation' };
   function pct(v) { return v == null ? '–' : (Math.round(v * 10) / 10) + '%'; }
   VIEWS.grades = function () {
     if (!lazy('grades', function () { return api({ action: 'tGrades', level: T.level }); })) return head('Grades', '') + LOADING;
@@ -512,13 +512,13 @@
     return head('Grades', 'Type the midterm, final and participation scores (0–100). Workbook and attendance scores are worked out for you.',
         '<button class="btn ghost" id="grCopy">' + ico('copy', 18) + ' Copy gradebook</button>') +
       '<div class="card t-table"><table class="grades"><thead><tr><th>Learner</th>' +
-        ['midterm', 'final', 'participation', 'workbooks', 'attendance'].map(function (k) { return '<th>' + PART_LABEL[k] + '<small>' + w[k] + '%</small></th>'; }).join('') +
+        ['midterm', 'final', 'participation', 'workbooks', 'quizzes', 'attendance'].map(function (k) { return '<th>' + PART_LABEL[k] + '<small>' + (w[k] == null ? 0 : w[k]) + '%</small></th>'; }).join('') +
         '<th>Grade</th></tr></thead><tbody>' +
       (g.rows.length ? g.rows.map(function (r) {
         return '<tr><th scope="row">' + esc(r.name) + '</th>' + cell(r, 'midterm') + cell(r, 'final') + cell(r, 'participation') +
-          '<td>' + pct(r.workbooks) + (r.workbooksMarked ? '<sup>' + r.workbooksMarked + '</sup>' : '') + '</td><td>' + pct(r.attendance) + '</td>' +
+          '<td>' + pct(r.workbooks) + (r.workbooksMarked ? '<sup>' + r.workbooksMarked + '</sup>' : '') + '</td><td>' + pct(r.quizzes) + '</td><td>' + pct(r.attendance) + '</td>' +
           '<td><span class="sc ' + (r.grade == null ? '' : r.grade >= 80 ? 'hi' : r.grade >= 60 ? 'mid' : 'lo') + '">' + pct(r.grade) + '</span>' + (r.grade != null && !r.complete ? '<small class="muted"> so far</small>' : '') + '</td></tr>';
-      }).join('') : '<tr><td colspan="7" class="muted">No active learners in this level.</td></tr>') + '</tbody></table></div>' +
+      }).join('') : '<tr><td colspan="8" class="muted">No active learners in this level.</td></tr>') + '</tbody></table></div>' +
       '<div class="t-savebar"><span class="small muted">' + (dirty ? dirty + ' learner(s) with changes not saved' : 'All saved') + '</span><button class="btn" id="grSave"' + (dirty ? '' : ' disabled') + '>Save grades</button></div>' +
       '<div class="grid g2 sec"><form class="card pad" id="wForm"><h2 class="h3">Weights</h2><p class="small muted">How much each part counts in the final grade. They must add up to 100.</p><div class="w-grid">' +
         Object.keys(PART_LABEL).map(function (k) { return '<label class="field"><span>' + PART_LABEL[k] + ' %</span><input class="input sm" inputmode="numeric" data-w="' + k + '" value="' + w[k] + '"></label>'; }).join('') +
@@ -579,8 +579,8 @@
       api({ action: 'tGradeSettings', showGrades: !T.grades.showGrades }).then(function (r) { T.grades.showGrades = r.showGrades; render(); }, function (err) { b.disabled = false; toast(err.message); });
     };
     $('#grCopy').onclick = function () {
-      var lines = [['Name', 'Midterm', 'Final', 'Participation', 'Workbooks', 'Attendance', 'Grade'].join('\t')].concat(T.grades.rows.map(function (r) {
-        return [r.name, r.midterm, r.final, r.participation, r.workbooks, r.attendance, r.grade].map(function (v) { return v == null ? '' : v; }).join('\t');
+      var lines = [['Name', 'Midterm', 'Final', 'Participation', 'Workbooks', 'Quizzes', 'Attendance', 'Grade'].join('\t')].concat(T.grades.rows.map(function (r) {
+        return [r.name, r.midterm, r.final, r.participation, r.workbooks, r.quizzes, r.attendance, r.grade].map(function (v) { return v == null ? '' : v; }).join('\t');
       }));
       copy(lines.join('\n'), 'Gradebook copied. Paste it into Excel or Google Sheets.');
     };
