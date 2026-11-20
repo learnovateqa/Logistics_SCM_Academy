@@ -17,6 +17,19 @@ levels.filter(l => l.content).forEach(l => {
   const dir = path.join(root, l.path);
   const course = JSON.parse(fs.readFileSync(path.join(dir, 'course.json'), 'utf8'));
   check(course.sessions.length === 12, `${l.name}: 12 sessions`);
+  Object.entries(course.schedules || {}).forEach(([batch, sched]) => {
+    const seen = [];
+    let prev = '';
+    check(batch.trim() === batch && batch.length > 0, `${l.name}: batch name "${batch}" is tidy`);
+    sched.forEach((e, i) => {
+      check(/^\d{4}-\d{2}-\d{2}$/.test(e.date) && !isNaN(new Date(e.date)), `${l.name} ${batch}: schedule ${i} has a valid date`);
+      check(e.date > prev, `${l.name} ${batch}: schedule dates in order (${e.date})`); prev = e.date;
+      check(Array.isArray(e.sessions), `${l.name} ${batch}: schedule ${e.date} lists sessions`);
+      check(e.sessions.length || e.note, `${l.name} ${batch}: schedule ${e.date} without sessions has a note`);
+      e.sessions.forEach(n => { check(course.sessions.some(s => s.n === n), `${l.name} ${batch}: schedule ${e.date} session ${n} exists`); seen.push(n); });
+    });
+    check(seen.length === course.sessions.length && new Set(seen).size === seen.length, `${l.name} ${batch}: every session is scheduled exactly once`);
+  });
   course.sessions.forEach(s => {
     check(['Plan', 'Source', 'Make', 'Deliver', 'Return'].includes(s.stage), `S${s.n}: valid stage`);
     if (!s.file) return;

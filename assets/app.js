@@ -171,6 +171,40 @@
   }
   function sessionMeta(n) { return S.course && S.course.sessions.filter(function (s) { return s.n === Number(n); })[0]; }
   function sheetSession(n) { return S.state && S.state.sessions.filter(function (s) { return s.session === Number(n); })[0]; }
+
+  // ------------------------------------------------------- class calendar --
+  // course.json "schedules": { 'Batch name': [{date:'YYYY-MM-DD', sessions:[n...], note?}] } (local dates, no time zone shift).
+  // Each learner sees the calendar of their own batch (matched without case or extra spaces).
+  function dayOf(iso) { var p = String(iso).split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function today0() { var d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function fmtDay(iso, yr) { return dayOf(iso).toLocaleDateString('en-GB', yr ? { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' } : { weekday: 'short', day: 'numeric', month: 'short' }); }
+  function bkey(b) { return String(b || '').trim().replace(/\s+/g, ' ').toLowerCase(); }
+  function schedule() {
+    var all = (S.course && S.course.schedules) || {}, mine = bkey(S.state && S.state.student && S.state.student.batch);
+    var k = Object.keys(all).filter(function (x) { return bkey(x) === mine; })[0];
+    return (k && all[k]) || [];
+  }
+  function classDate(n) { var e = schedule().filter(function (x) { return x.sessions.indexOf(n) >= 0; })[0]; return e ? e.date : null; }
+  function nextClass() { var t = today0(); return schedule().filter(function (x) { return dayOf(x.date) >= t; })[0] || null; }
+  function classLabel(e) {
+    if (!e.sessions.length) return e.note || 'No class';
+    var names = e.sessions.map(function (n) { var m = sessionMeta(n); return m ? m.title : ''; });
+    return (e.sessions.length > 1 ? 'Sessions ' + e.sessions.join(' & ') : 'Session ' + e.sessions[0]) + ' · ' + names.join(' · ');
+  }
+  function calendar(compact) {
+    var sc = schedule(); if (!sc.length) return '';
+    var t = today0(), nx = nextClass();
+    return '<ol class="cal' + (compact ? ' compact' : '') + '">' + sc.map(function (e) {
+      var d = dayOf(e.date), past = d < t, isToday = +d === +t, isNext = nx && nx.date === e.date;
+      var off = !e.sessions.length, exam = e.sessions.some(function (n) { var m = sessionMeta(n); return m && m.type === 'Exam'; });
+      var st = off ? '' : ' st-' + sessionMeta(e.sessions[0]).stage;
+      var chip = isToday ? '<span class="chip gold">Today</span>' : isNext ? '<span class="chip gold">Next class</span>' : past && !off ? '<span class="chip">Held</span>' : '';
+      var inner = '<span class="cal-d"><b>' + dayOf(e.date).getDate() + '</b><small>' + dayOf(e.date).toLocaleDateString('en-GB', { month: 'short' }) + '</small></span>' +
+        '<span class="cal-t"><b>' + esc(classLabel(e)) + '</b><small>' + esc(fmtDay(e.date, true)) + (e.note && e.sessions.length ? ' · ' + esc(e.note) : off ? '' : exam ? ' · Exam' : '') + '</small></span>' + chip;
+      var cls = 'cal-i' + st + (off ? ' off' : '') + (past && !isToday ? ' past' : '') + (isToday || isNext ? ' now' : '') + (exam ? ' exam' : '');
+      return '<li class="' + cls + '">' + (off ? '<div class="cal-a">' + inner + '</div>' : '<a class="cal-a" href="#/session/' + e.sessions[0] + '">' + inner + '</a>') + '</li>';
+    }).join('') + '</ol>';
+  }
   function isOpen(n) { var s = sheetSession(n); return !!(s && s.status === 'Open'); }
   function isDone(n) { return S.p.done.indexOf(Number(n)) !== -1; }
   function openCount() { return S.state ? S.state.sessions.filter(function (s) { return s.status === 'Open'; }).length : 0; }
@@ -397,6 +431,7 @@
       '<div class="sec"><h2>Your course route</h2><p class="sub">A session opens when Ms. Maria opens it. The line changes colour at each stage.</p>' +
         '<div class="card route-h">' + routeH() + '</div></div>' +
       '<div class="grid g-home sec">' + weekCard(cur) + shipmentCard() + '</div>' +
+      (schedule().length ? '<div class="sec"><h2>Class calendar</h2><p class="sub">Class dates for ' + esc(st.student.batch) + '. Tap a class to open its session.</p><div class="card pad">' + calendar(true) + '</div></div>' : '') +
       '<div class="sec"><h2>Five stages</h2><p class="sub">Every session belongs to one stage of the SCOR model.</p><div class="grid g5">' +
         STAGE_ORDER.map(function (k) {
           var ss = c.sessions.filter(function (s) { return s.stage === k; });
@@ -424,8 +459,9 @@
   }
   function weekCard(cur) {
     if (!cur) return '<div class="week"><div class="eyebrow">This week</div><h3>Your first session opens soon</h3><p class="muted">Ms. Maria will open Session 1 in class. Then everything for the session appears here.</p></div>';
+    var nx = nextClass();
     return '<div class="week"><div class="eyebrow">This week</div><h3>Session ' + cur.n + ' · ' + esc(cur.title) + '</h3>' +
-      '<p class="muted" style="margin:0">' + esc(STAGE_LABEL[cur.stage]) + ' stage</p>' + tiles(cur.n, false) +
+      '<p class="muted" style="margin:0">' + esc(STAGE_LABEL[cur.stage]) + ' stage' + (nx ? ' · Next class: ' + esc(fmtDay(nx.date)) + ' (' + esc(nx.sessions.length ? (nx.sessions.length > 1 ? 'Sessions ' + nx.sessions.join(' & ') : 'Session ' + nx.sessions[0]) : nx.note || 'no class') + ')' : '') + '</p>' + tiles(cur.n, false) +
       '<a class="btn light" style="margin-top:16px;width:100%" href="#/session/' + cur.n + '">Open Session ' + cur.n + '</a></div>';
   }
   function shipmentCard() {
@@ -456,11 +492,12 @@
         var cls = 'st-' + s.stage + (done ? ' done' : open ? ' on' : ' lock') + (cur && cur.n === s.n ? ' now' : '') + (s.type === 'Exam' ? ' exam' : '');
         var chip = done ? '<span class="chip done">' + ico('check', 14) + ' Done</span>' : open ? '<span class="chip gold">Open now</span>' : '<span class="chip lock">' + ico('lock', 14) + ' Locked</span>';
         return '<li class="' + cls + '"><div class="pin">' + (done ? ico('check', 18) : '<span>' + s.n + '</span>') + '</div>' +
-          '<a class="card srow st-' + s.stage + '" href="#/session/' + s.n + '"><div class="meta"><small class="muted">Session ' + s.n + (s.type === 'Exam' ? ' · Exam' : '') + '</small>' + chip + '</div>' +
+          '<a class="card srow st-' + s.stage + '" href="#/session/' + s.n + '"><div class="meta"><small class="muted">Session ' + s.n + (s.type === 'Exam' ? ' · Exam' : '') + (classDate(s.n) ? ' · ' + esc(fmtDay(classDate(s.n))) : '') + '</small>' + chip + '</div>' +
           '<h3>' + esc(s.title) + '</h3><p>' + esc(s.summary) + '</p></a></li>';
       }).join('') + '</ol>';
     });
-    return '<h1 class="h2">Sessions</h1><p class="sub">12 sessions along one route. Sessions open one at a time.</p>' + html + foot();
+    return '<h1 class="h2">Sessions</h1><p class="sub">12 sessions along one route. Sessions open one at a time.</p>' +
+      (schedule().length ? '<details class="card pad cal-box" open><summary><b>Class calendar</b> <small class="muted">' + esc(S.state.student.batch) + '</small></summary>' + calendar(false) + '</details>' : '') + html + foot();
   }
 
   // ----------------------------------------------------------- session --
@@ -496,7 +533,7 @@
     var n = Number(r.a), meta = sessionMeta(n);
     if (!meta) return '<div class="card pad empty">This session was not found. <a href="#/sessions">See all sessions</a></div>';
     var head = '<div class="card shead st-' + meta.stage + '"><div class="meta" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">' +
-      '<span class="chip st-' + meta.stage + '"><span class="d"></span>' + esc(STAGE_LABEL[meta.stage]) + '</span><small class="muted">Session ' + n + ' of ' + S.course.sessions.length + '</small>' +
+      '<span class="chip st-' + meta.stage + '"><span class="d"></span>' + esc(STAGE_LABEL[meta.stage]) + '</span><small class="muted">Session ' + n + ' of ' + S.course.sessions.length + (classDate(n) ? ' · Class: ' + esc(fmtDay(classDate(n), true)) : '') + '</small>' +
       (isOpen(n) ? (isDone(n) ? '<span class="chip done">' + ico('check', 14) + ' Done</span>' : '<span class="chip gold">Open now</span>') : '<span class="chip lock">' + ico('lock', 14) + ' Locked</span>') + '</div>' +
       '<h1>' + esc(meta.title) + '</h1><p class="muted" style="margin:0">' + esc(meta.summary) + '</p>' + ART.stage(meta.stage, 'head-art') + '</div>';
     if (!isOpen(n)) {

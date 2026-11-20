@@ -144,5 +144,78 @@
       "summary": "Review of the whole course with a revision guide, full formula sheet and practice questions, then the final exam in class.",
       "file": "s12.json"
     }
-  ]
+  ],
+  "schedules": {
+    "Batch 1": [
+      {
+        "date": "2026-11-20",
+        "sessions": [
+          1
+        ]
+      },
+      {
+        "date": "2026-11-27",
+        "sessions": [
+          2
+        ]
+      },
+      {
+        "date": "2026-12-04",
+        "sessions": [
+          3,
+          4
+        ]
+      },
+      {
+        "date": "2026-12-11",
+        "sessions": [
+          5
+        ]
+      },
+      {
+        "date": "2026-12-18",
+        "sessions": [],
+        "note": "No class (graduation)"
+      },
+      {
+        "date": "2026-12-25",
+        "sessions": [
+          6
+        ],
+        "note": "Online exam"
+      },
+      {
+        "date": "2027-01-01",
+        "sessions": [
+          7
+        ]
+      },
+      {
+        "date": "2027-01-08",
+        "sessions": [
+          8
+        ]
+      },
+      {
+        "date": "2027-01-15",
+        "sessions": [
+          9
+        ]
+      },
+      {
+        "date": "2027-01-22",
+        "sessions": [
+          10,
+          11
+        ]
+      },
+      {
+        "date": "2027-01-29",
+        "sessions": [
+          12
+        ],
+        "note": "Online exam"
+      }
+    ]
+  }
 }
