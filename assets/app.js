@@ -173,11 +173,17 @@
   function sheetSession(n) { return S.state && S.state.sessions.filter(function (s) { return s.session === Number(n); })[0]; }
 
   // ------------------------------------------------------- class calendar --
-  // course.json "schedule": [{date:'YYYY-MM-DD', sessions:[n...], note?}] (local dates, no time zone shift)
+  // course.json "schedules": { 'Batch name': [{date:'YYYY-MM-DD', sessions:[n...], note?}] } (local dates, no time zone shift).
+  // Each learner sees the calendar of their own batch (matched without case or extra spaces).
   function dayOf(iso) { var p = String(iso).split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
   function today0() { var d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
   function fmtDay(iso, yr) { return dayOf(iso).toLocaleDateString('en-GB', yr ? { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' } : { weekday: 'short', day: 'numeric', month: 'short' }); }
-  function schedule() { return (S.course && S.course.schedule) || []; }
+  function bkey(b) { return String(b || '').trim().replace(/\s+/g, ' ').toLowerCase(); }
+  function schedule() {
+    var all = (S.course && S.course.schedules) || {}, mine = bkey(S.state && S.state.student && S.state.student.batch);
+    var k = Object.keys(all).filter(function (x) { return bkey(x) === mine; })[0];
+    return (k && all[k]) || [];
+  }
   function classDate(n) { var e = schedule().filter(function (x) { return x.sessions.indexOf(n) >= 0; })[0]; return e ? e.date : null; }
   function nextClass() { var t = today0(); return schedule().filter(function (x) { return dayOf(x.date) >= t; })[0] || null; }
   function classLabel(e) {
@@ -425,7 +431,7 @@
       '<div class="sec"><h2>Your course route</h2><p class="sub">A session opens when Ms. Maria opens it. The line changes colour at each stage.</p>' +
         '<div class="card route-h">' + routeH() + '</div></div>' +
       '<div class="grid g-home sec">' + weekCard(cur) + shipmentCard() + '</div>' +
-      (schedule().length ? '<div class="sec"><h2>Class calendar</h2><p class="sub">Every Friday. Tap a class to open its session.</p><div class="card pad">' + calendar(true) + '</div></div>' : '') +
+      (schedule().length ? '<div class="sec"><h2>Class calendar</h2><p class="sub">Class dates for ' + esc(st.student.batch) + '. Tap a class to open its session.</p><div class="card pad">' + calendar(true) + '</div></div>' : '') +
       '<div class="sec"><h2>Five stages</h2><p class="sub">Every session belongs to one stage of the SCOR model.</p><div class="grid g5">' +
         STAGE_ORDER.map(function (k) {
           var ss = c.sessions.filter(function (s) { return s.stage === k; });
@@ -491,7 +497,7 @@
       }).join('') + '</ol>';
     });
     return '<h1 class="h2">Sessions</h1><p class="sub">12 sessions along one route. Sessions open one at a time.</p>' +
-      (schedule().length ? '<details class="card pad cal-box" open><summary><b>Class calendar</b> <small class="muted">every Friday</small></summary>' + calendar(false) + '</details>' : '') + html + foot();
+      (schedule().length ? '<details class="card pad cal-box" open><summary><b>Class calendar</b> <small class="muted">' + esc(S.state.student.batch) + '</small></summary>' + calendar(false) + '</details>' : '') + html + foot();
   }
 
   // ----------------------------------------------------------- session --
