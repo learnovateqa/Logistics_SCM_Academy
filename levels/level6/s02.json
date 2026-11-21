@@ -571,7 +571,7 @@
       "why": "(10 + 20 + 30 + 10) ÷ 4 = 17.5"
      }
     ],
-    "slide": "18–19"
+    "slide": "19–21"
    },
    {
     "id": "T4",
@@ -605,7 +605,7 @@
       "answer": "Bias"
      }
     ],
-    "slide": 18
+    "slide": 20
    },
    {
     "id": "T5",
@@ -629,7 +629,7 @@
       "text": "Executive meeting: leaders decide one plan"
      }
     ],
-    "slide": 23
+    "slide": 24
    },
    {
     "id": "T6",
@@ -670,7 +670,7 @@
       "answer": "Cure"
      }
     ],
-    "slide": 28
+    "slide": 30
    },
    {
     "id": "T7",
@@ -703,7 +703,7 @@
       "answer": "The list of all parts and materials needed to make one product."
      }
     ],
-    "slide": 34
+    "slide": 35
    }
   ],
   "written": [
@@ -713,7 +713,7 @@
     "title": "Name the forecast problem",
     "prompt": "The sales team’s forecasts were too high in 9 of the last 12 months. What is this problem called? Give two possible causes and one way to fix it.",
     "frame": "Think about how sales people are measured.",
-    "slide": 20
+    "slide": 22
    },
    {
     "id": "B",
